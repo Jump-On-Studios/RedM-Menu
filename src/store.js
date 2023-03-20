@@ -6,7 +6,7 @@ class MenuItem {
   icon = false;
   child = false;
   slider = false;
-  color = false;
+  colors = false;
   price = false;
   data = {};
   preview = false;
@@ -35,8 +35,13 @@ class MenuItem {
   setChild(value) {
     this.child = value
   }
-  setColor() {
-    this.color = true
+  setColors({ title,current,offset,values }) {
+    this.colors = {
+      title: title,
+      current: current || 1,
+      offset: offset || 0,
+      values: values || []
+    }
   }
   setPrice(price) {
     this.price = price
@@ -87,7 +92,7 @@ class Menu {
       if (item.icon)  this.items[newId].setIcon(item.icon)
       if (item.slider) this.items[newId].setSlider(item.slider)
       if (item.child) this.items[newId].setChild(item.child)
-      if (item.color) this.items[newId].setColor()
+      if (item.colors) this.items[newId].setColors(item.colors)
       if (item.price) this.items[newId].setPrice(item.price)
       if (item.data) this.items[newId].setData(item.data)
       if (item.preview) this.items[newId].setPreview(item.preview)
@@ -380,17 +385,14 @@ const mutations = {
     }
   },
   COLOR_RIGHT (state) {
-    let max = state.colors.length -1
-    if (state.currentMenu == "fhairAccessories") max = 10 -1
-    if (state.currentMenu == "feyeShadow") max = 4 -1
-    if (state.currentMenu == "flipstick") max = 4 -1
-    if (state.menus[state.currentMenu].currentColor < max) {
-      state.menus[state.currentMenu].currentColor++;
-      if (state.menus[state.currentMenu].currentColor >= state.menus[state.currentMenu].offsetColor + 9) {
-        state.menus[state.currentMenu].offsetColor++
-      }
-      API.PlayAudio(state.audios.button)
-    }
+    console.log('right')
+    let item = this.getters.cItem
+    console.log(item)
+    item.colors.current++;
+    if (state.menus[state.currentMenu].currentColor >= state.menus[state.currentMenu].offsetColor + 9) {
+      state.menus[state.currentMenu].offsetColor++
+     }
+    API.PlayAudio(state.audios.button)
   },
   SET_EQUIPED_ITEM (state, data) {
     if (!state.menus[data.id]) return;
@@ -447,52 +449,20 @@ if (import.meta.env.DEV) {
   window.postMessage({
     event:'updateMenu',
     menu: {
-      id: 'categories',
-      title: 'Pants',
-      numberOnScreen : 12,
-      items: [
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test3'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test2'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-      ],
-    }
-  })
-  window.postMessage({
-    event:'updateMenu',
-    menu: {
       id: 'home',
       title: 'home',
       numberOnScreen : 12,
       items: [
-        {icon:"pants", child: 'categories'},
+        {title: 'bald', icon:"pants", child: 'categories', colors: {
+          title: 'Color',
+          current: 1,
+          offset: 0,
+          values: [
+            {texture: 'blonde', hash: 0},
+            {texture: 'brown', hash: 1},
+            {texture: 'DARKEST_BROWN', hash: 2},
+          ]
+        }},
         {icon:"pants", child: 'pant'},
       ],
     }
