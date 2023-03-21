@@ -63,6 +63,10 @@ class API {
   setEquipedItem(data) {
     store.commit('SET_EQUIPED_ITEM',data.data)
   }
+  
+  setEquipedColor(data) {
+    store.commit('SET_EQUIPED_COLOR', data.data)
+  }
 
   setDefaultMenu(data) {
     store.commit('SET_DEFAULT_MENU',data.id)

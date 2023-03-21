@@ -6,7 +6,7 @@ class MenuItem {
   icon = false;
   child = false;
   slider = false;
-  color = false;
+  colors = false;
   price = false;
   data = {};
   preview = false;
@@ -35,8 +35,13 @@ class MenuItem {
   setChild(value) {
     this.child = value
   }
-  setColor() {
-    this.color = true
+  setColors({ title,current,offset,values }) {
+    this.colors = {
+      title: title,
+      current: current || 1,
+      offset: offset || 0,
+      values: values || []
+    }
   }
   setPrice(price) {
     this.price = price
@@ -78,6 +83,8 @@ class Menu {
   offsetColor = 0;
   helpers = false;
   numberOnScreen = 8;
+  globalColor = false;
+  equipedColor = 0
 
   constructor(data) {
     this.setTitle(data.title);
@@ -87,7 +94,7 @@ class Menu {
       if (item.icon)  this.items[newId].setIcon(item.icon)
       if (item.slider) this.items[newId].setSlider(item.slider)
       if (item.child) this.items[newId].setChild(item.child)
-      if (item.color) this.items[newId].setColor()
+      if (item.colors) this.items[newId].setColors(item.colors)
       if (item.price) this.items[newId].setPrice(item.price)
       if (item.data) this.items[newId].setData(item.data)
       if (item.preview) this.items[newId].setPreview(item.preview)
@@ -97,6 +104,8 @@ class Menu {
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
+    if (data.globalColor) this.setGlobalColor(data.globalColor)
+    if (data.equipedColor) this.setEquipedColor(data.equipedColor)
   }
 
   setTitle(title) {
@@ -126,6 +135,14 @@ class Menu {
     this.numberOnScreen = value
   }
 
+  setGlobalColor(value) {
+    this.globalColor = value
+  }
+
+  setEquipedColor(value) {
+    this.equipedColor = value
+  }
+
   reset() {
     this.currentItem = 0
     this.offset = 0
@@ -142,7 +159,6 @@ var state = {
   defaultMenu : '',
   lang: {},
   menus: {},
-  colors: ['BLONDE','BROWN','DARK_BLONDE','DARKEST_BROWN','DARK_GINGER','DARK_GREY','GINGER','GREY','JET_BLACK','LIGHT_BLONDE','LIGHT_BROWN','LIGHT_GINGER','LIGHT_GREY','MEDIUM_BROWN','SALT_PEPPER','STRAWBERRY_BLONDE','UNCLE_GREY'],
   audios: {
     button:"button.mp3",
     coin:"coins.mp3",
@@ -180,13 +196,13 @@ const getters = {
   lang: ({ lang }) => (index) => {
     return lang[index]?lang[index]:('#'+index)
   },
-  colors: ({ colors }) => colors,
   parentTree: ({ parentTree }) => parentTree,
   currentMenu: ({ currentMenu }) => currentMenu,
   audios: ({ audios }) => audios,
   isItemBought: ({ boughtItems }, getters) => (hash)=> {
     if (hash == undefined) {
       let item = getters.cItem
+      if (!item.slider) return false
       hash = item.slider.values[item.slider.current -1]
     }
     return boughtItems[String(hash)] !== undefined
@@ -228,6 +244,7 @@ const actions = {
     dispatch('updatePreview')
   },
   updatePreview({ state, getters }) {
+    console.log(getters.cItem.preview)
     if (getters.cItem.preview)
     {
       let item = getters.cItem
@@ -237,6 +254,14 @@ const actions = {
           hash: item.slider.values[item.slider.current -1],
           index: item.index,
           variation: item.slider.current,
+          current: {id:getters.menu.currentItem, offset: getters.menu.offset}
+        })
+      } else if (item.colors) {
+        API.post('updatePreview',{
+          menu: state.currentMenu,
+          hash: item.colors.values[item.colors.current].hash,
+          index: item.index,
+          variation: item.colors.current,
           current: {id:getters.menu.currentItem, offset: getters.menu.offset}
         })
       } else {
@@ -370,27 +395,42 @@ const mutations = {
     }
   },
   COLOR_LEFT (state) {
-    if (this.getters.menu.currentColor > 0) {
-      this.getters.menu.currentColor--;
-      if (this.getters.menu.currentColor < this.getters.menu.offsetColor) {
-        this.getters.menu.offsetColor--
-      }
-      API.PlayAudio(state.audios.button)
-     
+    let item = this.getters.cItem
+    if (item.colors.current == 0) return
+    item.colors.current--
+    if (item.colors.current < item.colors.offset) {
+      item.colors.offset--
     }
+    
+    let menu = this.getters.menu
+    if (menu.globalColor) {
+      menu.items.forEach(i => {
+        if (i.colors) {
+          i.colors.offset = item.colors.offset
+          i.colors.current = item.colors.current
+        }
+      })
+    }
+    API.PlayAudio(state.audios.button)
   },
   COLOR_RIGHT (state) {
-    let max = state.colors.length -1
-    if (state.currentMenu == "fhairAccessories") max = 10 -1
-    if (state.currentMenu == "feyeShadow") max = 4 -1
-    if (state.currentMenu == "flipstick") max = 4 -1
-    if (state.menus[state.currentMenu].currentColor < max) {
-      state.menus[state.currentMenu].currentColor++;
-      if (state.menus[state.currentMenu].currentColor >= state.menus[state.currentMenu].offsetColor + 9) {
-        state.menus[state.currentMenu].offsetColor++
-      }
-      API.PlayAudio(state.audios.button)
+    let item = this.getters.cItem
+    if (item.colors.current >= item.colors.values.length -1) return
+    item.colors.current++;
+    if (item.colors.current >= item.colors.offset + 9) {
+      item.colors.offset++
     }
+
+    let menu = this.getters.menu
+    if (menu.globalColor) {
+      menu.items.forEach(i => {
+        if (i.colors) {
+          i.colors.current = item.colors.current
+          i.colors.offset = item.colors.offset
+        }
+      })
+    }
+    API.PlayAudio(state.audios.button)
   },
   SET_EQUIPED_ITEM (state, data) {
     if (!state.menus[data.id]) return;
@@ -398,6 +438,10 @@ const mutations = {
       index: data.index,
       variation: data.variation
     })
+  },
+  SET_EQUIPED_COLOR (state, data) {
+    if (!state.menus[data.id]) return;
+    state.menus[data.id].setEquipedColor(data.index)
   },
   SET_DEFAULT_MENU (state, id) {
     state.defaultMenu = id
@@ -447,53 +491,39 @@ if (import.meta.env.DEV) {
   window.postMessage({
     event:'updateMenu',
     menu: {
-      id: 'categories',
-      title: 'Pants',
-      numberOnScreen : 12,
-      items: [
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test3'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test2'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'test'},
-        {icon:"pants", child: 'pant'},
-        {icon:"pants", child: 'pant'},
-      ],
-    }
-  })
-  window.postMessage({
-    event:'updateMenu',
-    menu: {
       id: 'home',
       title: 'home',
       numberOnScreen : 12,
+      globalColor: true,
+      equipedColor: 5,
       items: [
-        {icon:"pants", child: 'categories'},
-        {icon:"pants", child: 'pant'},
+        {
+          title: 'bald', icon:"pants", child: 'categories',price: 5.0,preview: true, colors: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {texture: 'blonde', hash: 0},
+              {texture: 'brown', hash: 1},
+              {texture: 'DARKEST_BROWN', hash: 2},
+              {texture: 'DARKEST_BROWN', hash: 3},
+              {texture: 'DARKEST_BROWN', hash: 4},
+              {texture: 'DARKEST_BROWN', hash: 5},
+              {texture: 'DARKEST_BROWN', hash: 6},
+              {texture: 'DARKEST_BROWN', hash: 7},
+              {texture: 'DARKEST_BROWN', hash: 8},
+              {texture: 'DARKEST_BROWN', hash: 9},
+              {texture: 'DARKEST_BROWN', hash: 10},
+              {texture: 'DARKEST_BROWN', hash: 11},
+              {texture: 'DARKEST_BROWN', hash: 12},
+              {texture: 'DARKEST_BROWN', hash: 13},
+              {texture: 'DARKEST_BROWN', hash: 14},
+            ]
+          }
+        },
+        {
+          title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
+        },
       ],
     }
   })
@@ -501,21 +531,6 @@ if (import.meta.env.DEV) {
     event:'setDefaultMenu',
     id: 'home'
   })
-  window.postMessage({
-		event:'setMenuVisible',
-		menu: "test",
-		visible: false
-	})
-  window.postMessage({
-		event:'setMenuVisible',
-		menu: "test2",
-		visible: false
-	})
-  window.postMessage({
-		event:'setMenuVisible',
-		menu: "test3",
-		visible: false
-	})
   setTimeout(function() {
     window.postMessage({
       event:"show",
