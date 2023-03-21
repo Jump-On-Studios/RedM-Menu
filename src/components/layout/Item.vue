@@ -4,7 +4,7 @@
       <img :src="getImage(icon)" />
     </div>
     <div class="current" v-if="isCurrent">
-      <div class="color" v-if="cItem.color">
+      <div class="color" v-if="cItem.colors">
         <img :src="getColorImage()">
       </div>
       <div class="tick">
@@ -20,19 +20,16 @@
 import { mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId'])
+    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu'])
   },
   methods : {
     getImage(image) {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
     },
     getColorImage() {
-      let color = ""
-      if (this.currentMenu == "mhair" || this.currentMenu == "fhair") {
-        color = this.colors[this.equipedItems.hairColor].toLowerCase()
-      } else if (this.currentMenu == "mfacialhair") {
-        color = this.colors[this.equipedItems.beardColor].toLowerCase()
-      }
+      console.log(this.cItem.colors)
+      console.log(this.currentMenu)
+      let color = this.cItem.colors.values[this.menu.equipedColor].texture.toLowerCase()
       return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     getTitle() {

@@ -31,32 +31,25 @@ export default {
       return this.$API.sprintf(this.lang('of'),this.cItem.colors.current+1, this.cItem.colors.values.length)
     },
     getImage(color) {
-      console.log(color)
       color = color.texture.toLowerCase();
       return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     colorsDisplayed() {
       var list = new Array();
       for (let index = this.cItem.colors.offset; index < this.cItem.colors.values.length; index++) {
-        list.push(this.cItem.colors.values[index])
         if (index > this.cItem.colors.offset + 8) break
+        list.push(this.cItem.colors.values[index])
       }
       return list;
     },
     isCurrentColor(index) {
-      if (this.currentMenu == "mhair" || this.currentMenu == 'fhair') {
-        return this.menu.offsetColor + index == this.equipedItems.hairColor
-      } else if (this.currentMenu == 'mfacialhair') {
-        return this.menu.offsetColor + index == this.equipedItems.beardColor
-      }
-      return false
+      return this.cItem.colors.offset + index == this.menu.equipedColor
     },
     handleKeydown(e) {
       if (!this.cItem.colors) return
 
       switch(e.key) {
         case 'ArrowRight':
-        console.log('right')
           this.colorRight()
           return;
         case 'ArrowLeft':
