@@ -38,7 +38,7 @@ class MenuItem {
   setColors({ title,current,offset,values }) {
     this.colors = {
       title: title,
-      current: current || 1,
+      current: current || 0,
       offset: offset || 0,
       values: values || []
     }
@@ -244,7 +244,6 @@ const actions = {
     dispatch('updatePreview')
   },
   updatePreview({ state, getters }) {
-    console.log(getters.cItem.preview)
     if (getters.cItem.preview)
     {
       let item = getters.cItem
@@ -441,7 +440,7 @@ const mutations = {
   },
   SET_EQUIPED_COLOR (state, data) {
     if (!state.menus[data.id]) return;
-    state.menus[data.id].setEquipedColor(data.index)
+    state.menus[data.id].setEquipedColor(data.index-1)
   },
   SET_DEFAULT_MENU (state, id) {
     state.defaultMenu = id
@@ -498,7 +497,7 @@ if (import.meta.env.DEV) {
       equipedColor: 5,
       items: [
         {
-          title: 'bald', icon:"pants", child: 'categories',price: 5.0,preview: true, colors: {
+          title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
             title: 'Color',
             current: 1,
             offset: 0,

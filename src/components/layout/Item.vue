@@ -4,7 +4,7 @@
       <img :src="getImage(icon)" />
     </div>
     <div class="current" v-if="isCurrent">
-      <div class="color" v-if="cItem.colors">
+      <div class="color" v-if="item.colors">
         <img :src="getColorImage()">
       </div>
       <div class="tick">
@@ -27,9 +27,7 @@ export default {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
     },
     getColorImage() {
-      console.log(this.cItem.colors)
-      console.log(this.currentMenu)
-      let color = this.cItem.colors.values[this.menu.equipedColor].texture.toLowerCase()
+      let color = this.item.colors.values[this.menu.equipedColor].texture.toLowerCase()
       return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     getTitle() {
@@ -50,7 +48,8 @@ export default {
     },
     isCurrent : {
       default : false,
-    }
+    },
+    item : Object
   }
 }
 </script>

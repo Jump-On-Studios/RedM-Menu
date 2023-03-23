@@ -5,6 +5,12 @@
       <div class="content">
         <h4>{{ lang('price') }}</h4>
         <div class="amount">
+          <span class="gold" v-if="typeof(cItem.price) == 'object'">
+            <span class="icon">
+              <img src="@/assets/images/gold.png">
+            </span>
+            {{ gold() }}
+          </span>
           <span class="devise">{{ devise() }}</span>
           <span class="round">{{ priceRounded() }}</span>
           <span class="centime">{{ centimes() }}</span>
@@ -23,10 +29,16 @@ export default {
     ...mapGetters(['cItem','isItemBought','lang','menu'])
   },
   methods: {
+    gold() {
+      if (this.cItem.price.gold%1 == 0) return this.cItem.price.gold.toString()
+      return this.cItem.price.gold.toFixed(2).toString()
+    },
     price() {
       if (this.isItemBought()) {
         return 0
       }
+      if (typeof(this.cItem.price) == 'object')
+        return this.cItem.price.money
       return this.cItem.price
     },
     priceRounded() {

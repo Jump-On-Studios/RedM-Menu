@@ -17,6 +17,13 @@ html, body {
   filter: brightness(0.5) sepia(1) saturate(10000%);
 }
 
+.fgold {
+  filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
+}
+.gold {
+  color: gold;
+}
+
 #app {
   height: 100%;
   position: relative;
@@ -402,6 +409,14 @@ main {
   }
   .divider.bottom {
     margin-top: -5px;
+  }
+  .gold {
+    font-size: 0.6em;
+    margin-top: 10px;
+    margin-right: 10px;
+    img {
+      width: 20px;
+    }
   }
 }
 
