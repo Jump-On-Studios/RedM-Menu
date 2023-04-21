@@ -35,24 +35,34 @@ html, body {
   position: relative;
   width: 540px;
   height: 900px;
-  padding: 26px 54px 26px 54px;
-  &>* {
-    z-index: 10;
-    position: relative;
-  }
-  
-  &>.background {
-    content: "";
-    z-index: 5;
-    position: absolute;
-    width: 100%;
+  .container {
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 110%;
+    -webkit-mask-position-y: 0px;
+    padding: 26px 54px 26px 54px;
     height: 100%;
-    top: 0;
+    width: 100%;
+    position: absolute;
     left: 0;
-    background-image: url('./assets/images/background.png');
-    filter: invert(100%);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    top: 0;
+    &>* {
+      z-index: 10;
+      position: relative;
+    }
+    
+    &>.background {
+      content: "";
+      z-index: 5;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-image: url('./assets/images/background.png');
+      filter: invert(100%);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
   }
 }
 
@@ -510,12 +520,52 @@ footer {
   }
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
+* {
+  --transition-speed: 0.5s
 }
 
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
+.v-enter-active,
+.v-leave-active {
+  transition: all var(--transition-speed) ease;
+  & .container {
+    -webkit-mask-image: url('./assets/images/background_mask.png');
+  }
+}
+
+.v-enter-from .container,
+.v-leave-to .container {
+  -webkit-mask-position-y: -1000px;
+}
+
+.v-enter-active .container {
+  transition: -webkit-mask-position-y var(--transition-speed) cubic-bezier(0,0.5,0.5,1);
+}
+
+.v-leave-active .container {
+  transition: -webkit-mask-position-y var(--transition-speed) cubic-bezier(.5,0,1,.5);
+  -webkit-mask-position-y: -1000px;
+}
+
+.smudge {
+  display: none;
+  content: '';
+  background-image: url('./assets/images/background_smudge.png');
+  height: 100%;
+  width: 100%;
+  background-size: 100% 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+  -webkit-mask-image: linear-gradient(180deg, black 75%, transparent);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 120%;
+  -webkit-mask-position-y: 500px;
+  transition: all var(--transition-speed) cubic-bezier(.9,.01,1,.5);
+}
+.v-leave-active .smudge {
+  display: block;
+}
+.v-leave-to .smudge {
+  -webkit-mask-position-y: -1000px;
 }

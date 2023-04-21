@@ -1,10 +1,12 @@
 <template>
   <Transition>
     <div class="menu" v-if="show">
-      <div class="background">
+      <div class="smudge"></div>
+      <div class="container">
+        <div class="background"></div>
+        <Header />
+        <Main />
       </div>
-      <Header />
-      <Main />
     </div>
   </Transition>
 </template>
