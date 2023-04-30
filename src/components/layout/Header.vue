@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>{{ lang('bigTitle') }}</h1>
+    <h1>{{ lang('headerTitle') }}</h1>
   </header>
 </template>
 

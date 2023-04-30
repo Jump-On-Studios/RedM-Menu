@@ -32,9 +32,12 @@ html, body {
   //background-color: grey;
 }
 .menu {
-  position: relative;
+  position: absolute;
   width: 540px;
   height: 900px;
+  &.right {
+    right: 0;
+  }
   .container {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 110%;
@@ -521,12 +524,16 @@ footer {
 }
 
 * {
-  --transition-speed: 0.5s
+  --transition-duration: 1s;
+  --transition-speed2: 0.4s;
+  --transition-opacity: 0.2s;
+  --delay-enter: 0.1s;
+  --delay-leave: 0.1s;
 }
 
 .v-enter-active,
 .v-leave-active {
-  transition: all var(--transition-speed) ease;
+  transition: all var(--transition-duration) ease;
   & .container {
     -webkit-mask-image: url('./assets/images/background_mask.png');
   }
@@ -538,11 +545,11 @@ footer {
 }
 
 .v-enter-active .container {
-  transition: -webkit-mask-position-y var(--transition-speed) cubic-bezier(0,0.5,0.5,1);
+  transition: -webkit-mask-position-y var(--transition-speed2) cubic-bezier(0,0.5,0.5,1);
 }
 
 .v-leave-active .container {
-  transition: -webkit-mask-position-y var(--transition-speed) cubic-bezier(.5,0,1,.5);
+  transition: -webkit-mask-position-y var(--transition-speed2) cubic-bezier(.5,0,1,.5) var(--delay-leave);
   -webkit-mask-position-y: -1000px;
 }
 
@@ -560,12 +567,25 @@ footer {
   -webkit-mask-image: linear-gradient(180deg, black 75%, transparent);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 120%;
-  -webkit-mask-position-y: 500px;
-  transition: all var(--transition-speed) cubic-bezier(.9,.01,1,.5);
+  -webkit-mask-position-y: 200px;
+  transition: all var(--transition-speed2) cubic-bezier(.9,.01,1,.5) var(--delay-leave);
 }
 .v-leave-active .smudge {
   display: block;
 }
 .v-leave-to .smudge {
-  -webkit-mask-position-y: -1000px;
+  -webkit-mask-position-y: -1200px;
+}
+
+/* ANIMATION MAIN MENU */
+.v-leave-to main,
+.v-enter-from main {
+  opacity: 0;
+}
+
+.v-enter-active main {
+  transition: opacity var(--transition-opacity) ease-in var(--delay-enter);
+}
+.v-leave-active main {
+  transition: opacity var(--transition-opacity) ease-in;
 }

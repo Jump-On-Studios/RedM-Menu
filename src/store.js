@@ -156,7 +156,6 @@ var state = {
   isMale: false,
   parentTree: [],
   currentMenu : '',
-  defaultMenu : '',
   lang: {},
   menus: {},
   audios: {
@@ -165,11 +164,13 @@ var state = {
     selected: "selected.mp3"
   },
   boughtItems: {},
-  displayOutfitId: false
+  displayOutfitId: false,
+  menuPositionRight: false,
 }
 
 state.lang = {
-  bigTitle: 'Tailor',
+  bigTitle: 'Menu',
+  headerTitle: 'Menu',
   color: 'Color',
   of: '%1 of %2',
   selection: "Selection",
@@ -188,6 +189,7 @@ state.menus = {
 
 const getters = {
   show: ({ show }) => show,
+  menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
   menu: ({ menus, currentMenu}) => menus[currentMenu],
   menuItems: (state, getters) => {
     return getters.menu.items.filter(item => item.visible)
@@ -211,9 +213,14 @@ const getters = {
 }
 
 const actions = {
-  menuEnter({ commit, dispatch }) {
-    commit('MENU_ENTER')
-    dispatch('updatePreview')
+  menuEnter({ commit, dispatch, getters }) {
+    let item = getters.cItem
+    if (item.child) {
+      commit('MENU_ENTER')
+      dispatch('updatePreview')
+    } else {
+      commit('MENU_ENTER')
+    }
   },
   menuBack({ commit, dispatch }) {
     commit('MENU_BACK')
@@ -284,7 +291,6 @@ const actions = {
 const mutations = {
   DEFINE_SHOW (state, value) {
     state.show = value
-    //if (state.show) state.currentMenu = state.defaultMenu
   },
   UPDATE_SEX (state, value) {
     state.isMale = value === 1
@@ -365,6 +371,11 @@ const mutations = {
       }
     }
   },
+  MENU_SWITCH (state,name) {
+    state.parentTree.push(state.currentMenu)
+    state.currentMenu = name
+    API.PlayAudio(state.audios.button)
+  },
   MENU_BACK (state) {
     if (state.parentTree.length == 0) {
       //quitter
@@ -442,11 +453,6 @@ const mutations = {
     if (!state.menus[data.id]) return;
     state.menus[data.id].setEquipedColor(data.index-1)
   },
-  SET_DEFAULT_MENU (state, id) {
-    state.defaultMenu = id
-    if (state.currentMenu == '')
-      state.currentMenu = id
-  },
   SET_CURRENT_MENU (state, id) {
     state.currentMenu = id
     state.parentTree = []
@@ -475,6 +481,12 @@ const mutations = {
   },
   DISPLAY_OUTFIT_ID(state, value) {
     state.displayOutfitId = value
+  },
+  MENU_POSITION_RIGHT(state,value) {
+    state.menuPositionRight = value
+  },
+  UPDATE_HEADER(state,value) {
+    state.lang.headerTitle = value
   }
 }
 
@@ -527,7 +539,7 @@ if (import.meta.env.DEV) {
     }
   })
   window.postMessage({
-    event:'setDefaultMenu',
+    event:'setCurrentMenu',
     id: 'home'
   })
   setTimeout(function() {
@@ -536,5 +548,11 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+  setTimeout(function() {
+    window.postMessage({
+      event:"updateHeader",
+      title:"test"
+    })
+  },2000)
 }
 

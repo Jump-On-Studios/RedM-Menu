@@ -18,6 +18,7 @@ class API {
         BASE_URL = 'https://'+event.data.resourceName+"/"
       } else {
         console.log("Error : this event doesn't exist: "+ event.data.event, event.data)
+        console.log(event)
       }
     })
   }
@@ -56,6 +57,11 @@ class API {
     store.commit('UPDATE_MENU', data.menu)
   }
 
+  menuSwitch(data) {
+    store.commit('MENU_SWITCH', data.menu)
+    store.dispatch('updatePreview')
+  }
+
   updateLang(data) {
     store.commit('UPDATE_LANG', data.lang)
   }
@@ -66,10 +72,6 @@ class API {
   
   setEquipedColor(data) {
     store.commit('SET_EQUIPED_COLOR', data.data)
-  }
-
-  setDefaultMenu(data) {
-    store.commit('SET_DEFAULT_MENU',data.id)
   }
 
   setCurrentMenu(data) {
@@ -117,12 +119,16 @@ class API {
     return result;
   }
 
-  updatePrices(data) {
-    store.commit('UPDATE_PRICES', data.prices)
-  }
-
   updateVolume(data) {
     this.audioVolume = data.volume
+  }
+
+  updateHeader(data) {
+    store.commit('UPDATE_HEADER', data.title)
+  }
+
+  updateMenuPositionRight(data) {
+    store.commit('MENU_POSITION_RIGHT',data.isRight)
   }
 
   displayOutfitId(data) {

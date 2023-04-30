@@ -1,6 +1,6 @@
 <template>
   <Transition>
-    <div class="menu" v-if="show">
+    <div :class="['menu',{'right':menuPositionRight}]" v-if="show">
       <div class="smudge"></div>
       <div class="container">
         <div class="background"></div>
@@ -22,7 +22,7 @@
       Header, Main
     },
     computed: {
-      ...mapGetters(['show'])
+      ...mapGetters(['show','menuPositionRight'])
     },
     beforeMount() {
       new URL('../assets/sounds/button.mp3', import.meta.url).href;
