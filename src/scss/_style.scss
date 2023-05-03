@@ -1,4 +1,4 @@
-* {
+body {
   font-family: "Crock";
 }
 html, body {
@@ -161,6 +161,15 @@ main {
     }
     & h3 {
       font-size: 1.4em;
+      display: flex;
+      column-gap: 5px;
+      align-items: center;
+      & .prefix {
+        width: 20px;
+        & .star {
+          filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
+        }
+      }
     }
     &.with-icon {
       grid-template-columns: 80px auto;
@@ -437,6 +446,36 @@ footer {
   text-align: center;
   margin-top: 10px;
   font-size: 1.3em;
+}
+
+.statistiques {
+  width: 100%;
+  & .statistique {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    & .stat-bars {
+      display: flex;
+      column-gap: 5px;
+      align-items: center;
+      justify-content: flex-end;
+      & .stat-bar {
+        content: '';
+        width: 20px;
+        height: 10px;
+        background-image: url('@/assets/images/menu/scoretimer_centre_bg.png');
+        background-size: 100% 100%;
+        opacity: 0.20;
+        &.active {
+          opacity: 1;
+        }
+        &.possible {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
 }
 
 .helpers {

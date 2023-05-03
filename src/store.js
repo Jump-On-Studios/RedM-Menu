@@ -16,6 +16,8 @@ class MenuItem {
   action = false;
   translate = true;
   data = false;
+  prefix = false;
+  statistiques = []
 
   constructor() {}
 
@@ -71,6 +73,12 @@ class MenuItem {
   setData(data) {
     this.data = data
   }
+  setPrefix(value) {
+    this.prefix = value
+  }
+  setStatistiques(value) {
+    this.statistiques = value
+  }
 }
 
 class Menu {
@@ -106,6 +114,8 @@ class Menu {
       if (item.description) this.items[newId].setDescription(item.description)
       if (item.action) this.items[newId].setAction(item.action)
       if (item.data) this.items[newId].setData(item.data)
+      if (item.prefix) this.items[newId].setPrefix(item.prefix)
+      if (item.statistiques) this.items[newId].setStatistiques(item.statistiques)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -257,7 +267,7 @@ const actions = {
     dispatch('updatePreview')
   },
   updatePreview({ state, getters }) {
-    if (!getters.cItem) return
+    if (getters.cItem == undefined) return
     if (getters.cItem.preview)
     {
       let item = getters.cItem
@@ -284,7 +294,7 @@ const actions = {
       } else {
         API.post('updatePreview',{
           menu: state.currentMenu,
-          hash: item.slider.values[0],
+          hash: 0,
           index: item.index,
           variation: 1,
           current: {id:getters.menu.currentItem, offset: getters.menu.offset},
@@ -500,6 +510,9 @@ const mutations = {
   },
   UPDATE_HEADER(state,value) {
     state.lang.headerTitle = value
+  },
+  UPDATE_STATISTIQUES(state, data) {
+    state.menus[data.menu].items[data.index].setStatistiques(data.statistiques)
   }
 }
 
@@ -522,7 +535,7 @@ if (import.meta.env.DEV) {
       equipedColor: 5,
       items: [
         {
-          title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
+          title: 'Bald', prefix:"star", icon:"pants", child: 'categories', description: 'test',price: {money:5.0,gold:10},preview: true, colors: {
             title: 'Color',
             current: 1,
             offset: 0,
@@ -543,7 +556,11 @@ if (import.meta.env.DEV) {
               {texture: 'DARKEST_BROWN', hash: 13},
               {texture: 'DARKEST_BROWN', hash: 14},
             ]
-          }
+          },
+          statistiques: [
+            {label: "Speed", value: [3,6]},
+            {label: "Handling", value: 'Standard'},
+          ]
         },
         {
           title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
@@ -572,15 +589,5 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
-  setTimeout(function() {
-    window.postMessage({
-      event:"updateHeader",
-      title:"test"
-    })
-  },2000)
-  window.postMessage({
-    event:'setCurrentMenu',
-    id: 'categories'
-  })
 }
 

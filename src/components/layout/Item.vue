@@ -11,7 +11,12 @@
         <img src="@/assets/images/menu/tick.png">
       </div>
     </div>
-    <h3>{{ getTitle() }}</h3>
+    <h3>
+      <div class="prefix" v-if="item.prefix">
+        <img :class="item.prefix" :src="getImage(item.prefix)" />
+      </div>
+      {{ getTitle() }}
+    </h3>
     <div class="background"></div>
   </li>
 </template>
