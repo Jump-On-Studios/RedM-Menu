@@ -589,3 +589,11 @@ footer {
 .v-leave-active main {
   transition: opacity var(--transition-opacity) ease-in;
 }
+
+.loading {
+  display: flex;
+  height: calc(100% - 108px);
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}

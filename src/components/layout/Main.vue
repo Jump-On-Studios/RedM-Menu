@@ -1,19 +1,24 @@
 <template>
   <main>
     <h2 id="title">{{ lang(menu.title) }}</h2>
-    <Scroller
-      direction = 'top'
-    />
-    <List />
-    <Scroller
-      direction = 'bottom'
-    />
-    <div class="details">
-      <Slider />
-      <Color />
-    </div>
-    <Price />
-    <Footer />
+    <template v-if="menuItems.length > 0">
+      <Scroller
+        direction = 'top'
+      />
+      <List />
+      <Scroller
+        direction = 'bottom'
+      />
+      <div class="details">
+        <Slider />
+        <Color />
+      </div>
+      <Price />
+      <Footer />
+    </template>
+    <template v-else>
+      <Loading />
+    </template>
   </main>
 </template>
 
@@ -24,11 +29,12 @@
   import Color from './Color.vue'
   import Price from './Price.vue'
   import Footer from './Footer.vue'
+  import Loading from './Loading.vue'
   
 import { mapGetters, mapActions } from 'vuex'
   export default {
     components: {
-      Scroller, List, Slider, Price, Footer, Color
+      Scroller, List, Slider, Price, Footer, Color,Loading
     },
     data() {
       return {
@@ -36,7 +42,7 @@ import { mapGetters, mapActions } from 'vuex'
       }
     },
     computed: {
-      ...mapGetters(['menu', 'lang'])
+      ...mapGetters(['menu', 'lang',"menuItems"])
     },
     methods: {
       ...mapActions(['menuEnter','menuBack']),

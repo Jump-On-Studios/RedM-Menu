@@ -14,7 +14,8 @@ class MenuItem {
   visible = true;
   description = '';
   action = false;
-  translate = true
+  translate = true;
+  data = false;
 
   constructor() {}
 
@@ -67,6 +68,9 @@ class MenuItem {
   setTranslate(value) {
     this.translate = value
   }
+  setData(data) {
+    this.data = data
+  }
 }
 
 class Menu {
@@ -101,6 +105,7 @@ class Menu {
       if (item.index) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
       if (item.description) this.items[newId].setDescription(item.description)
       if (item.action) this.items[newId].setAction(item.action)
+      if (item.data) this.items[newId].setData(item.data)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -260,7 +265,9 @@ const actions = {
           hash: item.slider.values[item.slider.current -1],
           index: item.index,
           variation: item.slider.current,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset}
+          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+          data: item.data,
+          item: getters.cItem,
         })
       } else if (item.colors) {
         API.post('updatePreview',{
@@ -268,7 +275,9 @@ const actions = {
           hash: item.colors.values[item.colors.current].hash,
           index: item.index,
           variation: item.colors.current,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset}
+          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+          data: item.data,
+          item: getters.cItem,
         })
       } else {
         API.post('updatePreview',{
@@ -276,13 +285,15 @@ const actions = {
           hash: item.slider.values[0],
           index: item.index,
           variation: 1,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset}
+          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+          data: item.data,
+          item: getters.cItem,
         })
       }
     } else {
       API.post('updatePreview',{
         menu: state.currentMenu,
-        item: getters.cItem
+        item: getters.cItem,
       })
     }
   }
@@ -508,33 +519,33 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 5,
       items: [
-        {
-          title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
-            title: 'Color',
-            current: 1,
-            offset: 0,
-            values: [
-              {texture: 'blonde', hash: 0},
-              {texture: 'brown', hash: 1},
-              {texture: 'DARKEST_BROWN', hash: 2},
-              {texture: 'DARKEST_BROWN', hash: 3},
-              {texture: 'DARKEST_BROWN', hash: 4},
-              {texture: 'DARKEST_BROWN', hash: 5},
-              {texture: 'DARKEST_BROWN', hash: 6},
-              {texture: 'DARKEST_BROWN', hash: 7},
-              {texture: 'DARKEST_BROWN', hash: 8},
-              {texture: 'DARKEST_BROWN', hash: 9},
-              {texture: 'DARKEST_BROWN', hash: 10},
-              {texture: 'DARKEST_BROWN', hash: 11},
-              {texture: 'DARKEST_BROWN', hash: 12},
-              {texture: 'DARKEST_BROWN', hash: 13},
-              {texture: 'DARKEST_BROWN', hash: 14},
-            ]
-          }
-        },
-        {
-          title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
-        },
+        // {
+        //   title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
+        //     title: 'Color',
+        //     current: 1,
+        //     offset: 0,
+        //     values: [
+        //       {texture: 'blonde', hash: 0},
+        //       {texture: 'brown', hash: 1},
+        //       {texture: 'DARKEST_BROWN', hash: 2},
+        //       {texture: 'DARKEST_BROWN', hash: 3},
+        //       {texture: 'DARKEST_BROWN', hash: 4},
+        //       {texture: 'DARKEST_BROWN', hash: 5},
+        //       {texture: 'DARKEST_BROWN', hash: 6},
+        //       {texture: 'DARKEST_BROWN', hash: 7},
+        //       {texture: 'DARKEST_BROWN', hash: 8},
+        //       {texture: 'DARKEST_BROWN', hash: 9},
+        //       {texture: 'DARKEST_BROWN', hash: 10},
+        //       {texture: 'DARKEST_BROWN', hash: 11},
+        //       {texture: 'DARKEST_BROWN', hash: 12},
+        //       {texture: 'DARKEST_BROWN', hash: 13},
+        //       {texture: 'DARKEST_BROWN', hash: 14},
+        //     ]
+        //   }
+        // },
+        // {
+        //   title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
+        // },
       ],
     }
   })
