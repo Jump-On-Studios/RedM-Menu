@@ -227,9 +227,10 @@ const actions = {
       commit('MENU_ENTER')
     }
   },
-  menuBack({ commit, dispatch }) {
+  menuBack({ commit, dispatch, state }) {
     commit('MENU_BACK')
-    dispatch('updatePreview')
+    if (state.show)
+     dispatch('updatePreview')
   },
   menuDown({ commit, dispatch }) {
     commit('MENU_DOWN')
@@ -256,6 +257,7 @@ const actions = {
     dispatch('updatePreview')
   },
   updatePreview({ state, getters }) {
+    if (!getters.cItem) return
     if (getters.cItem.preview)
     {
       let item = getters.cItem
@@ -519,34 +521,45 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 5,
       items: [
-        // {
-        //   title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
-        //     title: 'Color',
-        //     current: 1,
-        //     offset: 0,
-        //     values: [
-        //       {texture: 'blonde', hash: 0},
-        //       {texture: 'brown', hash: 1},
-        //       {texture: 'DARKEST_BROWN', hash: 2},
-        //       {texture: 'DARKEST_BROWN', hash: 3},
-        //       {texture: 'DARKEST_BROWN', hash: 4},
-        //       {texture: 'DARKEST_BROWN', hash: 5},
-        //       {texture: 'DARKEST_BROWN', hash: 6},
-        //       {texture: 'DARKEST_BROWN', hash: 7},
-        //       {texture: 'DARKEST_BROWN', hash: 8},
-        //       {texture: 'DARKEST_BROWN', hash: 9},
-        //       {texture: 'DARKEST_BROWN', hash: 10},
-        //       {texture: 'DARKEST_BROWN', hash: 11},
-        //       {texture: 'DARKEST_BROWN', hash: 12},
-        //       {texture: 'DARKEST_BROWN', hash: 13},
-        //       {texture: 'DARKEST_BROWN', hash: 14},
-        //     ]
-        //   }
-        // },
-        // {
-        //   title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
-        // },
+        {
+          title: 'bald', icon:"pants", child: 'categories',price: {money:5.0,gold:10},preview: true, colors: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {texture: 'blonde', hash: 0},
+              {texture: 'brown', hash: 1},
+              {texture: 'DARKEST_BROWN', hash: 2},
+              {texture: 'DARKEST_BROWN', hash: 3},
+              {texture: 'DARKEST_BROWN', hash: 4},
+              {texture: 'DARKEST_BROWN', hash: 5},
+              {texture: 'DARKEST_BROWN', hash: 6},
+              {texture: 'DARKEST_BROWN', hash: 7},
+              {texture: 'DARKEST_BROWN', hash: 8},
+              {texture: 'DARKEST_BROWN', hash: 9},
+              {texture: 'DARKEST_BROWN', hash: 10},
+              {texture: 'DARKEST_BROWN', hash: 11},
+              {texture: 'DARKEST_BROWN', hash: 12},
+              {texture: 'DARKEST_BROWN', hash: 13},
+              {texture: 'DARKEST_BROWN', hash: 14},
+            ]
+          }
+        },
+        {
+          title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
+        },
       ],
+    }
+  })
+  window.postMessage({
+    event:'updateMenu',
+    menu: {
+      id: 'categories',
+      title: 'categories',
+      numberOnScreen : 12,
+      globalColor: true,
+      equipedColor: 5,
+      items: [],
     }
   })
   window.postMessage({
@@ -565,5 +578,9 @@ if (import.meta.env.DEV) {
       title:"test"
     })
   },2000)
+  window.postMessage({
+    event:'setCurrentMenu',
+    id: 'categories'
+  })
 }
 
