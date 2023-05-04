@@ -1,12 +1,12 @@
 <template>
-  <div class="statistique">
+  <div class="statistic">
     <div class="label">{{ lang(stat.label) }}</div>
     <div class="stat-bars" v-if="typeof stat.value == 'object'">
       <div v-for="index in 10" :key="index" :class="['stat-bar',{'active':IsActive(index)},{'possible':IsPossible(index)}]">
       </div>
     </div>
     <div class="value" v-else>
-      {{ stat.value }}
+      {{ lang(stat.value) }}
     </div>
   </div>
 </template>

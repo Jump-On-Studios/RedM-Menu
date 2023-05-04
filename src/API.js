@@ -135,8 +135,8 @@ class API {
     store.commit('DISPLAY_OUTFIT_ID', data.value)
   }
 
-  updateStatistiques(data) {
-    store.commit('UPDATE_STATISTIQUES', {menu: data.menu, index: data.index, statistiques: data.statistiques})
+  updatestatistics(data) {
+    store.commit('UPDATE_STATISTICS', {menu: data.menu, index: data.index, statistics: data.statistics})
   }
   
   PlayAudio = function (name) {

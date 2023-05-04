@@ -17,7 +17,7 @@ class MenuItem {
   translate = true;
   data = false;
   prefix = false;
-  statistiques = []
+  statistics = []
 
   constructor() {}
 
@@ -76,8 +76,8 @@ class MenuItem {
   setPrefix(value) {
     this.prefix = value
   }
-  setStatistiques(value) {
-    this.statistiques = value
+  setStatistics(value) {
+    this.statistics = value
   }
 }
 
@@ -115,7 +115,7 @@ class Menu {
       if (item.action) this.items[newId].setAction(item.action)
       if (item.data) this.items[newId].setData(item.data)
       if (item.prefix) this.items[newId].setPrefix(item.prefix)
-      if (item.statistiques) this.items[newId].setStatistiques(item.statistiques)
+      if (item.statistics) this.items[newId].setStatistics(item.statistics)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -511,8 +511,8 @@ const mutations = {
   UPDATE_HEADER(state,value) {
     state.lang.headerTitle = value
   },
-  UPDATE_STATISTIQUES(state, data) {
-    state.menus[data.menu].items[data.index].setStatistiques(data.statistiques)
+  UPDATE_STATISTICS(state, data) {
+    state.menus[data.menu].items[data.index].setStatistics(data.statistics)
   }
 }
 
@@ -557,7 +557,7 @@ if (import.meta.env.DEV) {
               {texture: 'DARKEST_BROWN', hash: 14},
             ]
           },
-          statistiques: [
+          statistics: [
             {label: "Speed", value: [3,6]},
             {label: "Handling", value: 'Standard'},
           ]

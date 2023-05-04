@@ -1,8 +1,8 @@
 <template>
   <footer class="hapna">
-    <div class="statistiques" v-if="cItem.statistiques">
-      <template v-for="(stat, index) in cItem.statistiques" :key="index">
-        <Statistique :stat="stat" />
+    <div class="statistics" v-if="cItem.statistics">
+      <template v-for="(stat, index) in cItem.statistics" :key="index">
+        <Statistic :stat="stat" />
       </template>
     </div>
     <div class="description" v-if="cItem.description">
@@ -13,11 +13,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Statistique from "./Statistique.vue"
+import Statistic from "./Statistic.vue"
 
 export default {
   components: {
-    Statistique
+    Statistic
   },
   computed: {
     ...mapGetters(['lang','cItem'])
