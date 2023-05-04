@@ -1,14 +1,14 @@
 <template>
-  <footer class="hapna">
+  <div class="description hapna">
+    <div v-if="cItem.description">
+      {{ lang(cItem.description) }}
+    </div>
     <div class="statistics" v-if="cItem.statistics">
       <template v-for="(stat, index) in cItem.statistics" :key="index">
         <Statistic :stat="stat" />
       </template>
     </div>
-    <div class="description" v-if="cItem.description">
-      {{ lang(cItem.description) }}
-    </div>
-  </footer>
+  </div>
 </template>
 
 <script>

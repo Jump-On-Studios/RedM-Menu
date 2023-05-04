@@ -1,23 +1,21 @@
 <template>
-  <div class="price">
-    <template v-if="cItem.price">
-      <div class="divider"></div>
-      <div class="content">
-        <h4>{{ lang('price') }}</h4>
-        <div class="amount">
-          <span class="gold" v-if="typeof(cItem.price) == 'object'">
-            <span class="icon">
-              <img src="@/assets/images/gold.png">
-            </span>
-            {{ gold() }}
+  <div class="price" v-if="cItem.price">
+    <div class="divider"></div>
+    <div class="content">
+      <h4>{{ lang('price') }}</h4>
+      <div class="amount">
+        <span class="gold" v-if="typeof(cItem.price) == 'object'">
+          <span class="icon">
+            <img src="@/assets/images/gold.png">
           </span>
-          <span class="devise">{{ devise() }}</span>
-          <span class="round">{{ priceRounded() }}</span>
-          <span class="centime">{{ centimes() }}</span>
-        </div>
+          {{ gold() }}
+        </span>
+        <span class="devise">{{ devise() }}</span>
+        <span class="round">{{ priceRounded() }}</span>
+        <span class="centime">{{ centimes() }}</span>
       </div>
-      <div class="divider bottom"></div>
-    </template>
+    </div>
+    <div class="divider bottom"></div>
   </div>
 </template>
 

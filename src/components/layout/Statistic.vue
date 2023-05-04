@@ -26,9 +26,6 @@ export default {
       return (value > this.stat.value[0] && value <= this.stat.value[1])
     }
   },
-  mounted() {
-    console.log(typeof this.stat.value)
-  },
   props : {
     stat : Object
   }

@@ -88,11 +88,21 @@ header {
 
 main {
   height: 710px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   h2 {
     margin-top: 10px;
     text-align: center;
     font-size: 1.3em;
   }
+}
+
+.footer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .scroller {
@@ -273,15 +283,11 @@ main {
   }
 }
 
-.details {
+.slider {
   min-height: 80px;
   margin-bottom: 30px;
-  position: absolute;
   bottom: 50px;
   width: 100%;
-}
-
-.slider {
   .arrows {
     margin-top: 8px;
     display: flex;
@@ -396,7 +402,6 @@ main {
 
 .price {
   height: 52px;
-  position: absolute;
   width: 100%;
   bottom: 0;
   .content {
@@ -442,14 +447,18 @@ main {
   }
 }
 
-footer {
+.description {
   text-align: center;
   margin-top: 10px;
   font-size: 1.3em;
+  flex-grow: 1;
+  position: relative;
 }
 
 .statistics {
   width: 100%;
+  position: absolute;
+  bottom: 0;
   & .statistic {
     display: flex;
     justify-content: space-between;

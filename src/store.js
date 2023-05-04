@@ -563,7 +563,7 @@ if (import.meta.env.DEV) {
           ]
         },
         {
-          title: 'bald2', icon:"pants", child: 'categories', preview: true, price: 5.0
+          title: 'bald2', icon:"pants", child: 'categories', preview: true, description:"test description"
         },
       ],
     }
