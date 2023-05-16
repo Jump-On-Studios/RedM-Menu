@@ -6,6 +6,7 @@ class MenuItem {
   icon = false;
   child = false;
   slider = false;
+  sliderType = "slider"
   colors = false;
   price = false;
   data = {};
@@ -15,6 +16,7 @@ class MenuItem {
   description = '';
   action = false;
   translate = true;
+  translateDescription = true;
   data = false;
   prefix = false;
   statistics = []
@@ -70,6 +72,9 @@ class MenuItem {
   setTranslate(value) {
     this.translate = value
   }
+  setTranslateDescription(value) {
+    this.translateDescription = value
+  }
   setData(data) {
     this.data = data
   }
@@ -78,6 +83,9 @@ class MenuItem {
   }
   setStatistics(value) {
     this.statistics = value
+  }
+  setSliderType(value) {
+    this.sliderType = value
   }
 }
 
@@ -117,6 +125,8 @@ class Menu {
       if (item.prefix) this.items[newId].setPrefix(item.prefix)
       if (item.statistics) this.items[newId].setStatistics(item.statistics)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
+      if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
+      if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
     if (data.globalColor) this.setGlobalColor(data.globalColor)
@@ -535,7 +545,36 @@ if (import.meta.env.DEV) {
       equipedColor: 5,
       items: [
         {
-          title: 'Bald', prefix:"star", icon:"pants", child: 'categories', description: 'test',price: {money:5.0,gold:10},preview: true, colors: {
+          title: 'Options',
+          icon:"pants",
+          child: 'categories',
+          description: 'test',
+          price: {money:5.0,gold:10},
+          preview: true,
+          sliderType: "switch",
+          slider: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {label: 'Over', hash: 0},
+              {label: 'Under', hash: 1},
+            ]
+          },
+          statistics: [
+            {label: "Speed", value: [3,6]},
+            {label: "Handling", value: 'Standard'},
+          ]
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          icon:"pants",
+          child: 'categories',
+          description: 'test',
+          price: {money:5.0,gold:10},
+          preview: true,
+          colors: {
             title: 'Color',
             current: 1,
             offset: 0,
@@ -563,7 +602,7 @@ if (import.meta.env.DEV) {
           ]
         },
         {
-          title: 'bald2', icon:"pants", child: 'categories', preview: true, description:"test description"
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
         },
       ],
     }
