@@ -15,7 +15,14 @@
       <div class="prefix" v-if="item.prefix">
         <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
-      {{ getTitle() }}
+      <span v-html="getTitle()"></span>
+      <div class="sufix" v-if="item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
+        <div class="arrows">
+          <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+          <div class="text hapna">{{ getSufixLabel()}}</div>
+          <div class="arrow right"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+        </div>
+      </div>
     </h3>
     <div class="background"></div>
   </li>
@@ -25,7 +32,7 @@
 import { mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu'])
+    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang'])
   },
   methods : {
     getImage(image) {
@@ -40,6 +47,10 @@ export default {
         return this.title + ' ('+this.index+')'
       }
       return this.title
+    },
+    getSufixLabel() {
+      console.log(this.item)
+      return this.lang(this.item.slider.values[this.item.slider.current -1].label)
     }
   },
   props : {
