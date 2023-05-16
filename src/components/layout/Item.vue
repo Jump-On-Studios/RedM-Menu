@@ -18,9 +18,9 @@
       <span v-html="getTitle()"></span>
       <div class="sufix" v-if="item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
         <div class="arrows">
-          <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+          <div class="arrow left" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
           <div class="text hapna">{{ getSufixLabel()}}</div>
-          <div class="arrow right"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+          <div class="arrow right" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
         </div>
       </div>
     </h3>
@@ -49,7 +49,7 @@ export default {
       return this.title
     },
     getSufixLabel() {
-      console.log(this.item)
+      console.log(this.cItem == this.item)
       return this.lang(this.item.slider.values[this.item.slider.current -1].label)
     }
   },
