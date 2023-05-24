@@ -57,8 +57,20 @@ class API {
     store.commit('UPDATE_MENU', data.menu)
   }
 
+  resetMenu(data) {
+    store.commit('RESET_MENU', data.menu)
+  }
+
   menuSwitch(data) {
     store.commit('MENU_SWITCH', data.menu)
+    store.dispatch('updatePreview')
+  }
+
+  forceBack() {
+    store.dispatch('menuBack')
+  }
+
+  forceUpdatePreview() {
     store.dispatch('updatePreview')
   }
 

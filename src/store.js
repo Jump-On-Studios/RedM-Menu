@@ -91,6 +91,7 @@ class MenuItem {
 
 class Menu {
   title = "";
+  translateTitle = true;
   currentItem = 0;
   equipedItem = {
     index: -1,
@@ -131,6 +132,7 @@ class Menu {
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
+    if (data.translateTitle !== undefined) this.setTranslateTitle(data.translateTitle)
   }
 
   setTitle(title) {
@@ -173,6 +175,10 @@ class Menu {
     this.offset = 0
     this.currentColor = 0
     this.offsetColor = 0
+  }
+
+  setTranslateTitle(value) {
+    this.translateTitle = value
   }
 }
 
@@ -344,6 +350,11 @@ const mutations = {
       state.menus[data.id].setCurrent(current)
     }
   },
+  RESET_MENU (state, menu) {
+    if (state.menus[menu]) {
+      state.menus[menu].reset()
+    }
+  },
   MENU_DOWN (state) {
     let menu = this.getters.menu
     let items = this.getters.menuItems
@@ -420,20 +431,32 @@ const mutations = {
     API.PlayAudio(state.audios.button)
   },
   SLIDER_LEFT (state) {
-    let slider = this.getters.cItem.slider
+    let item = this.getters.cItem
+    let slider = item.slider
     if (!slider) return;
 
-    if (slider.current > 1) {
+    if (item.sliderType == "slider" && slider.current > 1) {
       slider.current--;
+      API.PlayAudio(state.audios.button)
+    }
+    if (item.sliderType == "switch") {
+      slider.current--;
+      if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
     }
   },
   SLIDER_RIGHT (state) {
-    let slider = this.getters.cItem.slider
+    let item = this.getters.cItem
+    let slider = item.slider
     if (!slider) return;
 
-    if (slider.current < slider.values.length) {
+    if (item.sliderType == "slider" && slider.current < slider.values.length) {
       slider.current++;
+      API.PlayAudio(state.audios.button)
+    }
+    if (item.sliderType == "switch") {
+      slider.current++;
+      if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
     }
   },
@@ -540,6 +563,7 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'home',
       title: 'home',
+      translateTitle: false,
       numberOnScreen : 12,
       globalColor: true,
       equipedColor: 5,
@@ -552,6 +576,27 @@ if (import.meta.env.DEV) {
           price: {money:5.0,gold:10},
           preview: true,
           sliderType: "switch",
+          slider: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {label: 'Over', hash: 0},
+              {label: 'Under', hash: 1},
+            ]
+          },
+          statistics: [
+            {label: "Speed", value: [3,6]},
+            {label: "Handling", value: 'Standard'},
+          ]
+        },
+        {
+          title: 'Options',
+          icon:"pants",
+          child: 'categories',
+          description: 'test',
+          price: {money:5.0,gold:10},
+          preview: true,
           slider: {
             title: 'Color',
             current: 1,

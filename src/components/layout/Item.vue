@@ -49,7 +49,6 @@ export default {
       return this.title
     },
     getSufixLabel() {
-      console.log(this.cItem == this.item)
       return this.lang(this.item.slider.values[this.item.slider.current -1].label)
     }
   },

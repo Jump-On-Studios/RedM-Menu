@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="article">
-      <h2 id="title">{{ lang(menu.title) }}</h2>
+      <h2 id="title">{{ getTitle() }}</h2>
       <template v-if="menuItems.length > 0">
         <Scroller
           direction = 'top'
@@ -66,6 +66,12 @@ import { mapGetters, mapActions } from 'vuex'
             this.menuBack()
             return
         }
+      },
+      getTitle() {
+        if (this.menu.translateTitle) {
+          return this.lang(this.menu.title)
+        }
+        return this.menu.title
       }
     },
     beforeMount () {
