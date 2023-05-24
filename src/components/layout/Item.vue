@@ -1,6 +1,6 @@
 <template>
   <li :class="['item',{'with-icon':icon}]">
-    <div class="image" v-if="icon">
+    <div :class="['image', item.iconClass]" v-if="icon">
       <img :src="getImage(icon)" />
     </div>
     <div class="current" v-if="isCurrent">
