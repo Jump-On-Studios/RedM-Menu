@@ -108,7 +108,7 @@ main {
 .scroller {
   display: grid;
   grid-template-columns: 204px 24px 204px;
-  & div {
+  div {
     background-repeat: no-repeat;
     background-size: contain;
     height: 24px;
@@ -159,7 +159,7 @@ main {
     &:not(:last-child) {
       margin-bottom: 6px;  
     }
-    & .background {
+    .background {
       position: absolute;
       top: 0;
       left: 0;
@@ -170,26 +170,30 @@ main {
       background-image: url('@/assets/images/menu/selection_box_bg_1d.png');
       background-size: 100% 100%;
     }
-    & h3 {
+    h3 {
       font-size: 1.4em;
       display: flex;
       column-gap: 5px;
       align-items: center;
-      & .prefix {
+      .prefix {
         width: 20px;
-        & .star {
+        .star {
           filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
         }
       }
-      & .sufix {
+      .sufix {
         margin-left: auto;
+        font-size: 0.65em;
+        .arrows {
+          column-gap: 10px;
+        }
       }
     }
     &.with-icon {
       grid-template-columns: 80px auto;
       grid-gap: 25px;
       height: 100px;
-      & .background {
+      .background {
         background-image: url('@/assets/images/menu/background_item.png');
       }
     }
@@ -370,7 +374,7 @@ main {
   position: relative;
   .box {
     position: relative;
-    & img {
+    img {
       width: 37px;
     }
   }
@@ -466,17 +470,17 @@ main {
   width: 100%;
   position: absolute;
   bottom: 0;
-  & .statistic {
+  .statistic {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
-    & .stat-bars {
+    .stat-bars {
       display: flex;
       column-gap: 5px;
       align-items: center;
       justify-content: flex-end;
-      & .stat-bar {
+      .stat-bar {
         content: '';
         width: 20px;
         height: 10px;
@@ -589,7 +593,7 @@ main {
 .v-enter-active,
 .v-leave-active {
   transition: all var(--transition-duration) ease;
-  & .container {
+  .container {
     -webkit-mask-image: url('./assets/images/background_mask.png');
   }
 }

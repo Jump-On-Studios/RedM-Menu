@@ -4,6 +4,7 @@ import API from './API'
 class MenuItem {
   title = '';
   icon = false;
+  iconClass = '';
   child = false;
   slider = false;
   sliderType = "slider"
@@ -87,10 +88,14 @@ class MenuItem {
   setSliderType(value) {
     this.sliderType = value
   }
+  setIconClass(value) {
+    this.iconClass = value
+  }
 }
 
 class Menu {
   title = "";
+  translateTitle = true;
   currentItem = 0;
   equipedItem = {
     index: -1,
@@ -127,10 +132,12 @@ class Menu {
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
       if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
       if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
+      if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
     });
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
+    if (data.translateTitle !== undefined) this.setTranslateTitle(data.translateTitle)
   }
 
   setTitle(title) {
@@ -173,6 +180,10 @@ class Menu {
     this.offset = 0
     this.currentColor = 0
     this.offsetColor = 0
+  }
+
+  setTranslateTitle(value) {
+    this.translateTitle = value
   }
 }
 
@@ -344,6 +355,11 @@ const mutations = {
       state.menus[data.id].setCurrent(current)
     }
   },
+  RESET_MENU (state, menu) {
+    if (state.menus[menu]) {
+      state.menus[menu].reset()
+    }
+  },
   MENU_DOWN (state) {
     let menu = this.getters.menu
     let items = this.getters.menuItems
@@ -373,21 +389,20 @@ const mutations = {
       if (menu.currentItem < menu.offset) {
         menu.offset--;
       }
-      API.PlayAudio(state.audios.button)
     } else {
       menu.currentItem = items.length - 1
       let gap = 0
       for (let index = items.length-1; index > 0; index--) {
         gap += (items[index].icon)?2:1
-        if (gap > menu.numberOnScreen) {
-          if (menu.currentItem >= index) {
-            menu.offset +=index+1;
+        if (gap > menu.numberOnScreen-1) {
+          if (menu.currentItem > index) {
+            menu.offset += index;
           }
           break
         }
       }
-      API.PlayAudio(state.audios.button)
     }
+    API.PlayAudio(state.audios.button)
   },
   MENU_ENTER (state) {
     let item = this.getters.cItem
@@ -420,20 +435,32 @@ const mutations = {
     API.PlayAudio(state.audios.button)
   },
   SLIDER_LEFT (state) {
-    let slider = this.getters.cItem.slider
+    let item = this.getters.cItem
+    let slider = item.slider
     if (!slider) return;
 
-    if (slider.current > 1) {
+    if (item.sliderType == "slider" && slider.current > 1) {
       slider.current--;
+      API.PlayAudio(state.audios.button)
+    }
+    if (item.sliderType == "switch") {
+      slider.current--;
+      if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
     }
   },
   SLIDER_RIGHT (state) {
-    let slider = this.getters.cItem.slider
+    let item = this.getters.cItem
+    let slider = item.slider
     if (!slider) return;
 
-    if (slider.current < slider.values.length) {
+    if (item.sliderType == "slider" && slider.current < slider.values.length) {
       slider.current++;
+      API.PlayAudio(state.audios.button)
+    }
+    if (item.sliderType == "switch") {
+      slider.current++;
+      if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
     }
   },
@@ -540,13 +567,17 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'home',
       title: 'home',
-      numberOnScreen : 12,
+      translateTitle: false,
+      numberOnScreen : 11,
       globalColor: true,
       equipedColor: 5,
       items: [
         {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
           title: 'Options',
-          icon:"pants",
+          //icon:"pants",
           child: 'categories',
           description: 'test',
           price: {money:5.0,gold:10},
@@ -567,9 +598,31 @@ if (import.meta.env.DEV) {
           ]
         },
         {
+          title: 'Options',
+          //icon:"pants",
+          child: 'categories',
+          description: 'test',
+          price: {money:5.0,gold:10},
+          preview: true,
+          slider: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {label: 'Over', hash: 0},
+              {label: 'Under', hash: 1},
+            ]
+          },
+          statistics: [
+            {label: "Speed", value: [3,6]},
+            {label: "Handling", value: 'Standard'},
+          ]
+        },
+        {
           title: 'Bald',
           prefix:"star",
-          icon:"pants",
+          //icon:"pants",
+          iconClass:'fred',
           child: 'categories',
           description: 'test',
           price: {money:5.0,gold:10},
@@ -604,6 +657,47 @@ if (import.meta.env.DEV) {
         {
           title: 'bald2', child: 'categories', preview: true, description:"test description"
         },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        
+        {
+          title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
       ],
     }
   })
@@ -612,7 +706,7 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'categories',
       title: 'categories',
-      numberOnScreen : 12,
+      numberOnScreen : 11,
       globalColor: true,
       equipedColor: 5,
       items: [],
