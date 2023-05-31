@@ -43,8 +43,8 @@ export default {
       return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     getTitle() {
-      if (this.displayOutfitId && this.currentMenu == "outfit" && this.index > 0) {
-        return this.title + ' ('+this.index+')'
+      if (this.displayOutfitId && this.currentMenu == "outfit" && this.item.index != 0) {
+        return this.title + ' ('+this.item.index+')'
       }
       return this.title
     },
@@ -57,7 +57,6 @@ export default {
       default : 'Title',
       type: String,
     },
-    index: Number,
     icon : {
       default : false,
     },

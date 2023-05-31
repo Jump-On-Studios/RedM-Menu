@@ -8,7 +8,6 @@
         :title="getTitle(item)"
         :icon="item.icon"
         :isCurrent="item.index == menu.equipedItem.index"
-        :index="item.index"
         :item="item"
       />
     </ul>

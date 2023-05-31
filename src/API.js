@@ -107,6 +107,10 @@ class API {
     store.commit('UPDATE_BOUGHT_ITEMS', data.list)
   }
 
+  updateItemVisibility(data) {
+    store.commit('UPDATE_ITEM_VISIBILITY', data)
+  }
+
   startAudio(data) {
     this.PlayAudio(data.sound+".mp3")
   }
@@ -150,6 +154,8 @@ class API {
   updatestatistics(data) {
     store.commit('UPDATE_STATISTICS', {menu: data.menu, index: data.index, statistics: data.statistics})
   }
+
+
   
   PlayAudio = function (name) {
     var link = ""

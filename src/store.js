@@ -550,6 +550,13 @@ const mutations = {
   },
   UPDATE_STATISTICS(state, data) {
     state.menus[data.menu].items[data.index].setStatistics(data.statistics)
+  },
+  UPDATE_ITEM_VISIBILITY(state,data) {
+    let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
+    console.log(Index)
+    if (Index == -1)
+      return
+    state.menus[data.menu].items[Index].setVisible(data.visible)
   }
 }
 
@@ -623,6 +630,10 @@ if (import.meta.env.DEV) {
           prefix:"star",
           //icon:"pants",
           iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good',
           child: 'categories',
           description: 'test',
           price: {money:5.0,gold:10},
@@ -722,5 +733,21 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+  setTimeout(function() {
+    window.postMessage({
+      event:"updateItemVisibility",
+      menu:"home",
+      index: 'good',
+      visible: false
+    })
+  },2000)
+  setTimeout(function() {
+    window.postMessage({
+      event:"updateItemVisibility",
+      menu:"home",
+      index: 'good',
+      visible: true
+    })
+  },4000)
 }
 
