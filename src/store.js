@@ -131,6 +131,7 @@ class Menu {
       if (item.statistics) this.items[newId].setStatistics(item.statistics)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
       if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
+      if (item.visible != undefined) this.items[newId].setVisible(item.visible)
       if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
       if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
     });
