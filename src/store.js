@@ -20,7 +20,8 @@ class MenuItem {
   translateDescription = true;
   data = false;
   prefix = false;
-  statistics = []
+  statistics = [];
+  disabled = false
 
   constructor() {}
 
@@ -91,6 +92,9 @@ class MenuItem {
   setIconClass(value) {
     this.iconClass = value
   }
+  setDisabled(value) {
+    this.disabled = value
+  }
 }
 
 class Menu {
@@ -131,6 +135,7 @@ class Menu {
       if (item.statistics) this.items[newId].setStatistics(item.statistics)
       if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
       if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
+      if (item.disabled != undefined) this.items[newId].setDisabled(item.disabled)
       if (item.visible != undefined) this.items[newId].setVisible(item.visible)
       if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
       if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
@@ -252,6 +257,7 @@ const getters = {
 const actions = {
   menuEnter({ commit, dispatch, getters }) {
     let item = getters.cItem
+    if (item.disabled) return
     if (item.child) {
       commit('MENU_ENTER')
       dispatch('updatePreview')
@@ -272,11 +278,13 @@ const actions = {
     commit('MENU_UP')
     dispatch('updatePreview')
   },
-  sliderLeft({ commit, dispatch }) {
+  sliderLeft({ commit, dispatch,getters }) {
+    if (getters.cItem.disabled) return
     commit('SLIDER_LEFT')
     dispatch('updatePreview')
   },
-  sliderRight({ commit, dispatch }) {
+  sliderRight({ commit, dispatch, getters }) {
+    if (getters.cItem.disabled) return
     commit('SLIDER_RIGHT')
     dispatch('updatePreview')
   },
@@ -294,15 +302,26 @@ const actions = {
     {
       let item = getters.cItem
       if (item.slider) {
-        API.post('updatePreview',{
-          menu: state.currentMenu,
-          hash: item.slider.values[item.slider.current -1],
-          index: item.index,
-          variation: item.slider.current,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
-          data: item.data,
-          item: getters.cItem,
-        })
+        if (item.sliderType == "switch") {
+          API.post('updatePreview',{
+            menu: state.currentMenu,
+            index: item.index,
+            variation: item.slider.current,
+            current: {data: item.slider.values[item.slider.current -1],id:getters.menu.currentItem, offset: getters.menu.offset},
+            data: item.data,
+            item: getters.cItem,
+          })
+        } else {
+          API.post('updatePreview',{
+            menu: state.currentMenu,
+            hash: item.slider.values[item.slider.current -1],
+            index: item.index,
+            variation: item.slider.current,
+            current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+            data: item.data,
+            item: getters.cItem,
+          })
+        }
       } else if (item.colors) {
         API.post('updatePreview',{
           menu: state.currentMenu,
@@ -554,10 +573,15 @@ const mutations = {
   },
   UPDATE_ITEM_VISIBILITY(state,data) {
     let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
-    console.log(Index)
     if (Index == -1)
       return
     state.menus[data.menu].items[Index].setVisible(data.visible)
+  },
+  UPDATE_ITEM_DISABLED(state,data) {
+    let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
+    if (Index == -1)
+      return
+    state.menus[data.menu].items[Index].setDisabled(data.disabled)
   }
 }
 
@@ -582,6 +606,27 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'bald2', child: 'categories', preview: true, description:"test description"
+        },
+        {
+          title: 'Options',
+          //icon:"pants",
+          child: 'categories',
+          description: 'test',
+          price: {money:5.0,gold:10},
+          preview: true,
+          slider: {
+            title: 'Color',
+            current: 1,
+            offset: 0,
+            values: [
+              {label: 'Over', hash: 0},
+              {label: 'Under', hash: 1},
+            ]
+          },
+          statistics: [
+            {label: "Speed", value: [3,6]},
+            {label: "Handling", value: 'Standard'},
+          ]
         },
         {
           title: 'Options',
@@ -734,21 +779,5 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
-  setTimeout(function() {
-    window.postMessage({
-      event:"updateItemVisibility",
-      menu:"home",
-      index: 'good',
-      visible: false
-    })
-  },2000)
-  setTimeout(function() {
-    window.postMessage({
-      event:"updateItemVisibility",
-      menu:"home",
-      index: 'good',
-      visible: true
-    })
-  },4000)
 }
 

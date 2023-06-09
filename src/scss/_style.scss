@@ -23,6 +23,15 @@ html, body {
 .gold {
   color: gold;
 }
+.red {
+  color: red;
+}
+.bw {
+  filter: grayscale(1);
+}
+.opacity50 {
+  opacity: 0.5;
+}
 
 #app {
   height: 100%;
@@ -152,6 +161,9 @@ main {
     align-items: center;
     padding-left: 20px;
     padding-right: 20px;
+    &.disabled {
+      color:gray
+    }
     & > * {
       display: block;
       z-index: 10;

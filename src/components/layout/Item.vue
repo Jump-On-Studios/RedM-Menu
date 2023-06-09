@@ -1,7 +1,7 @@
 <template>
-  <li :class="['item',{'with-icon':icon}]">
-    <div :class="['image', item.iconClass]" v-if="icon">
       <img :src="getImage(icon)" />
+  <li :class="['item',{'with-icon':icon,'disabled':item.disabled}]">
+    <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
     </div>
     <div class="current" v-if="isCurrent">
       <div class="color" v-if="item.colors">
@@ -12,11 +12,11 @@
       </div>
     </div>
     <h3>
-      <div class="prefix" v-if="item.prefix">
         <img :class="item.prefix" :src="getImage(item.prefix)" />
+      <div class="prefix" v-if="item.prefix" :class="[{'bw':item.disabled}]">
       </div>
       <span v-html="getTitle()"></span>
-      <div class="sufix" v-if="item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
+      <div class="sufix" v-if="!item.disabled && item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
         <div class="arrows">
           <div class="arrow left" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
           <div class="text hapna">{{ getSufixLabel()}}</div>

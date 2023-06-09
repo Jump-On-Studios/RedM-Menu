@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" v-if="cItem.slider && cItem.slider.values.length > 1 && cItem.sliderType == 'slider'">
+  <div class="slider" v-if="!cItem.disabled && cItem.slider && cItem.slider.values.length > 1 && cItem.sliderType == 'slider'">
     <h2>{{ lang(cItem.slider.title) }}</h2>
     <div class="arrows">
       <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>

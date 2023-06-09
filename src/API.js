@@ -111,6 +111,10 @@ class API {
     store.commit('UPDATE_ITEM_VISIBILITY', data)
   }
 
+  updateItemDisabled(data) {
+    store.commit('UPDATE_ITEM_DISABLED', data)
+  }
+
   startAudio(data) {
     this.PlayAudio(data.sound+".mp3")
   }

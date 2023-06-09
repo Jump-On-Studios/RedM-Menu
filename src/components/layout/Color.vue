@@ -1,5 +1,5 @@
 <template>
-  <div class="slider color" v-if="cItem.colors">
+  <div class="slider color" v-if="!cItem.disabled && cItem.colors">
     <h2>{{ lang(cItem.colors.title) }}</h2>
     <div class="arrows">
       <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
