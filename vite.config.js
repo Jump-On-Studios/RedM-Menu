@@ -20,14 +20,16 @@ export default defineConfig({
     define: {
       'process.env.NODE_ENV': '"production"'
     },
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
-        assetFileNames: (assetInfo) => {
-          return `assets/[name][extname]`;
+        assetFileNames: () => {
+          return `assets/[extname]/[name][extname]`;
         },
-        chunkFileNames: 'assets/[name].js',
-        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'js/[name].js',
+        entryFileNames: 'js/[name].js',
       },
+      exclude: ['**/*.jpg'],
     },
   },
 })
