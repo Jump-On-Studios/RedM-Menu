@@ -1,7 +1,7 @@
 <template>
-      <img :src="getImage(icon)" />
-  <li :class="['item',{'with-icon':icon,'disabled':item.disabled}]">
+  <li :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled}]" @click="click()">
     <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
+      <img :src="getImage(icon)" />
     </div>
     <div class="current" v-if="isCurrent">
       <div class="color" v-if="item.colors">
@@ -12,8 +12,8 @@
       </div>
     </div>
     <h3>
-        <img :class="item.prefix" :src="getImage(item.prefix)" />
       <div class="prefix" v-if="item.prefix" :class="[{'bw':item.disabled}]">
+        <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
       <span v-html="getTitle()"></span>
       <div class="sufix" v-if="!item.disabled && item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
@@ -29,12 +29,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   computed: {
-    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang'])
+    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios'])
   },
   methods : {
+    ...mapActions(['menuEnter']),
     getImage(image) {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
     },
@@ -50,6 +51,14 @@ export default {
     },
     getSufixLabel() {
       return this.lang(this.item.slider.values[this.item.slider.current -1].label)
+    },
+    click() {
+      this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})
+      if (this.item.child) {
+        this.menuEnter()
+      } else {
+        this.$API.PlayAudio(this.audios.button)
+      }
     }
   },
   props : {

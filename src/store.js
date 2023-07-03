@@ -21,9 +21,12 @@ class MenuItem {
   data = false;
   prefix = false;
   statistics = [];
-  disabled = false
+  disabled = false;
+  id = 0;
 
-  constructor() {}
+  constructor(id) {
+    this.id = id
+  }
 
   setTitle(title) {
     this.title = title
@@ -84,7 +87,9 @@ class MenuItem {
     this.prefix = value
   }
   setStatistics(value) {
-    this.statistics = value
+    for (var p in value) {
+      this.statistics.push(Object.assign(new ItemStatistic(),value[p]))
+    }
   }
   setSliderType(value) {
     this.sliderType = value
@@ -95,6 +100,12 @@ class MenuItem {
   setDisabled(value) {
     this.disabled = value
   }
+}
+
+class ItemStatistic {
+  label = ""
+  type = "bar"
+  value = [0,0,10]
 }
 
 class Menu {
@@ -118,7 +129,7 @@ class Menu {
   constructor(data) {
     this.setTitle(data.title);
     data.items.forEach(item => {
-      let newId = this.items.push(new MenuItem()) -1
+      let newId = this.items.push(new MenuItem(this.items.length)) -1
       if (item.title)  this.items[newId].setTitle(item.title)
       if (item.icon)  this.items[newId].setIcon(item.icon)
       if (item.slider) this.items[newId].setSlider(item.slider)
@@ -231,6 +242,7 @@ state.menus = {
 
 const getters = {
   show: ({ show }) => show,
+  audios: ({ audios }) => audios,
   menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
   menu: ({ menus, currentMenu}) => menus[currentMenu],
   menuItems: (state, getters) => {
@@ -286,6 +298,10 @@ const actions = {
   sliderRight({ commit, dispatch, getters }) {
     if (getters.cItem.disabled) return
     commit('SLIDER_RIGHT')
+    dispatch('updatePreview')
+  },
+  setSliderCurrent({ commit, dispatch}, value) {
+    commit('SET_SLIDER_CURRENT', value)
     dispatch('updatePreview')
   },
   colorLeft({ commit, dispatch }) {
@@ -484,6 +500,14 @@ const mutations = {
       API.PlayAudio(state.audios.button)
     }
   },
+  SET_SLIDER_CURRENT (state,value) {
+    let item = this.getters.cItem
+    let slider = item.slider
+    if (!slider) return;
+    if (slider.current == value) return
+    slider.current = value
+    API.PlayAudio(state.audios.button)
+  },
   COLOR_LEFT (state) {
     let item = this.getters.cItem
     if (item.colors.current == 0) return
@@ -600,76 +624,27 @@ if (import.meta.env.DEV) {
       id: 'home',
       title: 'home',
       translateTitle: false,
-      numberOnScreen : 11,
+      numberOnScreen : 8,
       globalColor: true,
       equipedColor: 5,
       items: [
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        {
-          title: 'Options',
+          title: 'Bald',
+          prefix:"star",
           //icon:"pants",
-          child: 'categories',
-          description: 'test',
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'home',
           price: {money:5.0,gold:10},
           preview: true,
           slider: {
             title: 'Color',
-            current: 1,
-            offset: 0,
-            values: [
-              {label: 'Over', hash: 0},
-              {label: 'Under', hash: 1},
-            ]
-          },
-          statistics: [
-            {label: "Speed", value: [3,6]},
-            {label: "Handling", value: 'Standard'},
-          ]
-        },
-        {
-          title: 'Options',
-          //icon:"pants",
-          child: 'categories',
-          description: 'test',
-          price: {money:5.0,gold:10},
-          preview: true,
-          sliderType: "switch",
-          slider: {
-            title: 'Color',
-            current: 1,
-            offset: 0,
-            values: [
-              {label: 'Over', hash: 0},
-              {label: 'Under', hash: 1},
-            ]
-          },
-          statistics: [
-            {label: "Speed", value: [3,6]},
-            {label: "Handling", value: 'Standard'},
-          ]
-        },
-        {
-          title: 'Options',
-          //icon:"pants",
-          child: 'categories',
-          description: 'test',
-          price: {money:5.0,gold:10},
-          preview: true,
-          slider: {
-            title: 'Color',
-            current: 1,
-            offset: 0,
-            values: [
-              {label: 'Over', hash: 0},
-              {label: 'Under', hash: 1},
-            ]
-          },
-          statistics: [
-            {label: "Speed", value: [3,6]},
-            {label: "Handling", value: 'Standard'},
-          ]
+            current: 0,
+            values: [1,2,3,4,5,6]
+          }
         },
         {
           title: 'Bald',
@@ -679,81 +654,88 @@ if (import.meta.env.DEV) {
           title: 'Bald good',
           prefix:"star",
           icon:"pants",
-          index: 'good',
+          index: 'good5',
           child: 'categories',
-          description: 'test',
           price: {money:5.0,gold:10},
           preview: true,
-          colors: {
-            title: 'Color',
-            current: 1,
-            offset: 0,
-            values: [
-              {texture: 'blonde', hash: 0},
-              {texture: 'brown', hash: 1},
-              {texture: 'DARKEST_BROWN', hash: 2},
-              {texture: 'DARKEST_BROWN', hash: 3},
-              {texture: 'DARKEST_BROWN', hash: 4},
-              {texture: 'DARKEST_BROWN', hash: 5},
-              {texture: 'DARKEST_BROWN', hash: 6},
-              {texture: 'DARKEST_BROWN', hash: 7},
-              {texture: 'DARKEST_BROWN', hash: 8},
-              {texture: 'DARKEST_BROWN', hash: 9},
-              {texture: 'DARKEST_BROWN', hash: 10},
-              {texture: 'DARKEST_BROWN', hash: 11},
-              {texture: 'DARKEST_BROWN', hash: 12},
-              {texture: 'DARKEST_BROWN', hash: 13},
-              {texture: 'DARKEST_BROWN', hash: 14},
-            ]
-          },
-          statistics: [
-            {label: "Speed", value: [3,6]},
-            {label: "Handling", value: 'Standard'},
-          ]
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
         {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
-        },
-        
-        {
-          title: 'bald2', child: 'categories', preview: true, description:"test description"
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'good5',
+          child: 'categories',
+          price: {money:5.0,gold:10},
+          preview: true,
         },
       ],
     }

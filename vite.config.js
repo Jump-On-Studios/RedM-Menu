@@ -24,12 +24,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         assetFileNames: () => {
-          return `assets/[extname]/[name][extname]`;
+          return `assets/[name][extname]`;
         },
-        chunkFileNames: 'js/[name].js',
-        entryFileNames: 'js/[name].js',
-      },
-      exclude: ['**/*.jpg'],
+        chunkFileNames: 'assets/[name].js',
+        entryFileNames: 'assets/[name].js',
+      }
     },
   },
 })

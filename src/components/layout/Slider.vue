@@ -2,19 +2,21 @@
   <div class="slider" v-if="!cItem.disabled && cItem.slider && cItem.slider.values.length > 1 && cItem.sliderType == 'slider'">
     <h2>{{ lang(cItem.slider.title) }}</h2>
     <div class="arrows">
-      <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="arrow left clicker" @click="sliderLeft()"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
       <div class="text hapna">{{ numItem() }}</div>
-      <div class="arrow right"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow right clicker" @click="sliderRight()"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <div class="boxes">
       <div v-for="index in cItem.slider.values.length"
         :key="index"
-        :class="['box',{
+        :class="['box clicker',{
           'active' : index < cItem.slider.current,
           'current' : index == cItem.slider.current,
           'equiped' : index == menu.equipedItem.variation && cItem.index == menu.equipedItem.index,
           'bought' : IsBought(index)
-        }]">
+        }]"
+        @click="click(index)"
+      >
       </div>
     </div>
   </div>
@@ -27,7 +29,7 @@ export default {
     ...mapGetters(['isItemBought','menu','cItem','lang'])
   },
   methods: {
-    ...mapActions(['sliderLeft','sliderRight']),
+    ...mapActions(['sliderLeft','sliderRight','setSliderCurrent']),
     handleKeydown(e) {
       if (!this.cItem.slider) return
       switch(e.key) {
@@ -46,6 +48,10 @@ export default {
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.cItem.slider.current, this.cItem.slider.values.length)
     },
+    click(index) {
+      if (index == this.cItem.slider.current) return
+      this.setSliderCurrent(index)
+    }
   },
   beforeMount () {
   	window.addEventListener('keydown', this.handleKeydown, null);

@@ -1,7 +1,12 @@
 <template>
   <main>
     <div class="article">
-      <h2 id="title">{{ getTitle() }}</h2>
+      <h2 id="title">
+        {{ getTitle() }}
+        <span v-if="parentTree.length > 0" class="backer clicker" @click="menuBack()">
+          <img src="@/assets/images/menu/selection_arrow_left.png">
+        </span>
+      </h2>
       <template v-if="menuItems.length > 0">
         <Scroller
           direction = 'top'
@@ -11,10 +16,10 @@
           direction = 'bottom'
         />
       </template>
-      <template v-else>
-        <Loading />
-      </template>
     </div>
+    <template v-if="menuItems.length == 0">
+      <Loading />
+    </template>
     <div class="footer">
       <template v-if="menuItems.length > 0">
         <Description />
@@ -47,7 +52,7 @@ import { mapGetters, mapActions } from 'vuex'
       }
     },
     computed: {
-      ...mapGetters(['menu', 'lang',"menuItems"])
+      ...mapGetters(['menu', 'lang',"menuItems",'parentTree'])
     },
     methods: {
       ...mapActions(['menuEnter','menuBack']),

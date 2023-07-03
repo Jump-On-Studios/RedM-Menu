@@ -1,9 +1,6 @@
 <template>
   <div style="position:relative">
-    <ul class="list"
-      @keydown.down="Down"
-      @keydown.up="Up"
-    >
+    <ul class="list">
       <Item v-for="(item,index) in items()" :key=index
         :title="getTitle(item)"
         :icon="item.icon"
@@ -28,7 +25,7 @@ export default {
     ...mapGetters(['lang','menu','equipedItems','currentMenu','menuItems'])
   },
   methods: {
-    ...mapActions(['menuDown','menuUp']),
+    ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight']),
     getTitle(item) {
       if (item.title.length > 0) {
         if (!item.translate) return item.title
@@ -51,7 +48,6 @@ export default {
       return itemDisplayed;
     },
     handleKeydown(e) {
-      
       switch(e.key) {
         case 'ArrowDown':
           this.menuDown()
@@ -61,13 +57,31 @@ export default {
           return;
       }
       return;
+    },
+    handleWheel(e) {
+      console.log(e.target.closest('.slider'))
+      if (e.target.closest('.slider') != null) {
+        if (e.deltaY < 0) {
+          this.sliderLeft()
+        } else {
+          this.sliderRight()
+        }
+        return
+      }
+      if (e.deltaY < 0) {
+        this.menuUp()
+      } else {
+        this.menuDown()
+      }
     }
   },
   beforeMount () {
   	window.addEventListener('keydown', this.handleKeydown, null);
+  	window.addEventListener('wheel', this.handleWheel, null);
   },
   beforeUnmount () {
   	window.removeEventListener('keydown', this.handleKeydown);
+  	window.removeEventListener('wheel', this.handleWheel);
   }
 }
 </script>

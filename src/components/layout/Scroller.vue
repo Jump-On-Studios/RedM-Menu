@@ -1,20 +1,21 @@
 <template>
   <div :class="['scroller',direction]">
     <div class="left"></div>
-    <div :class="['center', {'active':getActive()}]"></div>
+    <div :class="['center', {'active clicker':getActive()}]" @click="click()"></div>
     <div class="right"></div>
   </div>
   <div class="scounter hapna" v-if="direction=='bottom'">{{ numItem() }}</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: {
     ...mapGetters(['lang', 'menuItems','menu'])
   },
   methods : {
+    ...mapActions(['menuDown','menuUp']),
     getActive() {
       if (this.direction == 'top' && this.menu.offset > 0) return true
       if (this.direction == "bottom") {
@@ -29,6 +30,13 @@ export default {
         }
       }
       return false
+    },
+    click() {
+      if (this.direction == "bottom") {
+        this.menuDown()
+      } else {
+        this.menuUp()
+      }
     },
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.menu.currentItem+1, this.menuItems.length)
