@@ -59,7 +59,6 @@ export default {
       return;
     },
     handleWheel(e) {
-      console.log(e.target.closest('.slider'))
       if (e.target.closest('.slider') != null) {
         if (e.deltaY < 0) {
           this.sliderLeft()
