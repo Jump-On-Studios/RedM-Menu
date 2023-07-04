@@ -17,10 +17,10 @@
       </div>
       <span v-html="getTitle()"></span>
       <div class="sufix" v-if="!item.disabled && item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
-        <div class="arrows">
-          <div class="arrow left" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+        <div class="arrows" @click.stop="">
+          <div class="arrow left clicker" @click="sliderLeft()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
           <div class="text hapna">{{ getSufixLabel()}}</div>
-          <div class="arrow right" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+          <div class="arrow right clicker" @click="sliderRight()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
         </div>
       </div>
     </h3>
@@ -35,7 +35,7 @@ export default {
     ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios'])
   },
   methods : {
-    ...mapActions(['menuEnter']),
+    ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),
     getImage(image) {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
     },

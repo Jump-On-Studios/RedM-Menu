@@ -637,13 +637,13 @@ if (import.meta.env.DEV) {
           prefix:"star",
           icon:"pants",
           index: 'good5',
-          child: 'home',
           price: {money:5.0,gold:10},
           preview: true,
+          sliderType: 'switch',
           slider: {
             title: 'Color',
             current: 0,
-            values: [1,2,3,4,5,6]
+            values: [{label:1},{label:2},{label:3}]
           }
         },
         {
