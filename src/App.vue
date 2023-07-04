@@ -35,6 +35,7 @@ import { mapGetters, mapMutations } from 'vuex'
 <style lang="scss">
   @import "./scss/_reset.scss";
   @import "./scss/_style.scss";
+  @import "./scss/_colorpicker.scss";
 </style>
 
 <style>

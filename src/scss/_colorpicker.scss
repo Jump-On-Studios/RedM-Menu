@@ -1,0 +1,35 @@
+.vacp-color-picker {
+  background-color: transparent !important;
+  width: 100%;
+  font-family: inherit !important;
+  max-width: 100% !important;
+  .vacp-copy-button {
+    display: none;
+  }
+  .vacp-color-space {
+    overflow: visible;
+  }
+  .vacp-color-space-thumb {
+    border: none;
+    box-shadow: none;
+    &::before {
+      content: '';
+      display: block;
+      width: 120%;
+      height: 120%;
+      position: relative;
+      left: -10%;
+      top: -10%;
+      background-image: url('@/assets/images/menu/circle.png');
+      background-size: 100%;
+    }
+  }
+  .vacp-range-input::-webkit-slider-thumb {
+    box-shadow: none;
+    border-color: transparent;
+    background-image: url('@/assets/images/menu/circle.png');
+    background-size: 130%;
+    background-position: -3px -3px;
+    background-repeat: none;
+  }
+}

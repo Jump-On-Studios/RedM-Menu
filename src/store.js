@@ -110,6 +110,7 @@ class ItemStatistic {
 
 class Menu {
   title = "";
+  type = "list";
   translateTitle = true;
   currentItem = 0;
   equipedItem = {
@@ -155,10 +156,15 @@ class Menu {
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
     if (data.translateTitle !== undefined) this.setTranslateTitle(data.translateTitle)
+    if (data.type) this.setType(data.type)
   }
 
   setTitle(title) {
     this.title = title
+  }
+
+  setType(value) {
+    this.type = value
   }
 
   setCurrent(value) {
@@ -623,6 +629,7 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'home',
       title: 'home',
+      type: 'colorpicker',
       translateTitle: false,
       numberOnScreen : 8,
       globalColor: true,
