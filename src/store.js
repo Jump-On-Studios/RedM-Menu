@@ -798,9 +798,7 @@ if (import.meta.env.DEV) {
       menu: 'home',
       index: 'first',
       item: {
-        slider: {
-          tint: 'tint_hair'
-        }
+        description: "test"
       }
     })
   }, 2000);
