@@ -27,8 +27,7 @@ export default {
   methods: {
     ...mapActions(['setSliderCurrent']),
     background() {
-      console.log(this.cItem.slider.tint)
-      return {backgroundImage:'url('+new URL('../../assets/images/menu/'+this.cItem.slider.tint+'.png', import.meta.url).href+')'}
+      return {backgroundImage:'url('+new URL(`../../assets/images/menu/${this.cItem.slider.tint}.png`, import.meta.url).href+')'}
     },
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.cItem.slider.current+1, this.cItem.slider.max)

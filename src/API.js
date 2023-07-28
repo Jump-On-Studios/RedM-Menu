@@ -108,6 +108,10 @@ class API {
     store.commit('UPDATE_BOUGHT_ITEMS', data.list)
   }
 
+  updateItem(data) {
+    store.commit('UPDATE_ITEM', data)
+  }
+
   updateItemVisibility(data) {
     store.commit('UPDATE_ITEM_VISIBILITY', data)
   }
@@ -177,6 +181,25 @@ class API {
     audio = new Audio(url); // path to file
     audio.volume = this.audioVolume
     audio.play();
+  }
+
+  deepMerge = function (obj1, obj2) {
+    // Create a new object that combines the properties of both input objects
+    const merged = {
+      ...obj1,
+      ...obj2
+    };
+
+    // Loop through the properties of the merged object
+    for (const key of Object.keys(merged)) {
+      // Check if the property is an object
+      if (typeof merged[key] === 'object' && merged[key] !== null) {
+        // If the property is an object, recursively merge the objects
+        merged[key] = this.deepMerge(obj1[key], obj2[key]);
+      }
+    }
+
+    return merged;
   }
 }
 

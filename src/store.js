@@ -37,7 +37,6 @@ class MenuItem {
   }
   setSlider(slider) {
     this.slider = {...{current:1,values:[]},...slider}
-    console.log(this.slider)
   }
   setChild(value) {
     this.child = value
@@ -623,6 +622,12 @@ const mutations = {
     if (Index == -1)
       return
     state.menus[data.menu].items[Index].setDisabled(data.disabled)
+  },
+  UPDATE_ITEM(state,data) {
+    let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
+    if (Index == -1)
+      return
+    state.menus[data.menu].items[Index] = API.deepMerge(state.menus[data.menu].items[Index], data.item)
   }
 }
 
@@ -653,7 +658,7 @@ if (import.meta.env.DEV) {
           title: 'Bald good',
           prefix:"star",
           icon:"pants",
-          index: 'good5',
+          index: 'first',
           price: {money:5.0,gold:10},
           preview: true,
           sliderType: 'palette',
@@ -786,5 +791,18 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+
+  setTimeout(() => {
+    window.postMessage({
+      event: 'updateItem',
+      menu: 'home',
+      index: 'first',
+      item: {
+        slider: {
+          tint: 'tint_hair'
+        }
+      }
+    })
+  }, 2000);
 }
 
