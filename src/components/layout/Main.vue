@@ -20,7 +20,7 @@
         />
       </template>
     </div>
-    <template v-if="menuItems.length == 0">
+    <template v-if="menuItems.length == 0 & menu.type == 'list'">
       <Loading />
     </template>
     <div class="footer">
@@ -28,6 +28,7 @@
         <Description />
         <Slider />
         <Color />
+        <ColorPalette />
         <Price />
       </template>
     </div>
@@ -52,7 +53,8 @@ import { mapGetters, mapActions } from 'vuex'
     },
     data() {
       return {
-        keyPressed: {}
+        keyPressed: {},
+        focus: false
       }
     },
     computed: {
@@ -64,6 +66,7 @@ import { mapGetters, mapActions } from 'vuex'
         this.keyPressed[e.key] = false
       },
       handleKeydown(e) {
+        if (this.focus) return
         if (this.keyPressed[e.key]) return
         
         this.keyPressed[e.key] = true
@@ -74,7 +77,16 @@ import { mapGetters, mapActions } from 'vuex'
           case 'Backspace':
             this.menuBack()
             return
+          case 'Escape':
+            this.menuBack()
+            return
         }
+      },
+      focusIn() {
+        this.focus = true
+      },
+      focusOut() {
+        this.focus = false
       },
       getTitle() {
         if (this.menu.translateTitle) {
@@ -86,10 +98,14 @@ import { mapGetters, mapActions } from 'vuex'
     beforeMount () {
       window.addEventListener('keydown', this.handleKeydown);
       window.addEventListener('keyup', this.handleKeyUp);
+      document.addEventListener('focusin', this.focusIn);
+      document.addEventListener('focusout', this.focusOut);
     },
     beforeUnmount () {
       window.removeEventListener('keydown', this.handleKeydown);
       window.removeEventListener('keyup', this.handleKeyUp);
+      document.removeEventListener('focusin', this.focusIn);
+      document.removeEventListener('focusout', this.focusOut);
     }
   }
 </script>

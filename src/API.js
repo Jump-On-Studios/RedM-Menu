@@ -1,6 +1,7 @@
 import store from '@/store'
 
 var BASE_URL = 'https://kd_menu/'
+var audio
 
 /* eslint-disable camelcase */
 class API {
@@ -169,7 +170,11 @@ class API {
       link = `./${name}`
     }
     var url = new URL(link, import.meta.url).href;
-    var audio = new Audio(url); // path to file
+    
+    if (name == "button.mp3" && audio && !audio.paused && audio.src == url) {
+      if (audio.currentTime < 0.015) return
+    }
+    audio = new Audio(url); // path to file
     audio.volume = this.audioVolume
     audio.play();
   }

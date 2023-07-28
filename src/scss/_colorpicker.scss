@@ -1,35 +1,28 @@
-.vacp-color-picker {
-  background-color: transparent !important;
-  width: 100%;
-  font-family: inherit !important;
-  max-width: 100% !important;
-  .vacp-copy-button {
-    display: none;
+.colorPicker {
+  input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    background-size: 408px 100%;
+    background-position-x: 12px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    color: white;
+    margin-top: 6px;
+    margin-bottom: 10px;
   }
-  .vacp-color-space {
-    overflow: visible;
-  }
-  .vacp-color-space-thumb {
-    border: none;
-    box-shadow: none;
-    &::before {
-      content: '';
-      display: block;
-      width: 120%;
-      height: 120%;
-      position: relative;
-      left: -10%;
-      top: -10%;
-      background-image: url('@/assets/images/menu/circle.png');
-      background-size: 100%;
-    }
-  }
-  .vacp-range-input::-webkit-slider-thumb {
+  .palette::-webkit-slider-thumb {
+  -webkit-appearance: none;
     box-shadow: none;
     border-color: transparent;
     background-image: url('@/assets/images/menu/circle.png');
-    background-size: 130%;
-    background-position: -3px -3px;
+    background-size: 100%;
+    background-position: 0px 0px;
     background-repeat: none;
+    height: 30px;
+    width: 30px;
+    position: relative;
+    margin-top: -1px;
   }
 }

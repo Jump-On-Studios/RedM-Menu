@@ -7,7 +7,7 @@
   user-select: none; /* Standard syntax */
 }
 *:focus {
-  outline: 3px dashed #228bec;
+  outline: none !important;
 }
 h1,
 h2,
