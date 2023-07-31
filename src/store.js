@@ -35,12 +35,8 @@ class MenuItem {
   setIcon(icon) {
     this.icon = icon
   }
-  setSlider({ title,current,values }) {
-    this.slider = {
-      title: title,
-      current: current || 1,
-      values: values || []
-    }
+  setSlider(slider) {
+    this.slider = {...{current:1,values:[]},...slider}
   }
   setChild(value) {
     this.child = value
@@ -110,6 +106,7 @@ class ItemStatistic {
 
 class Menu {
   title = "";
+  type = "list";
   translateTitle = true;
   currentItem = 0;
   equipedItem = {
@@ -128,37 +125,44 @@ class Menu {
 
   constructor(data) {
     this.setTitle(data.title);
-    data.items.forEach(item => {
-      let newId = this.items.push(new MenuItem(this.items.length)) -1
-      if (item.title)  this.items[newId].setTitle(item.title)
-      if (item.icon)  this.items[newId].setIcon(item.icon)
-      if (item.slider) this.items[newId].setSlider(item.slider)
-      if (item.child) this.items[newId].setChild(item.child)
-      if (item.colors) this.items[newId].setColors(item.colors)
-      if (item.price) this.items[newId].setPrice(item.price)
-      if (item.data) this.items[newId].setData(item.data)
-      if (item.preview) this.items[newId].setPreview(item.preview)
-      if (item.index) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
-      if (item.description) this.items[newId].setDescription(item.description)
-      if (item.action) this.items[newId].setAction(item.action)
-      if (item.data) this.items[newId].setData(item.data)
-      if (item.prefix) this.items[newId].setPrefix(item.prefix)
-      if (item.statistics) this.items[newId].setStatistics(item.statistics)
-      if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
-      if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
-      if (item.disabled != undefined) this.items[newId].setDisabled(item.disabled)
-      if (item.visible != undefined) this.items[newId].setVisible(item.visible)
-      if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
-      if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
-    });
+    if (data.items) {
+      data.items.forEach(item => {
+        let newId = this.items.push(new MenuItem(this.items.length)) -1
+        if (item.title)  this.items[newId].setTitle(item.title)
+        if (item.icon)  this.items[newId].setIcon(item.icon)
+        if (item.slider) this.items[newId].setSlider(item.slider)
+        if (item.child) this.items[newId].setChild(item.child)
+        if (item.colors) this.items[newId].setColors(item.colors)
+        if (item.price) this.items[newId].setPrice(item.price)
+        if (item.data) this.items[newId].setData(item.data)
+        if (item.preview) this.items[newId].setPreview(item.preview)
+        if (item.index) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
+        if (item.description) this.items[newId].setDescription(item.description)
+        if (item.action) this.items[newId].setAction(item.action)
+        if (item.data) this.items[newId].setData(item.data)
+        if (item.prefix) this.items[newId].setPrefix(item.prefix)
+        if (item.statistics) this.items[newId].setStatistics(item.statistics)
+        if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
+        if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
+        if (item.disabled != undefined) this.items[newId].setDisabled(item.disabled)
+        if (item.visible != undefined) this.items[newId].setVisible(item.visible)
+        if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
+        if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
+      });
+    }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
-    if (data.translateTitle !== undefined) this.setTranslateTitle(data.translateTitle)
+    if (data.translateTitle != undefined) this.setTranslateTitle(data.translateTitle)
+    if (data.type) this.setType(data.type)
   }
 
   setTitle(title) {
     this.title = title
+  }
+
+  setType(value) {
+    this.type = value
   }
 
   setCurrent(value) {
@@ -234,7 +238,7 @@ state.lang = {
   devise: '$',
   number: 'Number %1',
   free: 'Free',
-  variation: 'Variation'
+  variation: 'Variation',
 }
 
 state.menus = {
@@ -280,7 +284,7 @@ const actions = {
   menuBack({ commit, dispatch, state }) {
     commit('MENU_BACK')
     if (state.show)
-     dispatch('updatePreview')
+      dispatch('updatePreview')
   },
   menuDown({ commit, dispatch }) {
     commit('MENU_DOWN')
@@ -293,30 +297,30 @@ const actions = {
   sliderLeft({ commit, dispatch,getters }) {
     if (getters.cItem.disabled) return
     commit('SLIDER_LEFT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   sliderRight({ commit, dispatch, getters }) {
     if (getters.cItem.disabled) return
     commit('SLIDER_RIGHT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   setSliderCurrent({ commit, dispatch}, value) {
     commit('SET_SLIDER_CURRENT', value)
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   colorLeft({ commit, dispatch }) {
     commit('COLOR_LEFT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   colorRight({ commit, dispatch }) {
     commit('COLOR_RIGHT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
-  updatePreview({ state, getters }) {
+  updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
-    if (getters.cItem.preview)
+    let item = getters.cItem
+    if (item.preview || force)
     {
-      let item = getters.cItem
       if (item.slider) {
         if (item.sliderType == "switch") {
           API.post('updatePreview',{
@@ -484,6 +488,12 @@ const mutations = {
       if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
     }
+    if (item.sliderType == "palette") {
+      if (slider.current > 0) {
+        slider.current--;
+        API.PlayAudio(state.audios.button)
+      }
+    }
   },
   SLIDER_RIGHT (state) {
     let item = this.getters.cItem
@@ -498,6 +508,12 @@ const mutations = {
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
+    }
+    if (item.sliderType == "palette") {
+      if (slider.current < (item.slider.max-1)) {
+        slider.current++;
+        API.PlayAudio(state.audios.button)
+      }
     }
   },
   SET_SLIDER_CURRENT (state,value) {
@@ -606,6 +622,12 @@ const mutations = {
     if (Index == -1)
       return
     state.menus[data.menu].items[Index].setDisabled(data.disabled)
+  },
+  UPDATE_ITEM(state,data) {
+    let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
+    if (Index == -1)
+      return
+    state.menus[data.menu].items[Index] = API.deepMerge(state.menus[data.menu].items[Index], data.item)
   }
 }
 
@@ -636,14 +658,15 @@ if (import.meta.env.DEV) {
           title: 'Bald good',
           prefix:"star",
           icon:"pants",
-          index: 'good5',
+          index: 'first',
           price: {money:5.0,gold:10},
           preview: true,
-          sliderType: 'switch',
+          sliderType: 'palette',
           slider: {
             title: 'Color',
             current: 0,
-            values: [{label:1},{label:2},{label:3}]
+            tint: 'tint_generic_clean',
+            max: 256
           }
         },
         {
@@ -658,6 +681,13 @@ if (import.meta.env.DEV) {
           child: 'categories',
           price: {money:5.0,gold:10},
           preview: true,
+          sliderType: 'palette',
+          slider: {
+            title: 'Color',
+            current: 0,
+            tint: 'tint_makeup',
+            max: 64
+          }
         },
         {
           title: 'Bald',
@@ -761,5 +791,16 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+
+  setTimeout(() => {
+    window.postMessage({
+      event: 'updateItem',
+      menu: 'home',
+      index: 'first',
+      item: {
+        description: "test"
+      }
+    })
+  }, 2000);
 }
 

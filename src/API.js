@@ -1,6 +1,7 @@
 import store from '@/store'
 
 var BASE_URL = 'https://kd_menu/'
+var audio
 
 /* eslint-disable camelcase */
 class API {
@@ -107,6 +108,10 @@ class API {
     store.commit('UPDATE_BOUGHT_ITEMS', data.list)
   }
 
+  updateItem(data) {
+    store.commit('UPDATE_ITEM', data)
+  }
+
   updateItemVisibility(data) {
     store.commit('UPDATE_ITEM_VISIBILITY', data)
   }
@@ -169,9 +174,36 @@ class API {
       link = `./${name}`
     }
     var url = new URL(link, import.meta.url).href;
-    var audio = new Audio(url); // path to file
+    
+    if (name == "button.mp3" && audio && !audio.paused && audio.src == url) {
+      if (audio.currentTime < 0.015) return
+    }
+    audio = new Audio(url); // path to file
     audio.volume = this.audioVolume
     audio.play();
+  }
+
+  deepMerge = function (obj1, obj2) {
+    // Create a new object that combines the properties of both input objects
+    const merged = {
+      ...obj1,
+      ...obj2
+    };
+    // Loop through the properties of the merged object
+    for (const key of Object.keys(merged)) {
+      // Check if the property is an object
+      if (typeof merged[key] === 'object' && merged[key] !== null) {
+        // If the property is an object, recursively merge the objects
+        if (obj1[key] == null) {
+          merged[key] = obj2[key]
+        } else if (obj2[key] == null) {
+          merged[key] = obj1[key]
+        } else {
+          merged[key] = this.deepMerge(obj1[key], obj2[key]);
+        }
+      }
+    }
+    return merged;
   }
 }
 
