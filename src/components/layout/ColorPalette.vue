@@ -2,9 +2,9 @@
   <div class="colorPicker" v-if="!cItem.disabled && cItem.slider && cItem.sliderType == 'palette'">
     <h2>{{ lang(cItem.slider.title) }}</h2>
     <div class="arrows">
-      <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="arrow left clicker" @click="sliderLeft()"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
       <div class="text hapna">{{ numItem() }}</div>
-      <div class="arrow right"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow right clicker" @click="sliderRight()"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <input type="range" min=0, :max="cItem.slider.max-1" class="palette" :style="background()" :value="cItem.slider.current" @input='change'/>
   </div>
@@ -25,7 +25,7 @@ export default {
   mounted() {
   },
   methods: {
-    ...mapActions(['setSliderCurrent']),
+    ...mapActions(['setSliderCurrent','sliderLeft','sliderRight','setSliderCurrent']),
     background() {
       return {backgroundImage:'url('+new URL(`../../assets/images/menu/${this.cItem.slider.tint}.png`, import.meta.url).href+')'}
     },
