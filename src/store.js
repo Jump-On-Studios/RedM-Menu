@@ -284,7 +284,7 @@ const actions = {
   menuBack({ commit, dispatch, state }) {
     commit('MENU_BACK')
     if (state.show)
-     dispatch('updatePreview')
+      dispatch('updatePreview')
   },
   menuDown({ commit, dispatch }) {
     commit('MENU_DOWN')
@@ -297,30 +297,30 @@ const actions = {
   sliderLeft({ commit, dispatch,getters }) {
     if (getters.cItem.disabled) return
     commit('SLIDER_LEFT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   sliderRight({ commit, dispatch, getters }) {
     if (getters.cItem.disabled) return
     commit('SLIDER_RIGHT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   setSliderCurrent({ commit, dispatch}, value) {
     commit('SET_SLIDER_CURRENT', value)
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   colorLeft({ commit, dispatch }) {
     commit('COLOR_LEFT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
   colorRight({ commit, dispatch }) {
     commit('COLOR_RIGHT')
-    dispatch('updatePreview')
+    dispatch('updatePreview', true)
   },
-  updatePreview({ state, getters }) {
+  updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
-    if (getters.cItem.preview)
+    let item = getters.cItem
+    if (item.preview || force)
     {
-      let item = getters.cItem
       if (item.slider) {
         if (item.sliderType == "switch") {
           API.post('updatePreview',{
