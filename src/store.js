@@ -4,6 +4,7 @@ import API from './API'
 class MenuItem {
   title = '';
   icon = false;
+  iconRight = false;
   iconClass = '';
   child = false;
   slider = false;
@@ -96,6 +97,9 @@ class MenuItem {
   setDisabled(value) {
     this.disabled = value
   }
+  setIconRight(value) {
+    this.iconRight = value
+  }
 }
 
 class ItemStatistic {
@@ -148,6 +152,7 @@ class Menu {
         if (item.visible != undefined) this.items[newId].setVisible(item.visible)
         if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
         if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
+        if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -394,6 +399,10 @@ const mutations = {
       state.menus[data.id].offset = offset 
       state.menus[data.id].setCurrent(current)
     }
+  },
+  UPDATE_MENU_DATA(state, data) {
+    if (!state.menus[data.menu]) return
+    state.menus[data.menu] = API.deepMerge(state.menus[data.menu], data.data)
   },
   RESET_MENU (state, menu) {
     if (state.menus[menu]) {
@@ -694,6 +703,7 @@ if (import.meta.env.DEV) {
           prefix:"star",
           //icon:"pants",
           iconClass:'fred',
+          iconRight: 'tick',
           title: 'Bald good',
           prefix:"star",
           icon:"pants",
@@ -790,17 +800,15 @@ if (import.meta.env.DEV) {
       event:"show",
       show:true
     })
+    window.postMessage({
+      event:'setEquipedItem',
+      data: {
+        id: 'home',
+        index: 'first',
+        variation: 1,
+      }
+	  })
   },200)
 
-  setTimeout(() => {
-    window.postMessage({
-      event: 'updateItem',
-      menu: 'home',
-      index: 'first',
-      item: {
-        description: "test"
-      }
-    })
-  }, 2000);
 }
 

@@ -58,6 +58,10 @@ class API {
     store.commit('UPDATE_MENU', data.menu)
   }
 
+  updateMenuData(data) {
+    store.commit('UPDATE_MENU_DATA', data)
+  }
+
   resetMenu(data) {
     store.commit('RESET_MENU', data.menu)
   }

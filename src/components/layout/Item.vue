@@ -11,6 +11,11 @@
         <img src="@/assets/images/menu/tick.png">
       </div>
     </div>
+    <div class="current" v-if="item.iconRight">
+      <div class="tick" v-if="item.iconRight == 'tick'">
+        <img src="@/assets/images/menu/tick.png">
+      </div>
+    </div>
     <h3>
       <div class="prefix" v-if="item.prefix" :class="[{'bw':item.disabled}]">
         <img :class="item.prefix" :src="getImage(item.prefix)" />
