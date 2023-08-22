@@ -105,6 +105,7 @@ class MenuItem {
 class ItemStatistic {
   label = ""
   type = "bar"
+  class = ""
   value = [0,0,10]
 }
 
@@ -711,6 +712,11 @@ if (import.meta.env.DEV) {
           child: 'categories',
           price: {money:5.0,gold:10},
           preview: true,
+          statistics: [
+            {label:"race", value:[5,10], class:"penalty"},
+            {label:"race", type:"bar-style", value:['fred active','active fgold','active',''], class:"penalty"},
+            {label:"race2", type:"icon", value: [{icon:"horse_stow",opacity:1},{icon:"horse_stow",opacity:0.5}]}
+          ]
         },
         {
           title: 'Bald',

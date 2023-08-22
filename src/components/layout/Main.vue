@@ -54,7 +54,8 @@ import { mapGetters, mapActions } from 'vuex'
     data() {
       return {
         keyPressed: {},
-        focus: false
+        focus: false,
+        mountedDate: 0
       }
     },
     computed: {
@@ -70,6 +71,7 @@ import { mapGetters, mapActions } from 'vuex'
         if (this.keyPressed[e.key]) return
         
         this.keyPressed[e.key] = true
+        if (Date.now()-this.mountedDate < 100) return
         switch(e.key) {
           case 'Enter':
             this.menuEnter()
@@ -101,11 +103,16 @@ import { mapGetters, mapActions } from 'vuex'
       document.addEventListener('focusin', this.focusIn);
       document.addEventListener('focusout', this.focusOut);
     },
+    mounted () {
+      this.mountedDate = Date.now();
+      this.$API.PlayAudio('menu_open.mp3');
+    },
     beforeUnmount () {
       window.removeEventListener('keydown', this.handleKeydown);
       window.removeEventListener('keyup', this.handleKeyUp);
       document.removeEventListener('focusin', this.focusIn);
       document.removeEventListener('focusout', this.focusOut);
+      this.$API.PlayAudio('menu_close.mp3');
     }
   }
 </script>
