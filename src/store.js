@@ -11,6 +11,7 @@ class MenuItem {
   sliderType = "slider"
   colors = false;
   price = false;
+  priceTitle = false;
   data = {};
   preview = false;
   index = 0;
@@ -100,6 +101,9 @@ class MenuItem {
   setIconRight(value) {
     this.iconRight = value
   }
+  setPriceTitle(value) {
+    this.priceTitle = value
+  }
 }
 
 class ItemStatistic {
@@ -139,6 +143,7 @@ class Menu {
         if (item.child) this.items[newId].setChild(item.child)
         if (item.colors) this.items[newId].setColors(item.colors)
         if (item.price) this.items[newId].setPrice(item.price)
+        if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
         if (item.index) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
@@ -415,7 +420,6 @@ const mutations = {
     let items = this.getters.menuItems
     if (menu.currentItem < items.length -1) {
       menu.currentItem++;
-      API.PlayAudio(state.audios.button)
       let gap = 0
       for (let index = menu.offset; index < items.length; index++) {
         gap += (items[index].icon)?2:1
@@ -429,6 +433,7 @@ const mutations = {
       menu.currentItem = 0;
       menu.offset = 0
     }
+    API.PlayAudio(state.audios.button)
     
   },
   MENU_UP (state) {
