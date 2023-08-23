@@ -2,7 +2,8 @@
   <div class="price" v-if="cItem.price">
     <div class="divider"></div>
     <div class="content">
-      <h4>{{ lang('price') }}</h4>
+      <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
+      <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
         <span class="gold" v-if="typeof(cItem.price) == 'object'">
           <span class="icon">
