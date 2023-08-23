@@ -1,6 +1,6 @@
 <template>
   <div class="statistic">
-    <div class="label">{{ getLabel() }}</div>
+    <div class="label" v-html="getLabel()"></div>
     <div class="value"  v-if="typeof stat.value != 'object'" v-html="getValue()">
     </div>
     <div :class="['stat-bars', stat.class]" v-else-if="stat.type == 'bar'">
