@@ -405,6 +405,9 @@ const mutations = {
       state.menus[data.id].offset = offset 
       state.menus[data.id].setCurrent(current)
     }
+    if (state.currentMenu == data.id) {
+      this.dispatch('updatePreview')
+    }
   },
   UPDATE_MENU_DATA(state, data) {
     if (!state.menus[data.menu]) return
@@ -656,6 +659,10 @@ export default createStore({
 
 if (import.meta.env.DEV) {
   window.postMessage({
+    event:'setCurrentMenu',
+    id: 'home'
+  })
+  window.postMessage({
     event:'updateMenu',
     menu: {
       id: 'home',
@@ -801,10 +808,6 @@ if (import.meta.env.DEV) {
       equipedColor: 5,
       items: [],
     }
-  })
-  window.postMessage({
-    event:'setCurrentMenu',
-    id: 'home'
   })
   setTimeout(function() {
     window.postMessage({

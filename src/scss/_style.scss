@@ -509,7 +509,7 @@ main {
           opacity: 0.5;
         }
       }
-      &.penalty .possible {
+      &.penalty .possible:not(.active) {
         filter: brightness(0.5) sepia(1) saturate(10000%);
         opacity: 0.75;
       }
