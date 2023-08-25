@@ -6,7 +6,7 @@
       <div class="text hapna">{{ numItem() }}</div>
       <div class="arrow right clicker" @click="sliderRight()"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
     </div>
-    <input type="range" min=0, :max="cItem.slider.max-1" class="palette" :style="background()" :value="cItem.slider.current" @input='change'/>
+    <input type="range" min=0 :max="cItem.slider.max" class="palette" :style="background()" :value="cItem.slider.current" @input='change'/>
   </div>
 </template>
 
@@ -30,10 +30,11 @@ export default {
       return {backgroundImage:'url('+new URL(`../../assets/images/menu/${this.cItem.slider.tint}.png`, import.meta.url).href+')'}
     },
     numItem() {
-      return this.$API.sprintf(this.lang('of'),this.cItem.slider.current+1, this.cItem.slider.max)
+      return this.$API.sprintf(this.lang('of'),this.cItem.slider.current+1, this.cItem.slider.max+1)
     },
     change(e) {
       let value = e.target.value
+      e.target.blur()
       if (value == this.cItem.slider.current) return
       this.setSliderCurrent(parseInt(value))
     }

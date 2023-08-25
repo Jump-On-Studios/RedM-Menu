@@ -38,7 +38,7 @@ class MenuItem {
     this.icon = icon
   }
   setSlider(slider) {
-    this.slider = {...{current:1,values:[]},...slider}
+    this.slider = {...{current:0,values:[]},...slider}
   }
   setChild(value) {
     this.child = value
@@ -529,7 +529,7 @@ const mutations = {
       API.PlayAudio(state.audios.button)
     }
     if (item.sliderType == "palette") {
-      if (slider.current < (item.slider.max-1)) {
+      if (slider.current < (item.slider.max)) {
         slider.current++;
         API.PlayAudio(state.audios.button)
       }
@@ -687,7 +687,7 @@ if (import.meta.env.DEV) {
           sliderType: 'palette',
           slider: {
             title: 'Color',
-            current: 0,
+            current: 1,
             tint: 'tint_generic_clean',
             max: 256
           }
@@ -700,101 +700,16 @@ if (import.meta.env.DEV) {
           title: 'Bald good',
           prefix:"star",
           icon:"pants",
-          index: 'good5',
-          child: 'categories',
+          index: 'first',
           price: {money:5.0,gold:10},
           preview: true,
           sliderType: 'palette',
           slider: {
             title: 'Color',
             current: 0,
-            tint: 'tint_makeup',
-            max: 64
+            tint: 'tint_generic_clean',
+            max: 256
           }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          iconRight: 'tick',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
-          statistics: [
-            {label:"race", value:[5,10], class:"penalty"},
-            {label:"race", type:"bar-style", value:['fred active','active fgold','active',''], class:"penalty"},
-            {label:"race2", type:"icon", value: [{icon:"horse_stow",opacity:1},{icon:"horse_stow",opacity:0.5}]}
-          ]
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'good5',
-          child: 'categories',
-          price: {money:5.0,gold:10},
-          preview: true,
         },
       ],
     }
