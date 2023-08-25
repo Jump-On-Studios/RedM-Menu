@@ -477,9 +477,10 @@ const mutations = {
       }
     }
   },
-  MENU_SWITCH (state,name) {
+  MENU_SWITCH (state,data) {
     state.parentTree.push(state.currentMenu)
-    state.currentMenu = name
+    if (data.reset) state.menus[data.menu].reset()
+    state.currentMenu = data.menu
     API.PlayAudio(state.audios.button)
   },
   MENU_BACK (state) {

@@ -67,7 +67,7 @@ class API {
   }
 
   menuSwitch(data) {
-    store.commit('MENU_SWITCH', data.menu)
+    store.commit('MENU_SWITCH', data)
     store.dispatch('updatePreview')
   }
 
