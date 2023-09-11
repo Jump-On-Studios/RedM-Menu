@@ -682,7 +682,7 @@ if (import.meta.env.DEV) {
           prefix:"star",
           icon:"pants",
           index: 'first',
-          price: {money:5.0,gold:10},
+          price: {gold:10},
           preview: true,
           sliderType: 'palette',
           slider: {
@@ -702,6 +702,44 @@ if (import.meta.env.DEV) {
           icon:"pants",
           index: 'first',
           price: {money:5.0,gold:10},
+          preview: true,
+          sliderType: 'palette',
+          slider: {
+            title: 'Color',
+            current: 0,
+            tint: 'tint_generic_clean',
+            max: 256
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'first',
+          price: {money:5.0},
+          preview: true,
+          sliderType: 'palette',
+          slider: {
+            title: 'Color',
+            current: 0,
+            tint: 'tint_generic_clean',
+            max: 256
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'first',
+          price: 5.0,
           preview: true,
           sliderType: 'palette',
           slider: {

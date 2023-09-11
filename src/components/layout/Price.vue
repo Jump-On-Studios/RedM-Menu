@@ -5,15 +5,27 @@
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <span class="gold" v-if="typeof(cItem.price) == 'object'">
-          <span class="icon">
-            <img src="@/assets/images/gold.png">
+        <template v-if="cItem.price.gold && cItem.price.money">
+          <span class="gold left" v-if="typeof(cItem.price) == 'object'">
+            <span class="icon">
+              <img src="@/assets/images/gold.png">
+            </span>
+            {{ gold() }}
           </span>
-          {{ gold() }}
-        </span>
-        <span class="devise">{{ devise() }}</span>
-        <span class="round">{{ priceRounded() }}</span>
-        <span class="centime">{{ centimes() }}</span>
+        </template>
+        <template v-if="cItem.price.gold && !cItem.price.money">
+          <span class="gold">
+            <span class="icon">
+              <img src="@/assets/images/gold.png">
+            </span>
+            <span class="round">{{ gold() }}</span>
+          </span>
+        </template>
+        <template v-else>
+          <span class="devise">{{ devise() }}</span>
+          <span class="round">{{ priceRounded() }}</span>
+          <span class="centime">{{ centimes() }}</span>
+        </template>
       </div>
     </div>
     <div class="divider bottom"></div>
