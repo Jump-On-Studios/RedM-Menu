@@ -25,7 +25,7 @@ export default {
     ...mapGetters(['lang','menu','equipedItems','currentMenu','menuItems'])
   },
   methods: {
-    ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight']),
+    ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight','colorLeft','colorRight']),
     getTitle(item) {
       if (item.title.length > 0) {
         if (!item.translate) return item.title
@@ -59,7 +59,15 @@ export default {
       return;
     },
     handleWheel(e) {
-      if (e.target.closest('.slider') != null) {
+      if (e.target.closest('.slider.color') != null) {
+        if (e.deltaY < 0) {
+          this.colorLeft()
+        } else {
+          this.colorRight()
+        }
+        return
+      }
+      else if ((e.target.closest('.slider') != null) || (e.target.closest('.colorPicker') != null)) {
         if (e.deltaY < 0) {
           this.sliderLeft()
         } else {
