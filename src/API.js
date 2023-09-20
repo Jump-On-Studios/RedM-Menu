@@ -18,6 +18,7 @@ class API {
       } else if (event.data.resourceName !== undefined) {
         BASE_URL = 'https://'+event.data.resourceName+"/"
       } else {
+        if (!event.data.event) return
         console.log("Error : this event doesn't exist: "+ event.data.event, event.data)
         console.log(event)
       }
