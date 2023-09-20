@@ -2,14 +2,16 @@
   <div class="slider color" v-if="!cItem.disabled && cItem.colors">
     <h2>{{ lang(cItem.colors.title) }}</h2>
     <div class="arrows">
-      <div class="arrow left"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="arrow left" @click="colorLeft()"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
       <div class="text hapna">{{ numItem() }}</div>
-      <div class="arrow right"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow right" @click="colorRight()"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <div class="color-boxes">
       <div v-for="(color,index) in colorsDisplayed()"
         :key="index"
-        :class="['box',{'current' : cItem.colors.offset + index == cItem.colors.current}]">
+        :class="['box',{'current' : cItem.colors.offset + index == cItem.colors.current}]"
+        @click="click(cItem.colors.offset + index)"
+      >
         <img :src="getImage(color)" />
         <div class="tick" v-if="isCurrentColor(index)">
           <img src="@/assets/images/menu/tick.png">
@@ -26,7 +28,7 @@ export default {
     ...mapGetters(['menu','cItem','lang', 'colors','currentMenu','equipedItems'])
   },
   methods: {
-    ...mapActions(['colorLeft','colorRight']),
+    ...mapActions(['colorLeft','colorRight','setColorCurrent']),
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.cItem.colors.current+1, this.cItem.colors.values.length)
     },
@@ -57,6 +59,10 @@ export default {
           return;
       }
       return;
+    },
+    click(index) {
+      if (index == this.cItem.colors.current) return
+      this.setColorCurrent(index)
     }
   },
   beforeMount () {

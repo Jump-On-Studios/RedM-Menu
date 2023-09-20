@@ -327,6 +327,10 @@ const actions = {
     commit('COLOR_RIGHT')
     dispatch('updatePreview', true)
   },
+  setColorCurrent({commit,dispatch},value) {
+    commit('SET_COLOR_CURRENT', value)
+    dispatch('updatePreview', true)
+  },
   updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
     let item = getters.cItem
@@ -581,6 +585,20 @@ const mutations = {
     }
     API.PlayAudio(state.audios.button)
   },
+  SET_COLOR_CURRENT (state,value) {
+    let item = this.getters.cItem
+    item.colors.current = value
+    let menu = this.getters.menu
+    if (menu.globalColor) {
+      menu.items.forEach(i => {
+        if (i.colors) {
+          i.colors.current = item.colors.current
+          i.colors.offset = item.colors.offset
+        }
+      })
+    }
+    API.PlayAudio(state.audios.button)
+  },
   SET_EQUIPED_ITEM (state, data) {
     if (!state.menus[data.id]) return;
     state.menus[data.id].setEquipedItem({
@@ -671,7 +689,7 @@ if (import.meta.env.DEV) {
       translateTitle: false,
       numberOnScreen : 8,
       globalColor: true,
-      equipedColor: 5,
+      equipedColor: 1,
       items: [
         {
           title: 'Bald',
@@ -684,12 +702,34 @@ if (import.meta.env.DEV) {
           index: 'first',
           price: {gold:10},
           preview: true,
-          sliderType: 'palette',
-          slider: {
-            title: 'Color',
-            current: 1,
-            tint: 'tint_generic_clean',
-            max: 256
+          colors: {
+            title: "Color",
+            current: 0,
+            offset: 0,
+            values: [
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+              {texture: 'BLONDE',hash: 0},
+            ]
           }
         },
         {
@@ -702,44 +742,6 @@ if (import.meta.env.DEV) {
           icon:"pants",
           index: 'first',
           price: {money:5.0,gold:10},
-          preview: true,
-          sliderType: 'palette',
-          slider: {
-            title: 'Color',
-            current: 0,
-            tint: 'tint_generic_clean',
-            max: 256
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'first',
-          price: {money:5.0},
-          preview: true,
-          sliderType: 'palette',
-          slider: {
-            title: 'Color',
-            current: 0,
-            tint: 'tint_generic_clean',
-            max: 256
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          icon:"pants",
-          index: 'first',
-          price: 5.0,
           preview: true,
           sliderType: 'palette',
           slider: {
@@ -768,14 +770,6 @@ if (import.meta.env.DEV) {
       event:"show",
       show:true
     })
-    window.postMessage({
-      event:'setEquipedItem',
-      data: {
-        id: 'home',
-        index: 'first',
-        variation: 1,
-      }
-	  })
   },200)
 
 }
