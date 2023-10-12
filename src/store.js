@@ -693,44 +693,20 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Bald',
-          prefix:"star",
+          prefix:"lock",
+          disabled:true,
           //icon:"pants",
           iconClass:'fred',
           title: 'Bald good',
-          prefix:"star",
           icon:"pants",
           index: 'first',
           price: {gold:10},
           preview: true,
-          colors: {
-            title: "Color",
-            current: 0,
-            offset: 0,
-            values: [
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-              {texture: 'BLONDE',hash: 0},
-            ]
-          }
+          statistics: [
+            {label: "Normal", value: [2,10]},
+            {label: "Weapon bar", value: [100,100], type:"weapon-bar"},
+            {label: "Weapon bar", value: [33,100], type:"weapon-bar"},
+          ]
         },
         {
           title: 'Bald',

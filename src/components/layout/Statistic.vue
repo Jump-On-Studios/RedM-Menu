@@ -11,6 +11,14 @@
       <div v-for="(bar,index) in stat.value" :key="index" :class="['stat-bar',bar]">
       </div>
     </div>
+    <div :class="['weapon-bar', stat.class]" v-else-if="stat.type == 'weapon-bar'">
+      <div class="box background">
+        <img :src="getMenuImage('weapon_stats_bar')">
+      </div>
+      <div class="box amount" :style="{'clipPath': 'inset(0 '+ (100 - (stat.value[0]/stat.value[1])*100) + '% 0 0)'}">
+        <img :src="getMenuImage('weapon_stats_bar')">
+      </div>
+    </div>
     <div class="stat-icons" v-if="stat.type == 'icon'">
       <div v-for="(icon,index) in stat.value" :key="index" class='icon'>
         <img :style=getImageStyle(icon) :src="getImage(icon)" />
@@ -44,6 +52,11 @@ export default {
       if (typeof image == "object")
         return new URL(`../../assets/images/icons/${image.icon}.png`, import.meta.url).href;
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
+    },
+    getMenuImage(image) {
+      if (typeof image == "object")
+        return new URL(`../../assets/images/menu/${image.icon}.png`, import.meta.url).href;
+      return new URL(`../../assets/images/menu/${image}.png`, import.meta.url).href;
     },
     getImageStyle(icon) {
       if (typeof icon == "object") {

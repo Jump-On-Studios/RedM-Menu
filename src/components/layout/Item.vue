@@ -17,7 +17,7 @@
       </div>
     </div>
     <h3>
-      <div class="prefix" v-if="item.prefix" :class="[{'bw':item.disabled}]">
+      <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
         <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
       <span v-html="getTitle()"></span>
