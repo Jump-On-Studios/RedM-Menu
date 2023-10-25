@@ -12,6 +12,7 @@ class MenuItem {
   colors = false;
   price = false;
   priceTitle = false;
+  priceRight = false;
   data = {};
   preview = false;
   index = 0;
@@ -38,7 +39,7 @@ class MenuItem {
     this.icon = icon
   }
   setSlider(slider) {
-    this.slider = {...{current:0,values:[]},...slider}
+    this.slider = {...{current:0,values:[], offset:0},...slider}
   }
   setChild(value) {
     this.child = value
@@ -104,6 +105,9 @@ class MenuItem {
   setPriceTitle(value) {
     this.priceTitle = value
   }
+  setPriceRight(value) {
+    this.priceRight = value
+  }
 }
 
 class ItemStatistic {
@@ -143,6 +147,7 @@ class Menu {
         if (item.child) this.items[newId].setChild(item.child)
         if (item.colors) this.items[newId].setColors(item.colors)
         if (item.price) this.items[newId].setPrice(item.price)
+        if (item.priceRight) this.items[newId].setPriceRight(item.priceRight)
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
@@ -400,17 +405,27 @@ const mutations = {
   UPDATE_MENU (state,data) {
     let current = -1
     let offset = -1
-    if (state.menus[data.id]) {
-      current = state.menus[data.id].currentItem
-      offset = state.menus[data.id].offset
+    if (state.menus[data.menu.id]) {
+      current = state.menus[data.menu.id].currentItem
+      offset = state.menus[data.menu.id].offset
     }
-    state.menus[data.id] = new Menu(data)
+    state.menus[data.menu.id] = new Menu(data.menu)
     if (current > -1) {
-      state.menus[data.id].offset = offset 
-      state.menus[data.id].setCurrent(current)
+      state.menus[data.menu.id].offset = offset 
+      state.menus[data.menu.id].setCurrent(current)
     }
-    if (state.currentMenu == data.id) {
+    if (data.reset) {
+      state.menus[data.menu.id].reset()
+    }
+    if (state.currentMenu == data.menu.id) {
       this.dispatch('updatePreview')
+    }
+    if (data.switch) {
+      window.postMessage({
+        event:"menuSwitch",
+        reset:data.reset||false,
+        menu:data.menu.id
+      })
     }
   },
   UPDATE_MENU_DATA(state, data) {
@@ -694,19 +709,25 @@ if (import.meta.env.DEV) {
         {
           title: 'Bald',
           prefix:"lock",
-          disabled:true,
           //icon:"pants",
           iconClass:'fred',
           title: 'Bald good',
-          icon:"pants",
           index: 'first',
-          price: {gold:10},
+          priceRight: {money:10},
           preview: true,
-          statistics: [
-            {label: "Normal", value: [2,10]},
-            {label: "Weapon bar", value: [100,100], type:"weapon-bar"},
-            {label: "Weapon bar", value: [33,100], type:"weapon-bar"},
-          ]
+          colors: {
+            title: "Color",
+            current: 0,
+            offset: 0,
+            values: [
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'}
+            ]
+          }
         },
         {
           title: 'Bald',
@@ -717,14 +738,19 @@ if (import.meta.env.DEV) {
           prefix:"star",
           icon:"pants",
           index: 'first',
+          priceRight: {money:5.0,gold:10},
           price: {money:5.0,gold:10},
           preview: true,
-          sliderType: 'palette',
+          sliderType: 'colorBox',
           slider: {
             title: 'Color',
-            current: 0,
-            tint: 'tint_generic_clean',
-            max: 256
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
           }
         },
       ],

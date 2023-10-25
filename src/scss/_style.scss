@@ -195,11 +195,22 @@ main {
           filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
         }
       }
+      .title {
+        flex: 1 1 auto;
+      }
       .sufix {
-        margin-left: auto;
         font-size: 0.65em;
         .arrows {
           column-gap: 10px;
+        }
+      }
+      .priceRight {
+        font-size: 1.5em;
+        position: relative;
+        display: block;
+        top: 3px;
+        .gold img {
+          width: 20px;
         }
       }
     }
@@ -438,26 +449,29 @@ main {
     h4 {
       font-size: 1.5em;
     }
-    .amount {
-      display: flex;
-      align-items: start;
-      font-size: 2em;
-      .centime {
-        position: relative;
-        font-size: 0.6em;
-        margin-left: 2px;
-        margin-top: 2px;
-        &::after {
-          content: '';
-          position: absolute;
-          display: block;
-          background-image: url('@/assets/images/menu/money_line.png');
-          height: 5px;
-          width: 100%;
-          left: 0;
-          bottom: 0;
-        }
-      }
+  }
+  .priceDisplay {
+    font-size: 2em;
+  }
+}
+.priceDisplay {
+  display: flex;
+  position: relative;
+  .centime {
+    position: relative;
+    font-size: 0.6em;
+    margin-left: 2px;
+    margin-top: 2px;
+    height: fit-content;
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      background-image: url('@/assets/images/menu/money_line.png');
+      height: 5px;
+      width: 100%;
+      left: 0;
+      bottom: 0;
     }
   }
   .divider.bottom {

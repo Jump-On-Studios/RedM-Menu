@@ -5,27 +5,7 @@
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <template v-if="cItem.price.gold && cItem.price.money">
-          <span class="gold left" v-if="typeof(cItem.price) == 'object'">
-            <span class="icon">
-              <img src="@/assets/images/gold.png">
-            </span>
-            {{ gold() }}
-          </span>
-        </template>
-        <template v-if="cItem.price.gold && !cItem.price.money">
-          <span class="gold">
-            <span class="icon">
-              <img src="@/assets/images/gold.png">
-            </span>
-            <span class="round">{{ gold() }}</span>
-          </span>
-        </template>
-        <template v-else>
-          <span class="devise">{{ devise() }}</span>
-          <span class="round">{{ priceRounded() }}</span>
-          <span class="centime">{{ centimes() }}</span>
-        </template>
+        <PriceDisplay :price="cItem.price" />
       </div>
     </div>
     <div class="divider bottom"></div>
@@ -34,8 +14,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import PriceDisplay from './PriceDisplay.vue'
 
 export default {
+  components: {
+    PriceDisplay
+  },
   computed: {
     ...mapGetters(['cItem','isItemBought','lang','menu'])
   },

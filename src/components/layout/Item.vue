@@ -20,13 +20,16 @@
       <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
         <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
-      <span v-html="getTitle()"></span>
+      <span class="title" v-html="getTitle()"></span>
       <div class="sufix" v-if="!item.disabled && item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
         <div class="arrows" @click.stop="">
           <div class="arrow left clicker" @click="sliderLeft()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
           <div class="text hapna">{{ getSufixLabel()}}</div>
           <div class="arrow right clicker" @click="sliderRight()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
         </div>
+      </div>
+      <div class="priceRight" v-if="item.priceRight">
+        <PriceDisplay :price="item.priceRight" />
       </div>
     </h3>
     <div class="background"></div>
@@ -35,7 +38,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import PriceDisplay from './PriceDisplay.vue'
+
 export default {
+  components: {
+    PriceDisplay
+  },
   computed: {
     ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios'])
   },
