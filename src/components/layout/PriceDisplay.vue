@@ -64,8 +64,6 @@ export default {
       return this.lang('devise')
     }
   },
-  props : {
-    price : Object
-  },
+  props : ['price'],
 }
 </script>

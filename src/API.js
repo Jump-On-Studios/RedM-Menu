@@ -168,6 +168,14 @@ class API {
   updatestatistics(data) {
     store.commit('UPDATE_STATISTICS', {menu: data.menu, index: data.index, statistics: data.statistics})
   }
+  
+  newGlobalPrice(data) {
+    store.commit('NEW_GLOBAL_PRICE', data.data)
+  }
+
+  updateGlobalPrice(data) {
+    store.commit('UPDATE_GLOBAL_PRICE', data.data)
+  }
 
 
   

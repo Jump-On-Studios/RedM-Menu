@@ -1,11 +1,21 @@
 <template>
-  <div class="price" v-if="cItem.price">
+  <div class="price" v-if="cItem && cItem.price">
     <div class="divider"></div>
     <div class="content">
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
         <PriceDisplay :price="cItem.price" />
+      </div>
+    </div>
+    <div class="divider bottom"></div>
+  </div>
+  <div class="price" v-if="globalPrice">
+    <div class="divider"></div>
+    <div class="content">
+      <h4>{{ lang(globalPrice.title) }}</h4>
+      <div class="amount">
+        <PriceDisplay :price="globalPrice.price" />
       </div>
     </div>
     <div class="divider bottom"></div>
@@ -21,7 +31,7 @@ export default {
     PriceDisplay
   },
   computed: {
-    ...mapGetters(['cItem','isItemBought','lang','menu'])
+    ...mapGetters(['cItem','isItemBought','lang','menu','globalPrice'])
   },
   methods: {
     gold() {

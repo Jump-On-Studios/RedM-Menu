@@ -29,8 +29,8 @@
         <Slider />
         <Color />
         <ColorPalette />
-        <Price />
       </template>
+      <Price />
     </div>
     
   </main>

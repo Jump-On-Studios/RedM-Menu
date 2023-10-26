@@ -117,6 +117,29 @@ class ItemStatistic {
   value = [0,0,10]
 }
 
+class globalPrice {
+  id = ""
+  menus = []
+  price = {money:0,gold:0}
+  title = "price"
+  constructor(id,menus,price = {money:0,gold:0},title="price") {
+    this.id = id
+    this.menus = menus
+    this.price = price
+    this.title = title
+  }
+  setPrice(price = {money:0,gold:0}) {
+    this.price = price
+  }
+  setMenus(menus = []) {
+    this.menus = menus
+  }
+  setTitle(title="price") {
+    this.title = title
+  }
+
+}
+
 class Menu {
   title = "";
   type = "list";
@@ -231,6 +254,7 @@ var state = {
   currentMenu : '',
   lang: {},
   menus: {},
+  globalPrices: [],
   audios: {
     button:"button.mp3",
     coin:"coins.mp3",
@@ -283,7 +307,11 @@ const getters = {
     }
     return boughtItems[String(hash)] !== undefined
   },
-  displayOutfitId: ({ displayOutfitId }) => displayOutfitId
+  displayOutfitId: ({ displayOutfitId }) => displayOutfitId,
+  globalPrice: (state) => {
+    let globalPrice = state.globalPrices.find(globalPrice => globalPrice.menus.includes(state.currentMenu))
+    return globalPrice || false
+  }
 }
 
 const actions = {
@@ -680,6 +708,28 @@ const mutations = {
     if (Index == -1)
       return
     state.menus[data.menu].items[Index] = API.deepMerge(state.menus[data.menu].items[Index], data.item)
+  },
+  NEW_GLOBAL_PRICE(state,data) {
+    let Index = state.globalPrices.findIndex((globalPrice => globalPrice.id == data.id))
+    if (Index == -1) {
+      state.globalPrices.push(new globalPrice(data.id,data.menus,data.price))
+    } else {
+      if (data.menus)
+        state.globalPrices[Index].setMenus(data.menus)
+      if (data.price)
+        state.globalPrices[Index].setPrice(data.price)
+    }
+  },
+  UPDATE_GLOBAL_PRICE(state,data) {
+    let Index = state.globalPrices.findIndex((globalPrice => globalPrice.id == data.id))
+    if (Index == -1) {
+      return console.log('GLOBAL PRICE NOT SET')
+    } else {
+      if (data.menus)
+        state.globalPrices[Index].setMenus(data.menus)
+      if (data.price)
+        state.globalPrices[Index].setPrice(data.price)
+    }
   }
 }
 
@@ -753,6 +803,50 @@ if (import.meta.env.DEV) {
             ]
           }
         },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          priceRight: {money:5.0,gold:10},
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          priceRight: {money:5.0,gold:10},
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
       ],
     }
   })
@@ -773,6 +867,28 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+
+  setTimeout(function() {
+    window.postMessage({
+      event:"newGlobalPrice",
+      data:{
+        id: "home",
+        menus: ['home'],
+        price: 5,
+        title: "totalPrice"
+      }
+    })
+  },200)
+
+  setTimeout(function() {
+    window.postMessage({
+      event:"updateGlobalPrice",
+      data:{
+        id: "home",
+        price: 15
+      }
+    })
+  },2000)
 
 }
 
