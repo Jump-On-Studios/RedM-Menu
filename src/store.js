@@ -712,12 +712,14 @@ const mutations = {
   NEW_GLOBAL_PRICE(state,data) {
     let Index = state.globalPrices.findIndex((globalPrice => globalPrice.id == data.id))
     if (Index == -1) {
-      state.globalPrices.push(new globalPrice(data.id,data.menus,data.price))
+      state.globalPrices.push(new globalPrice(data.id,data.menus,data.price,data.title))
     } else {
       if (data.menus)
         state.globalPrices[Index].setMenus(data.menus)
       if (data.price)
         state.globalPrices[Index].setPrice(data.price)
+      if (data.title)
+        state.globalPrices[Index].setTitle(data.title)
     }
   },
   UPDATE_GLOBAL_PRICE(state,data) {
@@ -729,6 +731,8 @@ const mutations = {
         state.globalPrices[Index].setMenus(data.menus)
       if (data.price)
         state.globalPrices[Index].setPrice(data.price)
+      if (data.title)
+        state.globalPrices[Index].setTitle(data.title)
     }
   }
 }
