@@ -169,8 +169,8 @@ class Menu {
         if (item.slider) this.items[newId].setSlider(item.slider)
         if (item.child) this.items[newId].setChild(item.child)
         if (item.colors) this.items[newId].setColors(item.colors)
-        if (item.price) this.items[newId].setPrice(item.price)
-        if (item.priceRight) this.items[newId].setPriceRight(item.priceRight)
+        if (item.price !== false) this.items[newId].setPrice(item.price)
+        if (item.priceRight !== false) this.items[newId].setPriceRight(item.priceRight)
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
@@ -767,7 +767,7 @@ if (import.meta.env.DEV) {
           iconClass:'fred',
           title: 'Bald good',
           index: 'first',
-          priceRight: {money:10},
+          priceRight: 0,
           preview: true,
           colors: {
             title: "Color",
@@ -793,7 +793,7 @@ if (import.meta.env.DEV) {
           icon:"pants",
           index: 'first',
           priceRight: {money:5.0,gold:10},
-          price: {money:5.0,gold:10},
+          price: 0,
           preview: true,
           sliderType: 'colorBox',
           slider: {
@@ -815,29 +815,6 @@ if (import.meta.env.DEV) {
           title: 'Bald good',
           prefix:"star",
           index: 'first',
-          priceRight: {money:5.0,gold:10},
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          priceRight: {money:5.0,gold:10},
           preview: true,
           sliderType: 'colorBox',
           slider: {

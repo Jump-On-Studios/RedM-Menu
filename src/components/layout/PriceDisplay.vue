@@ -1,8 +1,8 @@
 <template>
-  <template v-if="price">
+  <template v-if="price !== undefined && price !== false">
     <div class="priceDisplay">
-      <template v-if="price.gold && price.money">
-        <span class="gold left" v-if="typeof(price) == 'object'">
+      <template v-if="(typeof(price) == 'object') && price.gold && price.money">
+        <span class="gold left">
           <span class="icon">
             <img src="@/assets/images/gold.png">
           </span>

@@ -28,7 +28,7 @@
           <div class="arrow right clicker" @click="sliderRight()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
         </div>
       </div>
-      <div class="priceRight" v-if="!item.iconRight && item.priceRight">
+      <div class="priceRight" v-if="!item.iconRight">
         <PriceDisplay :price="item.priceRight" />
       </div>
     </h3>

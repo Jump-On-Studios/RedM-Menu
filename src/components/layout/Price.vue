@@ -1,5 +1,5 @@
 <template>
-  <div class="price" v-if="cItem && cItem.price">
+  <div class="price" v-if="cItem && (cItem.price !== undefined && cItem.price !== false)">
     <div class="divider"></div>
     <div class="content">
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
