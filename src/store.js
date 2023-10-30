@@ -761,6 +761,74 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 1,
       items: [
+        {
+          title: 'Bald',
+          prefix:"lock",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          index: 'first',
+          priceRight: 0,
+          preview: true,
+          colors: {
+            title: "Color",
+            current: 0,
+            offset: 0,
+            values: [
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'}
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          icon:"pants",
+          index: 'first',
+          priceRight: {money:5.0,gold:10},
+          price: 0,
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          //icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
       ],
     }
   })
