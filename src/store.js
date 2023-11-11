@@ -693,6 +693,7 @@ const mutations = {
     state.menus[data.menu].items[data.index].setStatistics(data.statistics)
   },
   UPDATE_ITEM_VISIBILITY(state,data) {
+    if (state.menus[data.menu] == undefined) return 
     let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
     if (Index == -1)
       return
@@ -717,7 +718,7 @@ const mutations = {
     } else {
       if (data.menus)
         state.globalPrices[Index].setMenus(data.menus)
-      if (data.price)
+      if (data.price != undefined)
         state.globalPrices[Index].setPrice(data.price)
       if (data.title)
         state.globalPrices[Index].setTitle(data.title)
@@ -730,7 +731,7 @@ const mutations = {
     } else {
       if (data.menus)
         state.globalPrices[Index].setMenus(data.menus)
-      if (data.price)
+      if (data.price != undefined)
         state.globalPrices[Index].setPrice(data.price)
       if (data.title)
         state.globalPrices[Index].setTitle(data.title)
@@ -768,7 +769,7 @@ if (import.meta.env.DEV) {
           iconClass:'fred',
           title: 'Bald good',
           index: 'first',
-          priceRight: 0,
+          priceRight: 10,
           preview: true,
           colors: {
             title: "Color",
@@ -785,7 +786,7 @@ if (import.meta.env.DEV) {
           }
         },
         {
-          title: 'Bald',
+          title: 'Bald25',
           prefix:"star",
           //icon:"pants",
           iconClass:'fred',
@@ -796,15 +797,11 @@ if (import.meta.env.DEV) {
           priceRight: {money:5.0,gold:10},
           price: 0,
           preview: true,
-          sliderType: 'colorBox',
           slider: {
             title: 'Color',
             current: 1,
             values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
+              123,15635,54984
             ]
           }
         },
@@ -841,6 +838,13 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 5,
       items: [],
+    }
+  })
+
+  window.postMessage({
+		event: "updateBoughtItems",
+		list: {
+      123: true
     }
   })
   setTimeout(function() {

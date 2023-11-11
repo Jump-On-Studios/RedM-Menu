@@ -5,7 +5,7 @@
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <PriceDisplay :price="cItem.price" />
+        <PriceDisplay :price="(cItem.price && isItemBought())?0:cItem.price" />
       </div>
     </div>
     <div class="divider bottom"></div>

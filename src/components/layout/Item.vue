@@ -28,8 +28,8 @@
           <div class="arrow right clicker" @click="sliderRight()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
         </div>
       </div>
-      <div class="priceRight" v-if="!item.iconRight">
-        <PriceDisplay :price="item.priceRight" />
+      <div class="priceRight" v-if="!item.iconRight && !isCurrent">
+        <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
       </div>
     </h3>
     <div class="background"></div>
@@ -45,7 +45,7 @@ export default {
     PriceDisplay
   },
   computed: {
-    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios'])
+    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios','isItemBought'])
   },
   methods : {
     ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),

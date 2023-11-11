@@ -39,9 +39,6 @@ export default {
       return this.price.gold.toFixed(2).toString()
     },
     getPrice() {
-      if (this.isItemBought()) {
-        return 0
-      }
       if (typeof(this.price) == 'object')
         return this.price.money
       return this.price
