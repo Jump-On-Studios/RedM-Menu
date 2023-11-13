@@ -480,6 +480,9 @@ const mutations = {
           break
         }
       }
+      if (menu.items[menu.currentItem].icon && gap-menu.offset > menu.numberOnScreen) {
+        menu.offset ++
+      }
     } else {
       menu.currentItem = 0;
       menu.offset = 0
@@ -765,8 +768,8 @@ if (import.meta.env.DEV) {
         {
           title: 'Bald',
           prefix:"lock",
-          //icon:"pants",
           iconClass:'fred',
+          icon:'pants',
           title: 'Bald good',
           index: 'first',
           priceRight: 10,
@@ -788,11 +791,10 @@ if (import.meta.env.DEV) {
         {
           title: 'Bald25',
           prefix:"star",
-          //icon:"pants",
+          icon:"pants",
           iconClass:'fred',
           title: 'Bald good',
           prefix:"star",
-          icon:"pants",
           index: 'first',
           priceRight: {money:5.0,gold:10},
           price: 0,
@@ -808,7 +810,28 @@ if (import.meta.env.DEV) {
         {
           title: 'Bald',
           prefix:"star",
-          //icon:"pants",
+          icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          icon:"pants",
           iconClass:'fred',
           title: 'Bald good',
           prefix:"star",
@@ -834,7 +857,7 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'categories',
       title: 'categories',
-      numberOnScreen : 11,
+      numberOnScreen : 5,
       globalColor: true,
       equipedColor: 5,
       items: [],

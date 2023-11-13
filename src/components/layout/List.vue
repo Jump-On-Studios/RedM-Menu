@@ -1,6 +1,6 @@
 <template>
   <div style="position:relative">
-    <ul class="list">
+    <ul class="list" :style="setStyle()">
       <Item v-for="(item,index) in items()" :key=index
         :title="getTitle(item)"
         :icon="item.icon"
@@ -26,6 +26,11 @@ export default {
   },
   methods: {
     ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight','colorLeft','colorRight']),
+    setStyle() {
+      return {
+        height: this.menu.numberOnScreen * 53 +'px'
+      }
+    },
     getTitle(item) {
       if (item.title.length > 0) {
         if (!item.translate) return item.title
