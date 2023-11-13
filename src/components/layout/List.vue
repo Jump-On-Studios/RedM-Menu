@@ -28,7 +28,7 @@ export default {
     ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight','colorLeft','colorRight']),
     setStyle() {
       return {
-        height: this.menu.numberOnScreen * 53 +'px'
+        maxHeight: (this.menu.numberOnScreen * 53) - 6 +'px'
       }
     },
     getTitle(item) {
