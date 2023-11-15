@@ -1,5 +1,5 @@
 <template>
-  <li :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled}]" @click="click()">
+  <li :id="'item-'+id" :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled,'active':active}]" @click="click()">
     <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
       <img :src="getImage(icon)" />
     </div>
@@ -85,7 +85,12 @@ export default {
     isCurrent : {
       default : false,
     },
-    item : Object
+    item : Object,
+    active: {
+      default : false,
+      type: Boolean
+    },
+    id: Number
   }
 }
 </script>

@@ -471,21 +471,8 @@ const mutations = {
     let items = this.getters.menuItems
     if (menu.currentItem < items.length -1) {
       menu.currentItem++;
-      let gap = 0
-      for (let index = menu.offset; index < items.length; index++) {
-        gap += (items[index].icon)?2:1
-        if (gap > menu.numberOnScreen) {
-          if (menu.currentItem >= index)
-            menu.offset += menu.currentItem - index + 1;
-          break
-        }
-      }
-      if (menu.items[menu.currentItem].icon && gap-menu.offset > menu.numberOnScreen) {
-        menu.offset ++
-      }
     } else {
       menu.currentItem = 0;
-      menu.offset = 0
     }
     API.PlayAudio(state.audios.button)
     
@@ -495,21 +482,8 @@ const mutations = {
     let items = this.getters.menuItems
     if (menu.currentItem > 0) {
       menu.currentItem--;
-      if (menu.currentItem < menu.offset) {
-        menu.offset--;
-      }
     } else {
       menu.currentItem = items.length - 1
-      let gap = 0
-      for (let index = items.length-1; index > 0; index--) {
-        gap += (items[index].icon)?2:1
-        if (gap > menu.numberOnScreen-1) {
-          if (menu.currentItem > index) {
-            menu.offset += index;
-          }
-          break
-        }
-      }
     }
     API.PlayAudio(state.audios.button)
   },
@@ -765,6 +739,29 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 1,
       items: [
+         {
+          title: 'Bald',
+          prefix:"lock",
+          iconClass:'fred',
+          //icon:'pants',
+          title: 'Bald good',
+          index: 'first',
+          priceRight: 10,
+          preview: true,
+          colors: {
+            title: "Color",
+            current: 0,
+            offset: 0,
+            values: [
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'},
+              {texture:'BLONDE',hash:'BLONDE'}
+            ]
+          }
+        },
         {
           title: 'Bald',
           prefix:"lock",
@@ -791,7 +788,7 @@ if (import.meta.env.DEV) {
         {
           title: 'Bald25',
           prefix:"star",
-          icon:"pants",
+          //icon:"pants",
           iconClass:'fred',
           title: 'Bald good',
           prefix:"star",
@@ -804,6 +801,69 @@ if (import.meta.env.DEV) {
             current: 1,
             values: [
               123,15635,54984
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+            ]
+          }
+        },
+        {
+          title: 'Bald',
+          prefix:"star",
+          icon:"pants",
+          iconClass:'fred',
+          title: 'Bald good',
+          prefix:"star",
+          index: 'first',
+          preview: true,
+          sliderType: 'colorBox',
+          slider: {
+            title: 'Color',
+            current: 1,
+            values: [
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
+              {texture:'brown',hash:'brown'},
             ]
           }
         },

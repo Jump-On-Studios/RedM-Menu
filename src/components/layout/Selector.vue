@@ -23,18 +23,16 @@ export default {
       return this.cItem.icon
     },
     getTop() {
-      let top = 0
-      for (let index = this.menu.offset; index < this.menu.currentItem; index++) {
-        if (this.menuItems[index].icon) {
-          top += (100+6)
-        } else {
-          top += (47+6)
-        }
+      let top = 0;
+      const active = document.getElementsByClassName('item active')[0];
+      if (active) {
+        const container = document.getElementById('list-items')
+        top = active.getBoundingClientRect().top - container.getBoundingClientRect().top 
       }
       return {
-        top: top + "px"
+         top: top + "px"
       }
     }
-  }
+  },
 }
 </script>
