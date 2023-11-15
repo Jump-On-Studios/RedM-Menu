@@ -115,6 +115,13 @@ export default {
   beforeUnmount () {
   	window.removeEventListener('keydown', this.handleKeydown);
   	window.removeEventListener('wheel', this.handleWheel);
+  },
+  watch: {
+    currentMenu: function() {
+      this.$nextTick(() => {
+        this.updateScroll(true)
+      });
+    }
   }
 }
 </script>
