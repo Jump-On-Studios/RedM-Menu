@@ -1,11 +1,13 @@
 <template>
   <div style="position:relative">
-    <ul class="list" :style="setStyle()">
-      <Item v-for="(item,index) in items()" :key=index
+    <ul id="list-items" class="list" :style="setStyle()">
+      <Item v-for="(item,index) in menuItems" :key=index
         :title="getTitle(item)"
         :icon="item.icon"
         :isCurrent="item.index == menu.equipedItem.index"
         :item="item"
+        :active="menu.currentItem == index"
+        :id=index
       />
     </ul>
     <Selector />
@@ -30,6 +32,21 @@ export default {
       return {
         maxHeight: (this.menu.numberOnScreen * 53) - 6 +'px'
       }
+    },
+    estElementVisible(element) {
+      var container = document.getElementById("list-items"); // Remplace cela par l'ID de ton conteneur avec défilement
+      var elementRect = element.getBoundingClientRect();
+      var containerRect = container.getBoundingClientRect();
+
+      return (
+        elementRect.top >= containerRect.top &&
+        elementRect.bottom <= containerRect.bottom
+      );
+    },
+    updateScroll(isUp) {
+      const currentItem = document.getElementById('item-'+this.menu.currentItem)
+      if (!this.estElementVisible(currentItem))
+        currentItem.scrollIntoView(isUp)
     },
     getTitle(item) {
       if (item.title.length > 0) {
@@ -56,9 +73,11 @@ export default {
       switch(e.key) {
         case 'ArrowDown':
           this.menuDown()
+          this.updateScroll(false)
           return;
         case 'ArrowUp':
           this.menuUp()
+          this.updateScroll(true)
           return;
       }
       return;
@@ -82,8 +101,10 @@ export default {
       }
       if (e.deltaY < 0) {
         this.menuUp()
+        this.updateScroll(false)
       } else {
         this.menuDown()
+        this.updateScroll(true)
       }
     }
   },
