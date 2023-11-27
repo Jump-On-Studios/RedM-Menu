@@ -1,5 +1,5 @@
 <template>
-  <li :id="'item-'+id" :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled,'active':active}]" @click="click()">
+  <li v-if="item" :id="'item-'+id" :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled,'active':active}]" @click="click()">
     <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
       <img :src="getImage(icon)" />
     </div>

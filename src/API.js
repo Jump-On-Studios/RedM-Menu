@@ -102,11 +102,11 @@ class API {
   }
 
   setBoughtItem(data) {
-    store.commit('SET_BOUGHT_ITEM', data.hash)
+    store.commit('SET_BOUGHT_ITEM', data.data)
   }
 
   removeBoughtItem(data) {
-    store.commit('REMOVE_BOUGHT_ITEM', data.hash)
+    store.commit('REMOVE_BOUGHT_ITEM', data.data)
   }
 
   updateBoughtItems(data) {

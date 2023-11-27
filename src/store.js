@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import API from './API'
+import _ from 'lodash'
 
 class MenuItem {
   title = '';
@@ -306,7 +307,7 @@ const getters = {
       if (!item.slider) return false
       hash = item.slider.values[item.slider.current -1]
     }
-    return boughtItems[String(hash)] !== undefined
+    return boughtItems.filter(el => {return _.isEqual(el,hash)}).length > 0
   },
   displayOutfitId: ({ displayOutfitId }) => displayOutfitId,
   globalPrice: (state) => {
@@ -639,11 +640,13 @@ const mutations = {
     state.menus[state.currentMenu].offset = data.offset
     state.menus[state.currentMenu].setCurrent(data.id)
   },
-  SET_BOUGHT_ITEM (state, hash) {
-    state.boughtItems[String(hash)] = true;
+  SET_BOUGHT_ITEM (state, data) {
+    state.boughtItems.push(data)
   },
-  REMOVE_BOUGHT_ITEM (state, hash) {
-    delete state.boughtItems[String(hash)]
+  REMOVE_BOUGHT_ITEM (state, data) {
+    console.log(state.boughtItems)
+    state.boughtItems = state.boughtItems.filter(el => {return !_.isEqual(el,data)})
+    console.log(state.boughtItems)
   },
   UPDATE_BOUGHT_ITEMS (state, list) {
     state.boughtItems = list
