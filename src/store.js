@@ -644,9 +644,7 @@ const mutations = {
     state.boughtItems.push(data)
   },
   REMOVE_BOUGHT_ITEM (state, data) {
-    console.log(state.boughtItems)
     state.boughtItems = state.boughtItems.filter(el => {return !_.isEqual(el,data)})
-    console.log(state.boughtItems)
   },
   UPDATE_BOUGHT_ITEMS (state, list) {
     state.boughtItems = list
