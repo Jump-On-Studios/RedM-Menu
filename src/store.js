@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import API from './API'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 
 class MenuItem {
   title = '';
@@ -26,6 +26,7 @@ class MenuItem {
   prefix = false;
   statistics = [];
   disabled = false;
+  grid = false;
   id = 0;
 
   constructor(id) {
@@ -109,6 +110,9 @@ class MenuItem {
   setPriceRight(value) {
     this.priceRight = value
   }
+  setGrid(value) {
+    this.grid = value
+  }
 }
 
 class ItemStatistic {
@@ -188,6 +192,7 @@ class Menu {
         if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
         if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
         if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
+        if (item.grid) this.items[newId].setGrid(item.grid)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -261,7 +266,7 @@ var state = {
     coin:"coins.mp3",
     selected: "selected.mp3"
   },
-  boughtItems: {},
+  boughtItems: [],
   displayOutfitId: false,
   menuPositionRight: false,
 }
@@ -365,6 +370,33 @@ const actions = {
   setColorCurrent({commit,dispatch},value) {
     commit('SET_COLOR_CURRENT', value)
     dispatch('updatePreview', true)
+  },
+  saveGridPosition({commit,dispatch, getters}, value) {
+    if (!getters.cItem.grid) return
+    commit('SAVE_GRID_POSITION',value)
+    dispatch('updatePreview',true)
+  },
+  gridLeft({commit,dispatch,getters}) {
+    if (!getters.cItem.grid) return
+    commit('GRID_LEFT')
+    dispatch('updatePreview',true)
+  },
+  gridRight({commit,dispatch, getters}) {
+    if (!getters.cItem.grid) return
+    commit('GRID_RIGHT')
+    dispatch('updatePreview',true)
+  },
+  gridUp({commit,dispatch, getters}) {
+    if (!getters.cItem.grid) return
+    if (!(getters.cItem.grid.values.length == 2)) return
+    commit('GRID_UP')
+    dispatch('updatePreview',true)
+  },
+  gridDown({commit,dispatch, getters}) {
+    if (!getters.cItem.grid) return
+    if (!(getters.cItem.grid.values.length == 2)) return
+    commit('GRID_DOWN')
+    dispatch('updatePreview',true)
   },
   updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
@@ -714,7 +746,50 @@ const mutations = {
       if (data.title)
         state.globalPrices[Index].setTitle(data.title)
     }
-  }
+  },
+  SAVE_GRID_POSITION(state,data) {
+    let item = this.getters.cItem
+    if (!item.grid) return
+    let values = item.grid.values
+    if (item.grid.values.length == 2) {
+      values[1].current = data[1]*(values[1].max - values[1].min) + values[1].min
+    }
+    values[0].current = data[0]*(values[0].max - values[0].min) + values[0].min
+  },
+  GRID_LEFT() {
+    let item = this.getters.cItem
+    if (!item.grid) return
+    let values = item.grid.values
+    values[0].current -= values[0].gap
+    if (values[0].current < values[0].min)
+      values[0].current = values[0].min
+  },
+  GRID_RIGHT() {
+    let item = this.getters.cItem
+    if (!item.grid) return
+    let values = item.grid.values
+    values[0].current += values[0].gap
+    if (values[0].current > values[0].max)
+      values[0].current = values[0].max
+  },
+  GRID_UP() {
+    let item = this.getters.cItem
+    if (!item.grid) return
+    if (!(item.grid.values.length == 2)) return
+    let values = item.grid.values
+    values[1].current -= values[1].gap
+    if (values[1].current < values[1].min)
+      values[1].current = values[1].min
+  },
+  GRID_DOWN() {
+    let item = this.getters.cItem
+    if (!item.grid) return
+    if (!(item.grid.values.length == 2)) return
+    let values = item.grid.values
+    values[1].current += values[1].gap
+    if (values[1].current > values[1].max)
+      values[1].current = values[1].max
+  },
 }
 
 
@@ -740,173 +815,24 @@ if (import.meta.env.DEV) {
       globalColor: true,
       equipedColor: 1,
       items: [
-         {
-          title: 'Bald',
-          prefix:"lock",
-          iconClass:'fred',
-          //icon:'pants',
-          title: 'Bald good',
-          index: 'first',
-          priceRight: 10,
+        {
+          title: 'dimension 1',
           preview: true,
-          colors: {
-            title: "Color",
-            current: 0,
-            offset: 0,
+          grid: {
+            labels: ['Up','Down'],
             values: [
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'}
+              {min:-1.0,max:1.0,gap: 0.1,current:-1.0},
             ]
           }
         },
         {
-          title: 'Bald',
-          prefix:"lock",
-          iconClass:'fred',
-          icon:'pants',
-          title: 'Bald good',
-          index: 'first',
-          priceRight: 10,
+          title: 'dimension 2',
           preview: true,
-          colors: {
-            title: "Color",
-            current: 0,
-            offset: 0,
+          grid: {
+            labels: ['Tilt Inward','Tilt Outward','Deep','Shallow'],
             values: [
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'},
-              {texture:'BLONDE',hash:'BLONDE'}
-            ]
-          }
-        },
-        {
-          title: 'Bald25',
-          prefix:"star",
-          //icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          priceRight: {money:5.0,gold:10},
-          price: 0,
-          preview: true,
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              123,15635,54984
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-            ]
-          }
-        },
-        {
-          title: 'Bald',
-          prefix:"star",
-          icon:"pants",
-          iconClass:'fred',
-          title: 'Bald good',
-          prefix:"star",
-          index: 'first',
-          preview: true,
-          sliderType: 'colorBox',
-          slider: {
-            title: 'Color',
-            current: 1,
-            values: [
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
-              {texture:'brown',hash:'brown'},
+              {min:-1.0,max:1.0,gap: 0.1,current:0.0},
+              {min:-1.0,max:1.0,gap: 0.1,current:0.0},
             ]
           }
         },
@@ -925,40 +851,12 @@ if (import.meta.env.DEV) {
     }
   })
 
-  window.postMessage({
-		event: "updateBoughtItems",
-		list: {
-      123: true
-    }
-  })
   setTimeout(function() {
     window.postMessage({
       event:"show",
       show:true
     })
   },200)
-
-  setTimeout(function() {
-    window.postMessage({
-      event:"newGlobalPrice",
-      data:{
-        id: "home",
-        menus: ['home'],
-        price: 5,
-        title: "totalPrice"
-      }
-    })
-  },200)
-
-  setTimeout(function() {
-    window.postMessage({
-      event:"updateGlobalPrice",
-      data:{
-        id: "home",
-        price: 15
-      }
-    })
-  },2000)
 
 }
 
