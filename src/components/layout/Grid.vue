@@ -40,19 +40,19 @@ export default {
     ...mapActions(['saveGridPosition','gridUp','gridDown','gridLeft','gridRight']),
     handleKeydown(e) {
       if (!this.cItem.grid) return
-      this.keyPressed[e.key] = SVGComponentTransferFunctionElement
-      if (this.keyPressed["z"] || this.keyPressed["w"])
+      this.keyPressed[e.code] = true
+      if (this.keyPressed["KeyW"])
         this.gridUp()
-      if (this.keyPressed["q"] || this.keyPressed["a"])
+      if (this.keyPressed['KeyA'])
         this.gridLeft()
-      if (this.keyPressed["s"])
+      if (this.keyPressed["KeyS"])
         this.gridDown()
-      if (this.keyPressed["d"])
+      if (this.keyPressed["KeyD"])
         this.gridRight()
       return;
     },
     handleKeyup(e) {
-      delete this.keyPressed[e.key]
+      delete this.keyPressed[e.code]
     },
     click(index) {
       if (index == this.cItem.colors.current) return

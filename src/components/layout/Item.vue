@@ -21,15 +21,26 @@
         <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
       <span class="title" v-html="getTitle()"></span>
-      <div class="sufix" v-if="!item.disabled && item.slider && item.sliderType == 'switch' && item.slider.values.length > 1">
-        <div class="arrows" @click.stop="">
-          <div class="arrow left clicker" @click="sliderLeft()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
-          <div class="text hapna">{{ getSufixLabel()}}</div>
-          <div class="arrow right clicker" @click="sliderRight()" v-if="this.cItem == this.item"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
-        </div>
-      </div>
+      <template v-if="!item.disabled">
+        <template v-for="(slider, index) in item.sliders" :key="index">
+          <template v-if="slider.type == 'switch' && slider.values.length > 1">
+            <Switch :slider="slider" :index="index" :isCurrent="item == cItem" />
+          </template>
+        </template>
+      </template>
       <div class="priceRight" v-if="!item.iconRight && !isCurrent">
         <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
+      </div>
+      <div class="textRight" v-if="item.textRight">
+        <template v-if="item.translateTextRight">
+          {{ lang(item.textRight) }}
+        </template>
+        <template v-else>
+          {{ item.textRight }}
+        </template>
+      </div>
+      <div class="textRight" v-if="item.colors?.displayRight">
+        <img :src="getTint(item)" />
       </div>
     </h3>
     <div class="background"></div>
@@ -39,10 +50,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import PriceDisplay from './PriceDisplay.vue'
+import Switch from './sliders/Switch.vue'
 
 export default {
   components: {
-    PriceDisplay
+    PriceDisplay,Switch
   },
   computed: {
     ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios','isItemBought'])
@@ -51,6 +63,10 @@ export default {
     ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),
     getImage(image) {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
+    },
+    getTint(item) {
+      const color = item.colors.values[item.colors.current].texture.toLowerCase();
+      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     getColorImage() {
       let color = this.item.colors.values[this.menu.equipedColor].texture.toLowerCase()
@@ -61,9 +77,6 @@ export default {
         return this.title + ' ('+this.item.index+')'
       }
       return this.title
-    },
-    getSufixLabel() {
-      return this.lang(this.item.slider.values[this.item.slider.current -1].label)
     },
     click() {
       this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})

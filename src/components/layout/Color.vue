@@ -13,7 +13,7 @@
         @click="click(cItem.colors.offset + index)"
       >
         <img :src="getImage(color)" />
-        <div class="tick" v-if="isCurrentColor(index)">
+        <div class="tick" v-if="cItem.colors.displayTick && isCurrentColor(index)">
           <img src="@/assets/images/menu/tick.png">
         </div>
       </div>
@@ -49,7 +49,6 @@ export default {
     },
     handleKeydown(e) {
       if (!this.cItem.colors) return
-
       switch(e.key) {
         case 'ArrowRight':
           this.colorRight()

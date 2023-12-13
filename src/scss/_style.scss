@@ -247,6 +247,12 @@ main {
         height: 100%;
       }
     }
+    .textRight {
+      display: flex;
+      img {
+        height: 30px;
+      }
+    }
 
   }
 }

@@ -7,10 +7,7 @@
           <img src="@/assets/images/menu/selection_arrow_left.png">
         </span>
       </h2>
-      <template v-if="menu.type == 'colorpicker'">
-        <ColorPalette />
-      </template>
-      <template v-else-if="menuItems.length > 0">
+      <template v-if="menuItems.length > 0">
         <Scroller
           direction = 'top'
         />
@@ -28,7 +25,6 @@
         <Description />
         <Slider />
         <Color />
-        <ColorPalette />
       </template>
       <Price />
     </div>
@@ -44,12 +40,11 @@
   import Price from './Price.vue'
   import Description from './Description.vue'
   import Loading from './Loading.vue'
-  import ColorPalette from './ColorPalette.vue'
   
 import { mapGetters, mapActions } from 'vuex'
   export default {
     components: {
-      Scroller, List, Slider, Price, Description, Color,Loading, ColorPalette
+      Scroller, List, Slider, Price, Description, Color,Loading
     },
     data() {
       return {

@@ -8,8 +8,7 @@ class MenuItem {
   iconRight = false;
   iconClass = '';
   child = false;
-  slider = false;
-  sliderType = "slider"
+  sliders = false;
   colors = false;
   price = false;
   priceTitle = false;
@@ -28,6 +27,8 @@ class MenuItem {
   disabled = false;
   grid = false;
   id = 0;
+  textRight = false;
+  translateTextRight = true;
 
   constructor(id) {
     this.id = id
@@ -40,19 +41,20 @@ class MenuItem {
   setIcon(icon) {
     this.icon = icon
   }
-  setSlider(slider) {
-    this.slider = {...{current:0,values:[], offset:0},...slider}
+  setSliders(sliders) {
+    this.sliders = []
+
+    sliders = Array.isArray(sliders)?sliders:[sliders]
+
+    sliders.forEach(slid => {
+      this.sliders.push({...{current:0,values:[], offset:0, translate: true,type:'slider'},...slid})
+    })
   }
   setChild(value) {
     this.child = value
   }
-  setColors({ title,current,offset,values }) {
-    this.colors = {
-      title: title,
-      current: current || 0,
-      offset: offset || 0,
-      values: values || []
-    }
+  setColors(colors) {
+    this.colors = {...{title:'', current:0,offset:0,values:[],displayRight:false,displayTick:true},...colors}
   }
   setPrice(price) {
     this.price = price
@@ -92,9 +94,6 @@ class MenuItem {
       this.statistics.push(Object.assign(new ItemStatistic(),value[p]))
     }
   }
-  setSliderType(value) {
-    this.sliderType = value
-  }
   setIconClass(value) {
     this.iconClass = value
   }
@@ -112,6 +111,12 @@ class MenuItem {
   }
   setGrid(value) {
     this.grid = value
+  }
+  setTextRight(value) {
+    this.textRight = value
+  }
+  setTranslateTextRight(value) {
+    this.translateTextRight = value
   }
 }
 
@@ -171,7 +176,8 @@ class Menu {
         let newId = this.items.push(new MenuItem(this.items.length)) -1
         if (item.title)  this.items[newId].setTitle(item.title)
         if (item.icon)  this.items[newId].setIcon(item.icon)
-        if (item.slider) this.items[newId].setSlider(item.slider)
+        if (item.slider) this.items[newId].setSliders(item.slider)
+        if (item.sliders) this.items[newId].setSliders(item.sliders)
         if (item.child) this.items[newId].setChild(item.child)
         if (item.colors) this.items[newId].setColors(item.colors)
         if (item.price !== false) this.items[newId].setPrice(item.price)
@@ -189,10 +195,11 @@ class Menu {
         if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
         if (item.disabled != undefined) this.items[newId].setDisabled(item.disabled)
         if (item.visible != undefined) this.items[newId].setVisible(item.visible)
-        if (item.sliderType) this.items[newId].setSliderType(item.sliderType)
         if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
         if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
         if (item.grid) this.items[newId].setGrid(item.grid)
+        if (item.textRight) this.items[newId].setTextRight(item.textRight)
+        if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -345,18 +352,18 @@ const actions = {
     commit('MENU_UP')
     dispatch('updatePreview')
   },
-  sliderLeft({ commit, dispatch,getters }) {
+  sliderLeft({ commit, dispatch,getters },index) {
     if (getters.cItem.disabled) return
-    commit('SLIDER_LEFT')
+    commit('SLIDER_LEFT',index)
     dispatch('updatePreview', true)
   },
-  sliderRight({ commit, dispatch, getters }) {
+  sliderRight({ commit, dispatch, getters },index) {
     if (getters.cItem.disabled) return
-    commit('SLIDER_RIGHT')
+    commit('SLIDER_RIGHT',index)
     dispatch('updatePreview', true)
   },
-  setSliderCurrent({ commit, dispatch}, value) {
-    commit('SET_SLIDER_CURRENT', value)
+  setSliderCurrent({ commit, dispatch}, data) {
+    commit('SET_SLIDER_CURRENT', data)
     dispatch('updatePreview', true)
   },
   colorLeft({ commit, dispatch }) {
@@ -403,8 +410,8 @@ const actions = {
     let item = getters.cItem
     if (item.preview || force)
     {
-      if (item.slider) {
-        if (item.sliderType == "switch") {
+      if (item.sliders && item.sliders.length == 1) {
+        if (item.sliders[0].type == "switch") {
           API.post('updatePreview',{
             menu: state.currentMenu,
             index: item.index,
@@ -448,7 +455,9 @@ const actions = {
     } else {
       API.post('updatePreview',{
         menu: state.currentMenu,
-        item: getters.cItem,
+        current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+        data: item.data,
+        item: item,
       })
     }
   }
@@ -551,54 +560,66 @@ const mutations = {
     state.currentMenu = state.parentTree.pop()
     API.PlayAudio(state.audios.button)
   },
-  SLIDER_LEFT (state) {
+  SLIDER_LEFT (state, index) {
     let item = this.getters.cItem
-    let slider = item.slider
+    let slider = undefined
+    if (index == undefined) {
+      index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
+      slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+    } else {
+      slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+    }
     if (!slider) return;
 
-    if (item.sliderType == "slider" && slider.current > 1) {
+    if (slider.type == "slider" && slider.current > 1) {
       slider.current--;
       API.PlayAudio(state.audios.button)
     }
-    if (item.sliderType == "switch") {
+    if (slider.type == "switch") {
       slider.current--;
       if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
     }
-    if (item.sliderType == "palette") {
+    if (slider.type == "palette") {
       if (slider.current > 0) {
         slider.current--;
         API.PlayAudio(state.audios.button)
       }
     }
   },
-  SLIDER_RIGHT (state) {
+  SLIDER_RIGHT (state, index) {
     let item = this.getters.cItem
-    let slider = item.slider
+    let slider = undefined
+    if (index == undefined) {
+      index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
+      slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+    } else {
+      slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+    }
     if (!slider) return;
 
-    if (item.sliderType == "slider" && slider.current < slider.values.length) {
+    if (slider.type == "slider" && slider.current < slider.values.length) {
       slider.current++;
       API.PlayAudio(state.audios.button)
     }
-    if (item.sliderType == "switch") {
+    if (slider.type == "switch") {
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
     }
-    if (item.sliderType == "palette") {
-      if (slider.current < (item.slider.max)) {
+    if (slider.type == "palette") {
+      if (slider.current < (slider.max)) {
         slider.current++;
         API.PlayAudio(state.audios.button)
       }
     }
   },
-  SET_SLIDER_CURRENT (state,value) {
+  SET_SLIDER_CURRENT (state,[index,vIndex]) {
     let item = this.getters.cItem
-    let slider = item.slider
+    let slider = item.sliders[index]
     if (!slider) return;
-    if (slider.current == value) return
-    slider.current = value
+    if (slider.current == vIndex) return
+    slider.current = vIndex
     API.PlayAudio(state.audios.button)
   },
   COLOR_LEFT (state) {
@@ -816,25 +837,51 @@ if (import.meta.env.DEV) {
       equipedColor: 1,
       items: [
         {
-          title: 'dimension 1',
-          preview: true,
-          grid: {
-            labels: ['Up','Down'],
-            values: [
-              {min:-1.0,max:1.0,gap: 0.1,current:-1.0},
-            ]
-          }
+          title: 'Palette',
+          sliders: [
+            {
+              current:1,
+              type: "switch",
+              values: [
+                {label:'clean'},
+                {label:'switcher2'},
+                {label:'test2'},
+                {label:'test2'},
+                {label:'test2'},
+              ]
+            },
+          ]
         },
         {
-          title: 'dimension 2',
+          title: 'Colorway',
           preview: true,
-          grid: {
-            labels: ['Tilt Inward','Tilt Outward','Deep','Shallow'],
-            values: [
-              {min:-1.0,max:1.0,gap: 0.1,current:0.0},
-              {min:-1.0,max:1.0,gap: 0.1,current:0.0},
-            ]
-          }
+          sliders: [
+            {
+              title:"Color 1",
+              type: "palette",
+              current:1,
+              tint: 'tint_generic_clean',
+              max: 255,
+            },
+            {
+              title:"Color 2",
+              type: "palette",
+              current:1,
+              tint: 'tint_generic_clean',
+              max: 255,
+            },
+            {
+              title:"Color 3",
+              type: "palette",
+              current:1,
+              tint: 'tint_generic_clean',
+              max: 255,
+            }
+          ]
+        },
+        {
+          title: 'Buy',
+          priceRight: {money:15.0,gold:1},
         },
       ],
     }
