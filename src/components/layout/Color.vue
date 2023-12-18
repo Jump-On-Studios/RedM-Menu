@@ -12,7 +12,17 @@
         :class="['box',{'current' : cItem.colors.offset + index == cItem.colors.current}]"
         @click="click(cItem.colors.offset + index)"
       >
-        <img :src="getImage(color)" />
+        <template v-if="color.texture">
+          <img :src="getImage(color)" />
+        </template>
+        <template v-if="color.custom">
+          <div class="colorCustom">
+            <div class="tint0" :style="getStyleTint(color,0)"></div>
+            <div class="tint1" :style="getStyleTint(color,1)"></div>
+            <div class="tint2" :style="getStyleTint(color,2)"></div>
+            <div class="border"></div>
+          </div>
+        </template>
         <div class="tick" v-if="cItem.colors.displayTick && isCurrentColor(index)">
           <img src="@/assets/images/menu/tick.png">
         </div>
@@ -62,6 +72,27 @@ export default {
     click(index) {
       if (index == this.cItem.colors.current) return
       this.setColorCurrent(index)
+    },
+    getStyleTint(color,index) {
+      console.log(color)
+      let left = color['tint'+index]-1
+      switch (index) {
+        case 0:
+          left *= -37
+          break;
+        case 1:
+          left *= -22
+          break;
+        case 2:
+          left *= -11
+          break;
+      }
+      console.log(index,left)
+      let url = new URL(`../../assets/images/menu/${color.palette}.png`, import.meta.url).href;
+      return {
+        backgroundImage: "url("+url+")",
+        backgroundPosition: left + "px 0px"
+      }
     }
   },
   beforeMount () {

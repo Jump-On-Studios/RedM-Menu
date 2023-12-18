@@ -4,13 +4,18 @@
     width: 100%;
     height: 20px;
     background-color: transparent;
-    background-size: 408px 100%;
-    background-position-x: 12px;
+    background-size: 404px 100%;
+    background-position-x: 14px;
     background-repeat: no-repeat;
     background-color: transparent;
     color: white;
     margin-top: 6px;
     margin-bottom: 10px;
+    image-rendering : pixelated;
+    &.max-63 {
+      background-size: 408px 100%;
+      background-position-x: 13px;
+    }
   }
   .palette::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -19,7 +24,7 @@
     background-image: url('@/assets/images/menu/circle.png');
     background-size: 100%;
     background-position: 0px 0px;
-    background-repeat: none;
+    background-repeat: no-repeat;
     height: 30px;
     width: 30px;
     position: relative;

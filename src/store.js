@@ -317,7 +317,7 @@ const getters = {
       let item = getters.cItem
       if (item == undefined) return false
       if (!item.slider) return false
-      hash = item.slider.values[item.slider.current -1]
+      hash = item.sliders[0].values[item.sliders[0].current -1]
     }
     return boughtItems.filter(el => {return _.isEqual(el,hash)}).length > 0
   },
@@ -415,17 +415,17 @@ const actions = {
           API.post('updatePreview',{
             menu: state.currentMenu,
             index: item.index,
-            variation: item.slider.current,
-            current: {data: item.slider.values[item.slider.current -1],id:getters.menu.currentItem, offset: getters.menu.offset},
+            variation: item.sliders[0].current,
+            current: {data: item.sliders[0].values[item.sliders[0].current -1],id:getters.menu.currentItem, offset: getters.menu.offset},
             data: item.data,
             item: getters.cItem,
           })
         } else {
           API.post('updatePreview',{
             menu: state.currentMenu,
-            hash: item.slider.values[item.slider.current -1],
+            hash: item.sliders[0].values[item.sliders[0].current -1],
             index: item.index,
-            variation: item.slider.current,
+            variation: item.sliders[0].current,
             current: {id:getters.menu.currentItem, offset: getters.menu.offset},
             data: item.data,
             item: getters.cItem,
@@ -838,50 +838,14 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Palette',
-          sliders: [
-            {
-              current:1,
-              type: "switch",
-              values: [
-                {label:'clean'},
-                {label:'switcher2'},
-                {label:'test2'},
-                {label:'test2'},
-                {label:'test2'},
-              ]
-            },
-          ]
-        },
-        {
-          title: 'Colorway',
-          preview: true,
-          sliders: [
-            {
-              title:"Color 1",
-              type: "palette",
-              current:1,
-              tint: 'tint_generic_clean',
-              max: 255,
-            },
-            {
-              title:"Color 2",
-              type: "palette",
-              current:1,
-              tint: 'tint_generic_clean',
-              max: 255,
-            },
-            {
-              title:"Color 3",
-              type: "palette",
-              current:1,
-              tint: 'tint_generic_clean',
-              max: 255,
-            }
-          ]
-        },
-        {
-          title: 'Buy',
-          priceRight: {money:15.0,gold:1},
+          colors : {
+            displayTick: false,
+            current:0,
+            values: [
+              {texture: 'brown'},
+              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
+            ]
+          }
         },
       ],
     }
