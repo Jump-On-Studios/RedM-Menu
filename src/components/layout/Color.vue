@@ -54,6 +54,7 @@ export default {
     },
     handleKeydown(e) {
       if (!this.cItem.colors) return
+      if (this.cItem.disabled) return
       switch(e.key) {
         case 'ArrowRight':
           this.colorRight()

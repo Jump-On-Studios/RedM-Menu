@@ -842,7 +842,7 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Palette',
-          disabled: false,
+          disabled: true,
           colors : {
             displayTick: false,
             displayRight: true,

@@ -27,7 +27,6 @@ export default {
         let url = new URL(`../../assets/images/menu/${this.color.palette}.png`, import.meta.url).href;
         let left = this.color['tint'+index]
         let height = -1*this.$refs['tint'+index].getBoundingClientRect().height
-        console.log(left,height)
         left *= height
         this.$refs["tint"+index].style.backgroundImage = "url("+url+")"
         this.$refs["tint"+index].style.backgroundPosition =  left + "px 0px"

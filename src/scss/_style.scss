@@ -166,9 +166,6 @@ main {
     &.active {
       //background-color: red;
     }
-    &.disabled {
-      color:gray
-    }
     & > * {
       display: block;
       z-index: 10;
@@ -254,6 +251,12 @@ main {
       }
       .colorCustom {
         width: 30px;
+      }
+    }
+    &.disabled {
+      color:gray;
+      .textRight {
+        opacity: 0.5;
       }
     }
 
