@@ -776,10 +776,21 @@ const mutations = {
     let item = this.getters.cItem
     if (!item.grid) return
     let values = item.grid.values
+    let change = false
     if (item.grid.values.length == 2) {
-      values[1].current = data[1]*(values[1].max - values[1].min) + values[1].min
+      let current2 = data[1]*(values[1].max - values[1].min) + values[1].min
+      if (current2 != values[1].current) {
+        values[1].current = current2
+        change = true
+      }
     }
-    values[0].current = data[0]*(values[0].max - values[0].min) + values[0].min
+    let current = data[0]*(values[0].max - values[0].min) + values[0].min
+    if (current != values[0].current) {
+      values[0].current = current
+      change = true
+    }
+    if (change)
+      API.PlayAudio(state.audios.button)
   },
   GRID_LEFT() {
     let item = this.getters.cItem
@@ -788,6 +799,7 @@ const mutations = {
     values[0].current -= values[0].gap
     if (values[0].current < values[0].min)
       values[0].current = values[0].min
+    API.PlayAudio(state.audios.button)
   },
   GRID_RIGHT() {
     let item = this.getters.cItem
@@ -796,6 +808,7 @@ const mutations = {
     values[0].current += values[0].gap
     if (values[0].current > values[0].max)
       values[0].current = values[0].max
+    API.PlayAudio(state.audios.button)
   },
   GRID_UP() {
     let item = this.getters.cItem
@@ -805,6 +818,7 @@ const mutations = {
     values[1].current -= values[1].gap
     if (values[1].current < values[1].min)
       values[1].current = values[1].min
+    API.PlayAudio(state.audios.button)
   },
   GRID_DOWN() {
     let item = this.getters.cItem
@@ -814,6 +828,7 @@ const mutations = {
     values[1].current += values[1].gap
     if (values[1].current > values[1].max)
       values[1].current = values[1].max
+    API.PlayAudio(state.audios.button)
   },
 }
 
@@ -843,12 +858,10 @@ if (import.meta.env.DEV) {
         {
           title: 'Palette',
           disabled: true,
-          colors : {
-            displayTick: false,
-            displayRight: true,
-            current:0,
+          grid: {
+            labels: ["a","b"],
             values: [
-              {custom: true, palette: 'tint_hair', tint0: 107, tint1:115, tint2: 158},
+              {min: -1, max: 1, gap: 0.1, current:0}
             ]
           }
         },
