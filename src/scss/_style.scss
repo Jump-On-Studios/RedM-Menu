@@ -252,6 +252,9 @@ main {
       img {
         height: 30px;
       }
+      .colorCustom {
+        width: 30px;
+      }
     }
 
   }
@@ -414,37 +417,6 @@ main {
       height: 37px;
     }
   }
-
-  .colorCustom {
-    width: 37px;
-    height: 41px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -3px;
-    .tint0,.tint1,.tint2, .border {
-      position: absolute;
-      aspect-ratio: 1 / 1;
-      background-size: cover;
-      image-rendering : pixelated;
-      background-repeat: no-repeat;
-    }
-    .tint0 {
-      width: 37px;
-    }
-    .tint1 {
-      width: 22px;
-    }
-    .tint2 {
-      width: 11px;
-    }
-    .border {
-      width: 100%;
-      background-image: url('@/assets/images/tints/swatch_box.png');
-      background-position: center;
-    }
-  }
   
   .tick {
     position: absolute;
@@ -467,6 +439,37 @@ main {
       height: calc(100% + 14px);
       width: calc(100% + 14px);
     }
+  }
+}
+
+.colorCustom {
+  width: 37px;
+  height: 41px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -3px;
+  .tint0,.tint1,.tint2, .border {
+    position: absolute;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    image-rendering : pixelated;
+    background-repeat: no-repeat;
+  }
+  .tint0 {
+    width: 100%;
+  }
+  .tint1 {
+    width: 60%;
+  }
+  .tint2 {
+    width: 30%;
+  }
+  .border {
+    width: 100%;
+    background-image: url('@/assets/images/tints/swatch_box.png');
+    background-position: center;
   }
 }
 

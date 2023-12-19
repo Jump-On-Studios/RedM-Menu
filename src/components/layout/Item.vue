@@ -5,7 +5,7 @@
     </div>
     <div class="current" v-if="isCurrent">
       <div class="color" v-if="item.colors">
-        <img :src="getColorImage()">
+        <ColorPicture :color="item.colors.values[item.colors.current]" />
       </div>
       <div class="tick">
         <img src="@/assets/images/menu/tick.png">
@@ -40,7 +40,7 @@
         </template>
       </div>
       <div class="textRight" v-if="item.colors?.displayRight">
-        <img :src="getTint(item)" />
+        <ColorPicture :color="item.colors.values[item.colors.current]" />
       </div>
     </h3>
     <div class="background"></div>
@@ -51,10 +51,11 @@
 import { mapActions, mapGetters } from 'vuex';
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
+import ColorPicture from "./ColorPicture.vue"
 
 export default {
   components: {
-    PriceDisplay,Switch
+    PriceDisplay,Switch,ColorPicture
   },
   computed: {
     ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios','isItemBought'])
@@ -63,10 +64,6 @@ export default {
     ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),
     getImage(image) {
       return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
-    },
-    getTint(item) {
-      const color = item.colors.values[item.colors.current].texture.toLowerCase();
-      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     getColorImage() {
       let color = this.item.colors.values[this.menu.equipedColor].texture.toLowerCase()

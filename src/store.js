@@ -842,32 +842,13 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Palette',
+          disabled: false,
           colors : {
             displayTick: false,
-            current:21,
+            displayRight: true,
+            current:0,
             values: [
-              {texture: 'brown'},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
-              {custom: true, palette: 'tint_hair', tint0: 45, tint1:18, tint2: 40},
+              {custom: true, palette: 'tint_hair', tint0: 107, tint1:115, tint2: 158},
             ]
           }
         },
