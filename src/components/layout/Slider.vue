@@ -1,7 +1,6 @@
 <template>
   <template v-if="!cItem.disabled">
     <template v-for="(slider,index) in cItem.sliders" :key="slider">
-      {{slider.type}}
       <template v-if="slider.type == 'palette'">
         <ColorPalette :index="index" :slider="slider" />
       </template>
