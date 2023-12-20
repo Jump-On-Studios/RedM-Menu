@@ -54,10 +54,6 @@ export default {
     handleKeyup(e) {
       delete this.keyPressed[e.code]
     },
-    click(index) {
-      if (index == this.cItem.colors.current) return
-      this.setColorCurrent(index)
-    },
     startMoveMarker(e) {
       e = e || window.event;
       this.marker = document.getElementById('marker');

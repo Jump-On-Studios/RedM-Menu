@@ -6,7 +6,15 @@
       <div class="text hapna">{{ numItem() }}</div>
       <div class="arrow right clicker" @click="sliderRight(index)"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
     </div>
-    <input type="range" min=0 :max="slider.max" :class="['palette','max-'+slider.max]" :style="background()" :value="slider.current" @input='change'/>
+    <input
+      type="range"
+      min=0
+      :max="slider.max"
+      :class="['palette','max-'+slider.max]"
+      :style="background()"
+      :value="slider.current" 
+      @input="change"
+    />
   </div>
 </template>
 
@@ -15,8 +23,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      x: 10,
-      y: 10
+      isMounted: false
     }
   },
   computed: {
@@ -31,11 +38,20 @@ export default {
       return this.$API.sprintf(this.lang('of'),this.slider.current+1, this.slider.max+1)
     },
     change(e) {
+      if (!this.mounted) return
+      
       let value = e.target.value
       e.target.blur()
+
       if (value == this.slider.current) return
       this.setSliderCurrent([this.index,parseInt(value)])
-    }
+    },
+  },
+  mounted() {
+    this.mounted = true
+  },
+  beforeUnmount() {
+    this.mounted = false
   },
   props: {
     index: Number,

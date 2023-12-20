@@ -857,13 +857,46 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Palette',
-          disabled: true,
-          grid: {
-            labels: ["a","b"],
-            values: [
-              {min: -1, max: 1, gap: 0.1, current:0}
-            ]
-          }
+          sliders : [
+            {
+              type : 'switch',
+              current:1,
+              values: [
+                {label:'1'},
+                {label:'2'},
+                {label:'3'},
+              ]
+            },
+          ],
+        },
+        {
+          title: 'tint',
+          sliders : [
+            {
+              type : 'palette',
+              title : 'tintTitle',
+              translate : false,
+              current : 0,
+              tint : 'tint_hair',
+              max : 63
+            },
+            {
+              type : 'palette',
+              title : 'tintTitle',
+              translate : false,
+              current : 0,
+              tint : 'tint_hair',
+              max : 63
+            },
+            {
+              type : 'palette',
+              title : 'tintTitle',
+              translate : false,
+              current : 0,
+              tint : 'tint_hair',
+              max : 63
+            }
+          ],
         },
       ],
     }
