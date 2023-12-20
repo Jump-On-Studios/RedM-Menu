@@ -859,7 +859,6 @@ if (import.meta.env.DEV) {
           title: 'Palette',
           sliders : [
             {
-              type : 'switch',
               current:1,
               values: [
                 {label:'1'},
@@ -869,47 +868,7 @@ if (import.meta.env.DEV) {
             },
           ],
         },
-        {
-          title: 'tint',
-          sliders : [
-            {
-              type : 'palette',
-              title : 'tintTitle',
-              translate : false,
-              current : 0,
-              tint : 'tint_hair',
-              max : 63
-            },
-            {
-              type : 'palette',
-              title : 'tintTitle',
-              translate : false,
-              current : 0,
-              tint : 'tint_hair',
-              max : 63
-            },
-            {
-              type : 'palette',
-              title : 'tintTitle',
-              translate : false,
-              current : 0,
-              tint : 'tint_hair',
-              max : 63
-            }
-          ],
-        },
       ],
-    }
-  })
-  window.postMessage({
-    event:'updateMenu',
-    menu: {
-      id: 'categories',
-      title: 'categories',
-      numberOnScreen : 5,
-      globalColor: true,
-      equipedColor: 5,
-      items: [],
     }
   })
 
@@ -919,6 +878,27 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
+
+  setTimeout(() => {
+    window.postMessage({
+      event: "updateItem",
+      menu: "home",
+      index: 1,
+      item: {
+        sliders:[
+          {
+            current:3,
+            values: [
+                {label:'1'},
+                {label:'2'},
+                {label:'3'},
+                {label:'4'},
+              ]
+          }
+        ]
+      }
+    })
+  }, 2000);
 
 }
 

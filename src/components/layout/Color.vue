@@ -70,7 +70,6 @@ export default {
       this.setColorCurrent(index)
     },
     getStyleTint(color,index) {
-      console.log(color)
       let left = color['tint'+index]-1
       switch (index) {
         case 0:
@@ -83,7 +82,6 @@ export default {
           left *= -11
           break;
       }
-      console.log(index,left)
       let url = new URL(`../../assets/images/menu/${color.palette}.png`, import.meta.url).href;
       return {
         backgroundImage: "url("+url+")",

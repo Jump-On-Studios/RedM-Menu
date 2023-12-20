@@ -197,26 +197,25 @@ class API {
   }
 
   deepMerge = function (obj1, obj2) {
-    // Create a new object that combines the properties of both input objects
-    const merged = {
-      ...obj1,
-      ...obj2
-    };
     // Loop through the properties of the merged object
-    for (const key of Object.keys(merged)) {
+    for (const key of Object.keys(obj2)) {
       // Check if the property is an object
-      if (typeof merged[key] === 'object' && merged[key] !== null) {
+      if (typeof obj2[key] === 'object' && obj2[key] !== null) {
         // If the property is an object, recursively merge the objects
         if (obj1[key] == null) {
-          merged[key] = obj2[key]
-        } else if (obj2[key] == null) {
-          merged[key] = obj1[key]
+          obj1[key] = obj2[key]
         } else {
-          merged[key] = this.deepMerge(obj1[key], obj2[key]);
+          obj1[key] = this.deepMerge(obj1[key], obj2[key]);
         }
+      } else {
+        obj1[key] = obj2[key]
       }
     }
-    return merged;
+    return obj1;
+  }
+
+  logProxy = function(...v) {
+    console.log(JSON.parse(JSON.stringify(v)))
   }
 }
 
