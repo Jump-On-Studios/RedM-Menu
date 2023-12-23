@@ -280,6 +280,7 @@ var state = {
   boughtItems: [],
   displayOutfitId: false,
   menuPositionRight: false,
+  isQwerty: true,
 }
 
 state.lang = {
@@ -303,6 +304,7 @@ state.menus = {
 
 const getters = {
   show: ({ show }) => show,
+  isQwerty: ({ isQwerty }) => isQwerty,
   audios: ({ audios }) => audios,
   menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
   menu: ({ menus, currentMenu}) => menus[currentMenu],
@@ -830,6 +832,9 @@ const mutations = {
       values[1].current = values[1].max
     API.PlayAudio(state.audios.button)
   },
+  IS_QWERTY(state,value) {
+    state.isQwerty = value
+  }
 }
 
 
@@ -859,12 +864,26 @@ if (import.meta.env.DEV) {
           title: 'Palette',
           sliders : [
             {
+              type: 'palette',
+              title: 'tint',
+              translate: false,
               current:1,
-              values: [
-                {label:'1'},
-                {label:'2'},
-                {label:'3'},
-              ]
+              tint: 'tint_hair',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:1,
+              tint: 'tint_hair',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:1,
+              tint: 'tint_hair',
+              max: 63
             },
           ],
         },
@@ -878,27 +897,6 @@ if (import.meta.env.DEV) {
       show:true
     })
   },200)
-
-  setTimeout(() => {
-    window.postMessage({
-      event: "updateItem",
-      menu: "home",
-      index: 1,
-      item: {
-        sliders:[
-          {
-            current:3,
-            values: [
-                {label:'1'},
-                {label:'2'},
-                {label:'3'},
-                {label:'4'},
-              ]
-          }
-        ]
-      }
-    })
-  }, 2000);
 
 }
 

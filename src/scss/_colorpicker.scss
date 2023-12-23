@@ -30,4 +30,41 @@
     position: relative;
     margin-top: -1px;
   }
+  .colorSlider {
+    position: relative;
+    .keyHelpers {
+      &>div {
+        position: absolute;
+        height: 20px;
+        min-width: 20px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 18px;
+        font-family: monospace;
+        font-weight: 700;
+        top: 6px;
+        background-color: white;
+        color: black;
+        border-radius: 1px;
+        opacity: 0.25;
+        text-transform: uppercase;
+      }
+      &.index-0>div {
+        line-height: 16px;
+        font-family: fantasy;
+        padding: 0 3px;
+      }
+      .left {
+        left: 0px;
+        transform: translateX(-100%);
+        &.qwerty {
+          line-height: 17px;
+        }
+      }
+      .right {
+        right : 0px;
+        transform: translateX(100%);
+      }
+    }
+  }
 }

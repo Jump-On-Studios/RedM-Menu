@@ -41,7 +41,7 @@
   import Description from './Description.vue'
   import Loading from './Loading.vue'
   
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
     components: {
       Scroller, List, Slider, Price, Description, Color,Loading
@@ -58,10 +58,13 @@ import { mapGetters, mapActions } from 'vuex'
     },
     methods: {
       ...mapActions(['menuEnter','menuBack']),
+      ...mapMutations(['IS_QWERTY']),
       handleKeyUp(e) {
         this.keyPressed[e.key] = false
       },
       handleKeydown(e) {
+        if (e.code == "KeyQ")
+          this.IS_QWERTY(e.key == "q")
         if (this.focus) return
         if (this.keyPressed[e.key]) return
         
