@@ -39,7 +39,9 @@ export default {
         case 'Numpad4':
           this.sliderLeft(2)
           break;
-
+        case 'Digit4':
+          this.sliderLeft(2)
+          break;
         //RIGHT
         case 'ArrowRight':
           this.sliderRight()
@@ -47,10 +49,12 @@ export default {
         case 'KeyE':
           this.sliderRight(1)
           break;
-         case 'Numpad6':
+        case 'Numpad6':
           this.sliderRight(2)
           break;
-        
+        case 'Digit6':
+          this.sliderRight(2)
+          break;
       }
       return;
     },
