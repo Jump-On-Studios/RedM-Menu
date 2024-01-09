@@ -1,7 +1,7 @@
 <template>
   <template v-if="slider.values.length > 1">
     <div :data-slider-index="index" class="slider">
-      <h2>{{ lang(slider.title) }}</h2>
+      <h2 v-if="slider.title">{{ lang(slider.title) }}</h2>
       <div class="arrows">
         <div class="arrow left clicker" @click="sliderLeft(index)"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
         <div class="text hapna">{{ numItem() }}</div>
