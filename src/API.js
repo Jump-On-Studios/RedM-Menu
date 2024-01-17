@@ -1,6 +1,4 @@
 import store from '@/store'
-
-var BASE_URL = 'https://kd_menu/'
 var audio
 
 /* eslint-disable camelcase */
@@ -15,8 +13,6 @@ class API {
         this[eventType](event.data)
       } else if (event.data.show !== undefined) {
         store.commit('DEFINE_SHOW', event.data.show)
-      } else if (event.data.resourceName !== undefined) {
-        BASE_URL = 'https://'+event.data.resourceName+"/"
       } else {
         if (!event.data.event) return
         console.log("Error : this event doesn't exist: "+ event.data.event, event.data)
@@ -37,7 +33,7 @@ class API {
           body: ndata
       };
       try {
-          const fetchResponse = await fetch(BASE_URL + method, settings);
+          const fetchResponse = await fetch('https://' + GetParentResourceName() +'/'+ method, settings);
           const data = await fetchResponse.json();
           if (data.length == 0 || data === "ok") {
             return true
@@ -67,6 +63,10 @@ class API {
     store.commit('RESET_MENU', data.menu)
   }
 
+  resetAllMenu() {
+    store.commit('RESET_ALL_MENU')
+  }
+
   menuSwitch(data) {
     store.commit('MENU_SWITCH', data)
     store.dispatch('updatePreview')
@@ -77,6 +77,7 @@ class API {
   }
 
   forceUpdatePreview() {
+    store.commit('FORCE_UPDATE')
     store.dispatch('updatePreview')
   }
 
@@ -94,6 +95,7 @@ class API {
 
   setCurrentMenu(data) {
     store.commit('SET_CURRENT_MENU',data.id)
+    store.dispatch('updatePreview')
   }
 
   setCurrentItem(data) {

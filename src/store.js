@@ -189,7 +189,7 @@ class Menu {
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
-        if (item.index) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
+        if (item.index != undefined) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
         if (item.description) this.items[newId].setDescription(item.description)
         if (item.action) this.items[newId].setAction(item.action)
         if (item.data) this.items[newId].setData(item.data)
@@ -281,6 +281,8 @@ var state = {
   displayOutfitId: false,
   menuPositionRight: false,
   isQwerty: true,
+  refreshID: 0,
+  refreshLastID: -1,
 }
 
 state.lang = {
@@ -413,6 +415,8 @@ const actions = {
   },
   updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
+    if (state.refreshLastID == state.refreshID) return
+    state.refreshLastID = state.refreshID
     let item = getters.cItem
     if (item.preview || force)
     {
@@ -472,6 +476,9 @@ const actions = {
 const mutations = {
   DEFINE_SHOW (state, value) {
     state.show = value
+    if (state.show) {
+      this.dispatch('updatePreview')
+    }
   },
   UPDATE_SEX (state, value) {
     state.isMale = value === 1
@@ -514,6 +521,11 @@ const mutations = {
       state.menus[menu].reset()
     }
   },
+  RESET_ALL_MENU (state) {
+    for (const [key, value] of Object.entries(state.menus)) {
+      value.reset()
+    }
+  },
   MENU_DOWN (state) {
     let menu = this.getters.menu
     let items = this.getters.menuItems
@@ -523,7 +535,7 @@ const mutations = {
       menu.currentItem = 0;
     }
     API.PlayAudio(state.audios.button)
-    
+    state.refreshID ++
   },
   MENU_UP (state) {
     let menu = this.getters.menu
@@ -534,6 +546,7 @@ const mutations = {
       menu.currentItem = items.length - 1
     }
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   MENU_ENTER (state) {
     let item = this.getters.cItem
@@ -541,6 +554,7 @@ const mutations = {
       state.parentTree.push(state.currentMenu)
       state.currentMenu = item.child
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
     } else {
       if (this.getters.cItem.action) {
         API.post('action',{
@@ -555,16 +569,19 @@ const mutations = {
     if (data.reset) state.menus[data.menu].reset()
     state.currentMenu = data.menu
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   MENU_BACK (state) {
     if (state.parentTree.length == 0) {
       //quitter
       state.show = false
       API.post('close')
+      state.refreshID = 0
       return
     }
     state.currentMenu = state.parentTree.pop()
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   SLIDER_LEFT (state, index) {
     let item = this.getters.cItem
@@ -580,16 +597,19 @@ const mutations = {
     if (slider.type == "slider" && slider.current > 1) {
       slider.current--;
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
     }
     if (slider.type == "switch") {
       slider.current--;
       if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
     }
     if (slider.type == "palette") {
       if (slider.current > 0) {
         slider.current--;
         API.PlayAudio(state.audios.button)
+        state.refreshID ++
       }
     }
   },
@@ -607,16 +627,19 @@ const mutations = {
     if (slider.type == "slider" && slider.current < slider.values.length) {
       slider.current++;
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
     }
     if (slider.type == "switch") {
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
     }
     if (slider.type == "palette") {
       if (slider.current < (slider.max)) {
         slider.current++;
         API.PlayAudio(state.audios.button)
+        state.refreshID ++
       }
     }
   },
@@ -627,6 +650,7 @@ const mutations = {
     if (slider.current == vIndex) return
     slider.current = vIndex
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   COLOR_LEFT (state) {
     let item = this.getters.cItem
@@ -634,6 +658,7 @@ const mutations = {
     item.colors.current--
     if (item.colors.current < item.colors.offset) {
       item.colors.offset--
+      state.refreshID ++
     }
     
     let menu = this.getters.menu
@@ -653,6 +678,7 @@ const mutations = {
     item.colors.current++;
     if (item.colors.current >= item.colors.offset + 9) {
       item.colors.offset++
+      state.refreshID ++
     }
 
     let menu = this.getters.menu
@@ -679,6 +705,7 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   SET_EQUIPED_ITEM (state, data) {
     if (!state.menus[data.id]) return;
@@ -694,10 +721,12 @@ const mutations = {
   SET_CURRENT_MENU (state, id) {
     state.currentMenu = id
     state.parentTree = []
+    state.refreshID ++
   },
   SET_CURRENT_ITEM (state, data) {
     state.menus[state.currentMenu].offset = data.offset
     state.menus[state.currentMenu].setCurrent(data.id)
+    state.refreshID ++
   },
   SET_BOUGHT_ITEM (state, data) {
     state.boughtItems.push(data)
@@ -791,8 +820,10 @@ const mutations = {
       values[0].current = current
       change = true
     }
-    if (change)
+    if (change) {
       API.PlayAudio(state.audios.button)
+      state.refreshID ++
+    } 
   },
   GRID_LEFT() {
     let item = this.getters.cItem
@@ -802,6 +833,7 @@ const mutations = {
     if (values[0].current < values[0].min)
       values[0].current = values[0].min
     API.PlayAudio(state.audios.button)
+      state.refreshID ++
   },
   GRID_RIGHT() {
     let item = this.getters.cItem
@@ -811,6 +843,7 @@ const mutations = {
     if (values[0].current > values[0].max)
       values[0].current = values[0].max
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   GRID_UP() {
     let item = this.getters.cItem
@@ -821,6 +854,7 @@ const mutations = {
     if (values[1].current < values[1].min)
       values[1].current = values[1].min
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   GRID_DOWN() {
     let item = this.getters.cItem
@@ -831,9 +865,13 @@ const mutations = {
     if (values[1].current > values[1].max)
       values[1].current = values[1].max
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   IS_QWERTY(state,value) {
     state.isQwerty = value
+  },
+  FORCE_UPDATE(state) {
+    state.refreshLastID--
   }
 }
 
