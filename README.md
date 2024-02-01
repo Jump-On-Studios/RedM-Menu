@@ -1,4 +1,4 @@
-# kd_barber
+# Menu For RedM
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+Copyright © Jump On SARL 2024.
+You don't have the right to share/sell this repository without writing autorisation by Jump On SARL.
