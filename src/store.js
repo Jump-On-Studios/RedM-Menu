@@ -494,6 +494,9 @@ const mutations = {
       offset = state.menus[data.menu.id].offset
     }
     state.menus[data.menu.id] = new Menu(data.menu)
+    if (current >= state.menus[data.menu.id].items.length) {
+      data.reset = true
+    }
     if (current > -1) {
       state.menus[data.menu.id].offset = offset 
       state.menus[data.menu.id].setCurrent(current)
