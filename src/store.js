@@ -537,6 +537,12 @@ const mutations = {
     } else {
       menu.currentItem = 0;
     }
+    if (menu.items[menu.currentItem].colors) {
+      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+        menu.items[menu.currentItem].colors.current = 0
+        menu.items[menu.currentItem].colors.offset = 0
+      }
+    }
     API.PlayAudio(state.audios.button)
     state.refreshID ++
   },
@@ -547,6 +553,12 @@ const mutations = {
       menu.currentItem--;
     } else {
       menu.currentItem = items.length - 1
+    }
+    if (menu.items[menu.currentItem].colors) {
+      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+        menu.items[menu.currentItem].colors.current = 0
+        menu.items[menu.currentItem].colors.offset = 0
+      }
     }
     API.PlayAudio(state.audios.button)
     state.refreshID ++
@@ -661,7 +673,6 @@ const mutations = {
     item.colors.current--
     if (item.colors.current < item.colors.offset) {
       item.colors.offset--
-      state.refreshID ++
     }
     
     let menu = this.getters.menu
@@ -674,6 +685,7 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   COLOR_RIGHT (state) {
     let item = this.getters.cItem
@@ -681,7 +693,6 @@ const mutations = {
     item.colors.current++;
     if (item.colors.current >= item.colors.offset + 9) {
       item.colors.offset++
-      state.refreshID ++
     }
 
     let menu = this.getters.menu
@@ -694,6 +705,7 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
+    state.refreshID ++
   },
   SET_COLOR_CURRENT (state,value) {
     let item = this.getters.cItem

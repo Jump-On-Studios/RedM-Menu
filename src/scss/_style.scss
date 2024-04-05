@@ -43,15 +43,17 @@ html, body {
 .menu {
   position: absolute;
   width: 540px;
-  height: 900px;
+  height: 990px;
   &.right {
     right: 0;
   }
   .container {
+    display: flex;
+    flex-direction: column;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 110%;
     -webkit-mask-position-y: 0px;
-    padding: 26px 54px 26px 54px;
+    padding: 26px 54px 40px 54px;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -96,7 +98,7 @@ header {
 }
 
 main {
-  height: 710px;
+  flex: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -277,58 +279,22 @@ main {
   height: 47px;
   z-index: 20;
   pointer-events: none;
-  &.with-icon {
-    height: 100px;
-  }
-  &>img {
+  &::after {
+    border-color: #d80419;
+    border-image-repeat: round;
+    border-image-slice: 10 10 10 10 fill;
+    border-image-source: url("@/assets/images/menu/hover.png");
+    border-style: solid;
+    border-width: 8px;
+    bottom: -4px;
+    content: "";
+    left: -6px;
+    opacity: 1;
+    pointer-events: none;
     position: absolute;
-  }
-  .top, .bottom {
-    width: 420px;
-    height: 24px;
-    left: 6px;
-  }
-  .left, .right {
-    width: 24px;
-    height: 28px;
-    top: 12px;
-  }
-  &.with-icon {
-    .left:not(.corner), .right:not(.corner) {
-      height: 74px;
-    }
-  }
-  .top {
-    top: -10px;
-  }
-  .right {
-    right: -18px;
-  }
-  .bottom {
-    bottom: -10px;
-  }
-  .left {
-    left: -18px;
-  }
-  .corner {
-    width: 24px;
-    height: 24px;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    &.top {
-        top: -10px;
-      }
-      &.bottom {
-        bottom: -10px;
-      }
-    &.right {
-      right: -18px;
-    }
-    &.left {
-      left: -18px;
-    }
+    right: -4px;
+    top: -6px;
+    z-index: 10;
   }
 }
 

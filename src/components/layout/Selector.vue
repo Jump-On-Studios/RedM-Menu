@@ -1,13 +1,5 @@
 <template>
-  <div :class="['selector','fred',{'with-icon' : haveIcon()}]" :style="getTop()">
-    <img class="top" src="@/assets/images/menu/crafting_highlight_t.png" />  
-    <img class="top right corner" src="@/assets/images/menu/crafting_highlight_tr.png" />  
-    <img class="right" src="@/assets/images/menu/crafting_highlight_r.png" />  
-    <img class="bottom right corner" src="@/assets/images/menu/crafting_highlight_br.png" /> 
-    <img class="bottom" src="@/assets/images/menu/crafting_highlight_b.png" /> 
-    <img class="bottom left corner" src="@/assets/images/menu/crafting_highlight_bl.png" />
-    <img class="left" src="@/assets/images/menu/crafting_highlight_l.png" />
-    <img class="top left corner" src="@/assets/images/menu/crafting_highlight_tl.png" />
+  <div :class="['selector',{'with-icon' : haveIcon()}]" :style="getTop()">
   </div>
 </template>
 
