@@ -296,6 +296,9 @@ main {
     top: -6px;
     z-index: 10;
   }
+  &.with-icon {
+    height: 100px;
+  }
 }
 
 .arrows {
