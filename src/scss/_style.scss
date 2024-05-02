@@ -680,7 +680,7 @@ main {
 
 .v-enter-from .container,
 .v-leave-to .container {
-  -webkit-mask-position-y: -1000px;
+  -webkit-mask-position-y: -1400px;
 }
 
 .v-enter-active .container {
@@ -689,7 +689,7 @@ main {
 
 .v-leave-active .container {
   transition: -webkit-mask-position-y var(--transition-speed2) cubic-bezier(.5,0,1,.5) var(--delay-leave);
-  -webkit-mask-position-y: -1000px;
+  -webkit-mask-position-y: -1400px;
 }
 
 .smudge {
@@ -713,7 +713,7 @@ main {
   display: block;
 }
 .v-leave-to .smudge {
-  -webkit-mask-position-y: -1200px;
+  -webkit-mask-position-y: -1400px;
 }
 
 /* ANIMATION MAIN MENU */
