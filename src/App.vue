@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
   import Menu from './components/Menu.vue'
   export default {
     components: {

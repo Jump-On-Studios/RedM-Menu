@@ -1,6 +1,6 @@
 <template>
   <Transition>
-    <div :class="['menu',{'right':menuPositionRight}]" v-if="show">
+    <div :class="['menu',{'right':menuPositionRight}]" v-if="show" :style="{zoom: zoom}">
       <div class="smudge"></div>
       <div class="container">
         <div class="background"></div>
@@ -15,14 +15,26 @@
   import Main from './layout/Main.vue'
   import Header from './layout/Header.vue'
   import { mapGetters } from 'vuex'
-  import { onBeforeMount } from '@vue/runtime-core'
 
   export default {
+    data() {
+      return {
+        zoom: window.innerHeight/1080
+      }
+    },
     components: {
       Header, Main
     },
     computed: {
       ...mapGetters(['show','menuPositionRight'])
+    },
+    methods: {
+      resizeEvent() {
+        this.zoom = window.innerHeight/1080
+      }
+    },
+    mounted() {
+      window.addEventListener("resize", this.resizeEvent,null);
     },
     beforeMount() {
       new URL('../assets/sounds/button.mp3', import.meta.url).href;
