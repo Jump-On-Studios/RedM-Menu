@@ -310,13 +310,9 @@ const getters = {
   audios: ({ audios }) => audios,
   menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
   menu: ({ menus, currentMenu}) => menus[currentMenu],
-  menuItems: (state, getters) => {
-    return getters.menu.items.filter(item => item.visible)
-  },
+  menuItems: (state, getters) => getters.menu.items.filter(item => item.visible),
   cItem: (state, getters) => getters.menuItems[getters.menu.currentItem],
-  lang: ({ lang }) => (index) => {
-    return lang[index]?lang[index]:('#'+index)
-  },
+  lang: ({ lang }) => (index) => lang[index]?lang[index]:('#'+index),
   parentTree: ({ parentTree }) => parentTree,
   currentMenu: ({ currentMenu }) => currentMenu,
   audios: ({ audios }) => audios,
@@ -627,6 +623,14 @@ const mutations = {
         state.refreshID ++
       }
     }
+    if (slider.type == "grid") {
+      let values = slider.values
+      values[0].current -= values[0].gap
+      if (values[0].current < values[0].min)
+        values[0].current = values[0].min
+      API.PlayAudio(state.audios.button)
+      state.refreshID ++
+    }
   },
   SLIDER_RIGHT (state, index) {
     let item = this.getters.cItem
@@ -657,13 +661,39 @@ const mutations = {
         state.refreshID ++
       }
     }
+    if (slider.type == "grid") {
+      let values = slider.values
+      values[0].current += values[0].gap
+      if (values[0].current > values[0].max)
+        values[0].current = values[0].max
+      API.PlayAudio(state.audios.button)
+      state.refreshID ++
+    }
   },
   SET_SLIDER_CURRENT (state,[index,vIndex]) {
     let item = this.getters.cItem
     let slider = item.sliders[index]
     if (!slider) return;
-    if (slider.current == vIndex) return
-    slider.current = vIndex
+    if (slider.type == "grid") {
+      let values = slider.values
+      let change = false
+      if (slider.values.length == 2) {
+        let current2 = vIndex[1]*(values[1].max - values[1].min) + values[1].min
+        if (current2 != values[1].current) {
+          values[1].current = current2
+          change = true
+        }
+      }
+      let current = vIndex[0]*(values[0].max - values[0].min) + values[0].min
+      if (current != values[0].current) {
+        values[0].current = current
+        change = true
+      }
+      if (!change) return
+    } else {
+      if (slider.current == vIndex) return
+      slider.current = vIndex
+    }
     API.PlayAudio(state.audios.button)
     state.refreshID ++
   },
@@ -900,10 +930,6 @@ export default createStore({
 
 if (import.meta.env.DEV) {
   window.postMessage({
-    event:'setCurrentMenu',
-    id: 'home'
-  })
-  window.postMessage({
     event:'updateMenu',
     menu: {
       id: 'home',
@@ -915,33 +941,36 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Palette',
+          // description: 'test',
+          // price: 5,
           sliders : [
             {
               type: 'palette',
               title: 'tint',
-              translate: false,
               current:1,
-              tint: 'tint_hair',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:1,
-              tint: 'tint_hair',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:1,
-              tint: 'tint_hair',
+              tint: 'tint_makeup',
               max: 63
             },
           ],
         },
+        {
+          title:"bodyScale",
+          action:"bodyScale",
+          preview: true,
+          grid: {
+            labels: ["small","tall"],
+            values: [
+              {min:0,max:2,gap:0.1,current:1.01}
+            ]
+          }
+        }
       ],
     }
+  })
+  
+  window.postMessage({
+    event:'setCurrentMenu',
+    id: 'home'
   })
 
   setTimeout(function() {

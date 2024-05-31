@@ -1,28 +1,32 @@
 <template>
-  <div :class="['grid-container','dimension-'+cItem.grid.values.length]">
+  <div :class="['grid-container','slider','dimension-'+slider.values.length]">
     <div class="left">
-      {{ lang(cItem.grid.labels[0]) }}
+      {{ lang(slider.labels[0]) }}
     </div>
     <div class="center">
-      <div v-if="cItem.grid.values.length == 2">
-        {{ lang(cItem.grid.labels[2]) }}
+      <div v-if="slider.values.length == 2">
+        {{ lang(slider.labels[2]) }}
       </div>
       <div class="grid" id="box" @mousedown="startMoveMarker">
         <div id="marker" :style="markerPosition()"></div>
       </div>
-      <div v-if="cItem.grid.values.length == 2">
-        {{ lang(cItem.grid.labels[3]) }}
+      <div v-if="slider.values.length == 2">
+        {{ lang(slider.labels[3]) }}
       </div>
     </div>
     <div class="right">
-      {{ lang(cItem.grid.labels[1]) }}
+      {{ lang(slider.labels[1]) }}
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
+  props: {
+    index: Number,
+    slider: Object
+  },
   computed: {
     ...mapGetters(['cItem','lang'])
   },
@@ -33,27 +37,10 @@ export default {
       boxBottom: 0,
       boxRight: 0,
       marker: false,
-      keyPressed: []
     }
   },
   methods: {
-    ...mapActions(['saveGridPosition','gridUp','gridDown','gridLeft','gridRight']),
-    handleKeydown(e) {
-      if (!this.cItem.grid) return
-      this.keyPressed[e.code] = true
-      if (this.keyPressed["KeyW"])
-        this.gridUp()
-      if (this.keyPressed['KeyA'] || this.keyPressed['ArrowLeft'])
-        this.gridLeft()
-      if (this.keyPressed["KeyS"])
-        this.gridDown()
-      if (this.keyPressed["KeyD"] || this.keyPressed['ArrowRight'])
-        this.gridRight()
-      return;
-    },
-    handleKeyup(e) {
-      delete this.keyPressed[e.code]
-    },
+    ...mapActions(['setSliderCurrent']),
     startMoveMarker(e) {
       e = e || window.event;
       this.marker = document.getElementById('marker');
@@ -83,7 +70,7 @@ export default {
 
       values.push(parseFloat(this.marker.style.left)/(this.boxRight-this.boxLeft))
       
-      if (this.cItem.grid.values.length == 2) {
+      if (this.slider.values.length == 2) {
         if (e.clientY < this.boxTop)
           this.marker.style.top = "0px";
         else if (e.clientY > this.boxBottom)
@@ -93,28 +80,20 @@ export default {
 
         values.push(parseFloat(this.marker.style.top).toFixed(2)/(this.boxBottom-this.boxTop).toFixed(2))
       }
-      this.saveGridPosition(values)
+      this.setSliderCurrent([this.index,values])
     },
     markerPosition() {
       let position = {
         left: "50%",
         top: "50%"
       }
-      let data = this.cItem.grid.values
-      if (this.cItem.grid.values.length == 2) {
+      let data = this.slider.values
+      if (this.slider.values.length == 2) {
         position.top = ((data[1].current - data[1].min)/(data[1].max - data[1].min)*100).toFixed(2) + '%'
       }
       position.left = ((data[0].current - data[0].min)/(data[0].max - data[0].min)*100).toFixed(2) + '%'
       return position
     },
   },
-  beforeMount () {
-  	window.addEventListener('keydown', this.handleKeydown, null);
-  	window.addEventListener('keyup', this.handleKeyup, null);
-  },
-  beforeUnmount () {
-  	window.removeEventListener('keydown', this.handleKeydown);
-  	window.removeEventListener('keyup', this.handleKeyup);
-  }
 }
 </script>

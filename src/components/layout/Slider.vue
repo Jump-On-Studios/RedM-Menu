@@ -1,14 +1,19 @@
 <template>
   <template v-if="!cItem.disabled">
-    <template v-for="(slider,index) in cItem.sliders" :key="index">
-      <template v-if="slider.type == 'palette'">
-        <ColorPalette :index="index" :slider="slider" />
+    <div class="sliders" v-if="cItem.sliders && cItem.sliders.length > 0">
+      <template v-for="(slider,index) in cItem.sliders" :key="index">
+        <template v-if="slider.type == 'palette'">
+          <ColorPalette :index="index" :slider="slider" />
+        </template>
+        <template v-else-if="slider.type == 'switch'" />
+        <template v-else-if="slider.type == 'grid'">
+          <Grid :index="index" :slider="slider" />
+        </template>
+        <template v-else>
+          <DefaultSlider :index="index" :slider="slider" />
+        </template>
       </template>
-      <template v-if="slider.type == 'switch'" />
-      <template v-else>
-        <DefaultSlider :index="index" :slider="slider" />
-      </template>
-    </template>
+    </div>
   </template>
 </template>
 
@@ -16,10 +21,11 @@
 import { mapGetters, mapActions } from 'vuex'
 import ColorPalette from './sliders/ColorPalette.vue'
 import DefaultSlider from './sliders/DefaultSlider.vue'
+import Grid from './sliders/Grid.vue'
 
 export default {
   components: {
-    ColorPalette,DefaultSlider
+    ColorPalette,DefaultSlider,Grid
   },
   computed: {
     ...mapGetters(['isItemBought','menu','cItem','lang'])
