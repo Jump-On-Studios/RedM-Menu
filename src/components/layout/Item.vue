@@ -28,6 +28,7 @@
           </template>
         </template>
       </template>
+      <PalettePreview v-if="hasPaletteSlider()" :sliders="item.sliders" />
       <div class="priceRight" v-if="!item.iconRight && !isCurrent">
         <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
       </div>
@@ -52,10 +53,11 @@ import { mapActions, mapGetters } from 'vuex';
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
 import ColorPicture from "./ColorPicture.vue"
+import PalettePreview from "./PalettePreview.vue"
 
 export default {
   components: {
-    PriceDisplay,Switch,ColorPicture
+    PriceDisplay,Switch,ColorPicture,PalettePreview
   },
   computed: {
     ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios','isItemBought'])
@@ -82,6 +84,19 @@ export default {
       } else {
         this.$API.PlayAudio(this.audios.button)
       }
+    },
+    hasPaletteSlider() {
+      let needPreview = false
+      for (let index = 0; index < this.item.sliders.length; index++) {
+        const slider = this.item.sliders[index];
+        if (slider.type == "switch" && slider.values.length > 1)
+          return false
+        if (slider.type == "palette") {
+          needPreview = true
+          break
+        }
+      }
+      return needPreview
     }
   },
   props : {

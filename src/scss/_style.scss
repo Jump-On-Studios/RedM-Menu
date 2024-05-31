@@ -439,16 +439,19 @@ main {
     width: 100%;
   }
   .tint1 {
-    width: 60%;
+    width: 22px;
   }
   .tint2 {
-    width: 30%;
+    width: 11px;
   }
   .border {
     width: 100%;
     background-image: url('@/assets/images/tints/swatch_box.png');
     background-position: center;
   }
+}
+.item.disabled .colorCustom {
+  opacity: 0.2;
 }
 
 .divider {

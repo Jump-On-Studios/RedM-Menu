@@ -943,27 +943,59 @@ if (import.meta.env.DEV) {
           title: 'Palette',
           // description: 'test',
           // price: 5,
+          disabled: true,
           sliders : [
             {
               type: 'palette',
               title: 'tint',
-              current:1,
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
               tint: 'tint_makeup',
               max: 63
             },
           ],
         },
-        {
-          title:"bodyScale",
-          action:"bodyScale",
-          preview: true,
-          grid: {
-            labels: ["small","tall"],
-            values: [
-              {min:0,max:2,gap:0.1,current:1.01}
-            ]
-          }
-        }
+       {
+          title: 'Palette',
+          // description: 'test',
+          // price: 5,
+          sliders : [
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ],
+        },
       ],
     }
   })
