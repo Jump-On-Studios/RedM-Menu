@@ -1,11 +1,11 @@
 <template>
-  <div class="price" v-if="cItem && (cItem.price !== undefined && cItem.price !== false)">
+  <div class="price" v-if="getPrice()">
     <div class="divider"></div>
     <div class="content">
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <PriceDisplay :price="(cItem.price && isItemBought())?0:cItem.price" />
+        <PriceDisplay :price="getPrice()" />
       </div>
     </div>
     <div class="divider bottom"></div>
@@ -38,13 +38,25 @@ export default {
       if (this.cItem.price.gold%1 == 0) return this.cItem.price.gold.toString()
       return this.cItem.price.gold.toFixed(2).toString()
     },
-    price() {
+    getPrice() {
       if (this.isItemBought()) {
         return 0
       }
-      if (typeof(this.cItem.price) == 'object')
-        return this.cItem.price.money
-      return this.cItem.price
+      if (this.cItem.sliders) {
+        for (let index = 0; index < this.cItem.sliders.length; index++) {
+          const slider = this.cItem.sliders[index];
+          const current = slider.current -1
+          if (slider.values[current] && typeof(slider.values[current]) == 'object' && slider.values[current].price)
+            return slider.values[current].price
+        }
+      }
+      return this.cItem.price || false
+    },
+    price() {
+      const price = this.getPrice()
+      if (typeof(price) == 'object')
+        return price.money
+      return price
     },
     priceRounded() {
       let price = this.price()

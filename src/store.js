@@ -942,15 +942,20 @@ if (import.meta.env.DEV) {
         {
           title: 'Palette',
           // description: 'test',
-          // price: 5,
-          disabled: true,
+          price: 5,
+          // disabled: true,
           sliders : [
             {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
+              type: 'switch',
+              current: 1,
+              values: [
+                {
+                  label: 'test',price:10,
+                },
+                {
+                  label: 'test2'
+                }
+              ]
             },
             {
               type: 'palette',
