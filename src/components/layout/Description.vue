@@ -1,8 +1,8 @@
 <template>
-  <div class="description hapna">
+  <div class="description hapna" v-if="needDescription()">
     <div v-if="cItem.description" v-html="getDescription(cItem)">
     </div>
-    <div class="statistics" v-if="cItem.statistics">
+    <div class="statistics" v-if="cItem.statistics.length > 0">
       <template v-for="(stat, index) in cItem.statistics" :key="index">
         <Statistic :stat="stat" />
       </template>
@@ -31,6 +31,12 @@ export default {
         return this.lang(item.description)
       }
       return item.description
+    },
+    needDescription() {
+      if (this.cItem.description.length > 0) return true
+      if (this.cItem.statistics.length > 0) return true
+      if (this.cItem.grid) return true
+      return false
     }
   }
 }

@@ -47,7 +47,7 @@ class MenuItem {
     sliders = Array.isArray(sliders)?sliders:[sliders]
 
     sliders.forEach(slid => {
-      this.sliders.push({...{current:0,values:[], offset:0, translate: true,type:'slider'},...slid})
+      this.sliders.push({...{current:0,values:[], offset:0, translate: true,type:'slider', looped: true},...slid})
     })
   }
   setChild(value) {
@@ -611,6 +611,7 @@ const mutations = {
       state.refreshID ++
     }
     if (slider.type == "switch") {
+      if (slider.current == 1 && !slider.looped) return
       slider.current--;
       if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
@@ -649,6 +650,7 @@ const mutations = {
       state.refreshID ++
     }
     if (slider.type == "switch") {
+      if (slider.current == slider.values.length && !slider.looped) return
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)

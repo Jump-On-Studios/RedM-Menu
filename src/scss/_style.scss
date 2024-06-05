@@ -320,10 +320,15 @@ main {
 }
 
 .sliders {
-  flex-grow: 1;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  &.full {
+    flex-grow: 1;
+  }
+  .grid-container {
+    flex-grow: unset;
+  }
 }
 
 .slider {
@@ -522,12 +527,18 @@ main {
   margin-top: 10px;
   font-size: 1.3em;
   position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .statistics {
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex-grow: 1;
+  flex-wrap: nowrap;
   .statistic {
     display: flex;
     justify-content: space-between;
@@ -766,6 +777,7 @@ main {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  flex-grow: 1;
   &.slider {
     position: relative;
     transform: 0;

@@ -1,6 +1,6 @@
 <template>
   <template v-if="!cItem.disabled">
-    <div class="sliders" v-if="cItem.sliders && cItem.sliders.length > 0">
+    <div :class="['sliders',{full:fullHeight()}]" v-if="cItem.sliders && (cItem.sliders.length > 0)">
       <template v-for="(slider,index) in cItem.sliders" :key="index">
         <template v-if="slider.type == 'palette'">
           <ColorPalette :index="index" :slider="slider" />
@@ -64,6 +64,11 @@ export default {
       }
       return;
     },
+    fullHeight() {
+      if (this.cItem.description.length > 0) return false
+      if (this.cItem.statistics.length > 0) return false
+      return true
+    }
   },
   beforeMount () {
   	window.addEventListener('keydown', this.handleKeydown, null);
