@@ -1,11 +1,11 @@
 <template>
-  <div class="price" v-if="getPrice()">
+  <div class="price" v-if="cItemPrice !== false">
     <div class="divider"></div>
     <div class="content">
       <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <PriceDisplay :price="getPrice()" />
+        <PriceDisplay :price="cItemPrice" />
       </div>
     </div>
     <div class="divider bottom"></div>
@@ -31,50 +31,13 @@ export default {
     PriceDisplay
   },
   computed: {
-    ...mapGetters(['cItem','isItemBought','lang','menu','globalPrice'])
+    ...mapGetters(['cItem','isItemBought','lang','menu','globalPrice','cItemPrice'])
   },
   methods: {
     gold() {
       if (this.cItem.price.gold%1 == 0) return this.cItem.price.gold.toString()
       return this.cItem.price.gold.toFixed(2).toString()
     },
-    getPrice() {
-      if (this.isItemBought()) {
-        return 0
-      }
-      if (this.cItem.sliders) {
-        for (let index = 0; index < this.cItem.sliders.length; index++) {
-          const slider = this.cItem.sliders[index];
-          const current = slider.current -1
-          if (slider.values[current] && typeof(slider.values[current]) == 'object' && slider.values[current].price)
-            return slider.values[current].price
-        }
-      }
-      return this.cItem.price || false
-    },
-    price() {
-      const price = this.getPrice()
-      if (typeof(price) == 'object')
-        return price.money
-      return price
-    },
-    priceRounded() {
-      let price = this.price()
-      if (this.price() == 0)
-        return this.lang('free')
-      return Math.trunc(price)
-    },
-    centimes() {
-      let price = this.price()
-      if (price == 0)
-        return ''
-      return (price%1).toFixed(2).toString().substring(2);
-    },
-    devise() {
-      if (this.price() == 0)
-        return ''
-      return this.lang('devise')
-    }
   }
 }
 </script>

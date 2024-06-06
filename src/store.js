@@ -329,7 +329,22 @@ const getters = {
   globalPrice: (state) => {
     let globalPrice = state.globalPrices.find(globalPrice => globalPrice.menus.includes(state.currentMenu))
     return globalPrice || false
-  }
+  },
+  cItemPrice: (state, getters) => {
+    const cItem = getters.cItem
+    if (getters.isItemBought()) {
+      return 0
+    }
+    if (cItem.sliders) {
+      for (let index = 0; index < cItem.sliders.length; index++) {
+        const slider = cItem.sliders[index];
+        const current = slider.current -1
+        if (slider.values[current] && typeof(slider.values[current]) == 'object' && (slider.values[current].price !== undefined))
+          return slider.values[current].price
+      }
+    }
+    return cItem.price || false
+  },
 }
 
 const actions = {
@@ -425,6 +440,7 @@ const actions = {
             current: {data: item.sliders[0].values[item.sliders[0].current -1],id:getters.menu.currentItem, offset: getters.menu.offset},
             data: item.data,
             item: getters.cItem,
+            price: getters.cItemPrice
           })
         } else {
           API.post('updatePreview',{
@@ -435,6 +451,7 @@ const actions = {
             current: {id:getters.menu.currentItem, offset: getters.menu.offset},
             data: item.data,
             item: getters.cItem,
+            price: getters.cItemPrice
           })
         }
       } else if (item.colors) {
@@ -446,8 +463,10 @@ const actions = {
           current: {id:getters.menu.currentItem, offset: getters.menu.offset},
           data: item.data,
           item: getters.cItem,
+          price: getters.cItemPrice
         })
       } else {
+        let sliders = {}
         API.post('updatePreview',{
           menu: state.currentMenu,
           hash: 0,
@@ -456,6 +475,7 @@ const actions = {
           current: {id:getters.menu.currentItem, offset: getters.menu.offset},
           data: item.data,
           item: getters.cItem,
+          price: getters.cItemPrice
         })
       }
     } else {
