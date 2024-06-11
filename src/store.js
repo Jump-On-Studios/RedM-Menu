@@ -171,7 +171,8 @@ class Menu {
   helpers = false;
   numberOnScreen = 8;
   globalColor = false;
-  equipedColor = 0
+  equipedColor = 0;
+  disableEscape = false;
 
   constructor(data) {
     this.setTitle(data.title);
@@ -211,6 +212,7 @@ class Menu {
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
     if (data.translateTitle != undefined) this.setTranslateTitle(data.translateTitle)
     if (data.type) this.setType(data.type)
+    if (data.disableEscape) this.setDisableEscape(data.disableEscape)
   }
 
   setTitle(title) {
@@ -261,6 +263,10 @@ class Menu {
 
   setTranslateTitle(value) {
     this.translateTitle = value
+  }
+
+  setDisableEscape(value) {
+    this.disableEscape = value
   }
 }
 
@@ -604,6 +610,7 @@ const mutations = {
   },
   MENU_BACK (state) {
     if (state.parentTree.length == 0) {
+      if (state.menus[state.currentMenu].disableEscape) return
       //quitter
       state.show = false
       API.post('close')
@@ -960,6 +967,7 @@ if (import.meta.env.DEV) {
       numberOnScreen : 8,
       globalColor: true,
       equipedColor: 1,
+      disableEscape: true,
       items: [
         {
           title: 'Palette',
