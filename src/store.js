@@ -29,6 +29,7 @@ class MenuItem {
   id = 0;
   textRight = false;
   translateTextRight = true;
+  previewPalette = true;
 
   constructor(id) {
     this.id = id
@@ -122,6 +123,9 @@ class MenuItem {
   setTranslateTextRight(value) {
     this.translateTextRight = value
   }
+  setPreviewPalette(value) {
+    this.previewPalette = value
+  }
 }
 
 class ItemStatistic {
@@ -205,6 +209,7 @@ class Menu {
         if (item.grid) this.items[newId].setGrid(item.grid)
         if (item.textRight) this.items[newId].setTextRight(item.textRight)
         if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
+        if (item.previewPalette != undefined) this.items[newId].setPreviewPalette(item.previewPalette)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -969,67 +974,68 @@ if (import.meta.env.DEV) {
       equipedColor: 1,
       disableEscape: true,
       items: [
-        {
-          title: 'Palette',
-          // description: 'test',
-          price: 5,
-          // disabled: true,
-          sliders : [
-            {
-              type: 'switch',
-              current: 1,
-              values: [
-                {
-                  label: 'test',price:10,
-                },
-                {
-                  label: 'test2'
-                }
-              ]
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-          ],
-        },
+        // {
+        //   title: 'Palette',
+        //   // description: 'test',
+        //   price: 5,
+        //   // disabled: true,
+        //   sliders : [
+        //     {
+        //       type: 'switch',
+        //       current: 1,
+        //       values: [
+        //         {
+        //           label: 'test',price:10,
+        //         },
+        //         {
+        //           label: 'test2'
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       type: 'palette',
+        //       title: 'tint',
+        //       current:0,
+        //       tint: 'tint_makeup',
+        //       max: 63
+        //     },
+        //     {
+        //       type: 'palette',
+        //       title: 'tint',
+        //       current:0,
+        //       tint: 'tint_makeup',
+        //       max: 63
+        //     },
+        //   ],
+        // },
        {
           title: 'Palette',
+          previewPalette: false,
           // description: 'test',
           // price: 5,
-          sliders : [
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-          ],
+          // sliders : [
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          // ],
         },
       ],
     }

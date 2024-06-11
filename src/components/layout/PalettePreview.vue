@@ -1,5 +1,5 @@
 <template>
-  <div class="colorCustom" ref="boxParent">
+  <div :class="['colorCustom color-'+props.sliders.length]" ref="boxParent">
     <div class="tint0" ref="tint0" :style="getStyleTint(0)"></div>
     <div class="tint1" ref="tint1" :style="getStyleTint(1)"></div>
     <div class="tint2" ref="tint2" :style="getStyleTint(2)"></div>
@@ -40,26 +40,10 @@
     if (counter < index)
       return {}
 
-    let left = slider.current
-    nextTick(() => {
-      let box
-      switch (index) {
-        case 0:
-          box = tint0.value
-          break;
-        case 1:
-          box = tint1.value
-          break;
-        case 2:
-          box = tint2.value
-          break;
-      }
-      left *= -1 * box.getBoundingClientRect().height
-      box.style.backgroundPosition =  left + "px 0px"
-    })
+    let percent = (slider.current/slider.max)*100
     return {
       backgroundImage: "url("+url+")",
-      backgroundPosition: left+ "px 0px"
+      backgroundPosition: percent+ "% 0px"
     }
   }
 </script>

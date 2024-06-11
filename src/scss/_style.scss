@@ -440,14 +440,30 @@ main {
     image-rendering : pixelated;
     background-repeat: no-repeat;
   }
-  .tint0 {
-    width: 100%;
+  &.color-1,&.color-3 {
+    .tint0 {
+      width: 100%;
+    }
+    .tint1 {
+      width: 22px;
+    }
+    .tint2 {
+      width: 11px;
+    }
   }
-  .tint1 {
-    width: 22px;
-  }
-  .tint2 {
-    width: 11px;
+  &.color-2 {
+    .tint0,.tint1 {
+      width: 100%;
+      -webkit-mask-image: url('@/assets/images/tints/mask.png');
+      mask-image: url('@/assets/images/tints/mask.png');
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: 100%;
+      mask-size: 100%;
+    }
+    .tint1 {
+      transform: rotate(180deg);
+    }
   }
   .border {
     width: 100%;

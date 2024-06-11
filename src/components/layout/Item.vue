@@ -28,7 +28,7 @@
           </template>
         </template>
       </template>
-      <PalettePreview v-if="hasPaletteSlider()" :sliders="item.sliders" />
+      <PalettePreview v-if="item.previewPalette && hasPaletteSlider()" :sliders="item.sliders" />
       <div class="priceRight" v-if="!item.iconRight && !isCurrent">
         <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
       </div>
@@ -78,12 +78,12 @@ export default {
       return this.title
     },
     click() {
-      this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})
-      if (this.item.child) {
+      if (this.menu.currentItem == this.item.id) {
         this.menuEnter()
       } else {
-        this.$API.PlayAudio(this.audios.button)
+        this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})
       }
+      this.$API.PlayAudio(this.audios.button)
     },
     hasPaletteSlider() {
       let needPreview = false
