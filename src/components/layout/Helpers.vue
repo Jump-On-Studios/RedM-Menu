@@ -7,28 +7,28 @@
         </div>
         <div class="progress" v-if="keysPressed['Enter']">
         </div>
-        <img src="@/assets/images/keys/enter.png"/>
+        <img src="/assets/images/keys/enter.png"/>
       </div>
     </li>
     <li class="helper" v-if="!canBuy()">
       <h2>{{ lang('select') }}</h2>
       <div :class="['image',{'pressed':keysPressed.Enter}]">
-        <img src="@/assets/images/keys/Enter.png"/>
+        <img src="/assets/images/keys/Enter.png"/>
       </div>
     </li>
     <li class="helper" v-if="hasColor()">
       <h2>{{ lang('color') }}</h2>
       <div :class="['image',{'pressed':keysPressed.ArrowLeft}]">
-        <img src="@/assets/images/keys/ArrowLeft.png"/>
+        <img src="/assets/images/keys/ArrowLeft.png"/>
       </div>
       <div :class="['image',{'pressed':keysPressed.ArrowRight}]">
-        <img src="@/assets/images/keys/ArrowRight.png"/>
+        <img src="/assets/images/keys/ArrowRight.png"/>
       </div>
     </li>
     <li class="helper">
       <h2>{{ lang('back') }}</h2>
       <div :class="['image',{'pressed':keysPressed.Backspace}]">
-        <img src="@/assets/images/keys/Backspace.png"/>
+        <img src="/assets/images/keys/Backspace.png"/>
       </div>
     </li>
   </ul>

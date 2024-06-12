@@ -4,7 +4,7 @@
       <template v-if="(typeof(price) == 'object') && price.gold && price.money">
         <span class="gold left">
           <span class="icon">
-            <img src="@/assets/images/gold.png">
+            <img src="/assets/images/gold.png">
           </span>
           {{ gold() }}
         </span>
@@ -12,7 +12,7 @@
       <template v-if="price.gold && !price.money">
         <span class="gold">
           <span class="icon">
-            <img src="@/assets/images/gold.png">
+            <img src="/assets/images/gold.png">
           </span>
           <span class="round">{{ gold() }}</span>
         </span>

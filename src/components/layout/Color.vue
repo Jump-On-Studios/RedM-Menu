@@ -2,9 +2,9 @@
   <div class="slider color" v-if="!cItem.disabled && cItem.colors">
     <h2>{{ lang(cItem.colors.title) }}</h2>
     <div class="arrows">
-      <div class="arrow left" @click="colorLeft()"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="arrow left" @click="colorLeft()"><img src="/assets/images/menu/selection_arrow_left.png"></div>
       <div class="text hapna">{{ numItem() }}</div>
-      <div class="arrow right" @click="colorRight()"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow right" @click="colorRight()"><img src="/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <div class="color-boxes">
       <div v-for="(color,index) in colorsDisplayed()"
@@ -14,7 +14,7 @@
       >
         <ColorPicture :color="color" />
         <div class="tick" v-if="cItem.colors.displayTick && isCurrentColor(index)">
-          <img src="@/assets/images/menu/tick.png">
+          <img src="/assets/images/menu/tick.png">
         </div>
       </div>
     </div>
@@ -36,10 +36,6 @@ export default {
     ...mapActions(['colorLeft','colorRight','setColorCurrent']),
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.cItem.colors.current+1, this.cItem.colors.values.length)
-    },
-    getImage(color) {
-      color = color.texture.toLowerCase();
-      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
     },
     colorsDisplayed() {
       var list = new Array();
@@ -82,7 +78,7 @@ export default {
           left *= -11
           break;
       }
-      let url = new URL(`../../assets/images/menu/${color.palette}.png`, import.meta.url).href;
+      let url = `./assets/images/menu/${color.palette}.png`
       return {
         backgroundImage: "url("+url+")",
         backgroundPosition: left + "px 0px"

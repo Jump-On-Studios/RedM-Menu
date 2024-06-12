@@ -1,24 +1,24 @@
 <template>
   <li v-if="item" :id="'item-'+id" :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled,'active':active}]" @click="click()">
     <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
-      <img :src="getImage(icon)" />
+      <img :src="`./assets/images/icons/${icon}.png`" />
     </div>
     <div class="current" v-if="isCurrent">
       <div class="color" v-if="item.colors">
         <ColorPicture :color="item.colors.values[item.colors.current]" />
       </div>
       <div class="tick">
-        <img src="@/assets/images/menu/tick.png">
+        <img src="/assets/images/menu/tick.png">
       </div>
     </div>
     <div class="current" v-if="item.iconRight">
       <div class="tick" v-if="item.iconRight == 'tick'">
-        <img src="@/assets/images/menu/tick.png">
+        <img src="/assets/images/menu/tick.png">
       </div>
     </div>
     <h3>
       <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
-        <img :class="item.prefix" :src="getImage(item.prefix)" />
+        <img :class="item.prefix" :src="`./assets/images/icons/${item.prefix}.png`" />
       </div>
       <span class="title" v-html="getTitle()"></span>
       <template v-if="!item.disabled">
@@ -64,12 +64,9 @@ export default {
   },
   methods : {
     ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),
-    getImage(image) {
-      return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
-    },
     getColorImage() {
       let color = this.item.colors.values[this.menu.equipedColor].texture.toLowerCase()
-      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
+      return `./assets/images/tints/${color}.png`;
     },
     getTitle() {
       if (this.displayOutfitId && this.currentMenu == "outfit" && this.item.index != 0) {

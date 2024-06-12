@@ -2,9 +2,9 @@
   <div class="colorPicker">
     <h2>{{ getTitle() }}</h2>
     <div class="arrows">
-      <div class="arrow left clicker" @click="sliderLeft(index)"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="arrow left clicker" @click="sliderLeft(index)"><img src="/assets/images/menu/selection_arrow_left.png"></div>
       <div class="text hapna">{{ numItem() }}</div>
-      <div class="arrow right clicker" @click="sliderRight(index)"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow right clicker" @click="sliderRight(index)"><img src="/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <div class="colorSlider">
       <div :class="['keyHelpers','index-'+index]" v-if="cItem.sliders.length > 1">
@@ -42,7 +42,7 @@ export default {
   methods: {
     ...mapActions(['setSliderCurrent','sliderLeft','sliderRight','setSliderCurrent']),
     background() {
-      return {backgroundImage:'url('+new URL(`../../../assets/images/menu/${this.slider.tint}.png`, import.meta.url).href+')'}
+      return {backgroundImage:`url(./assets/images/menu/${this.slider.tint}.png`}
     },
     numItem() {
       return this.$API.sprintf(this.lang('of'),this.slider.current+1, this.slider.max+1)

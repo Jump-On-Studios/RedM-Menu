@@ -4,7 +4,7 @@
       <h2 id="title">
         {{ getTitle() }}
         <span v-if="parentTree.length > 0" class="backer clicker" @click="menuBack()">
-          <img src="@/assets/images/menu/selection_arrow_left.png">
+          <img src="/assets/images/menu/selection_arrow_left.png">
         </span>
       </h2>
       <template v-if="menuItems.length > 0">

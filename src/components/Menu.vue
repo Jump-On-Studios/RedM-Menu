@@ -37,11 +37,11 @@
       window.addEventListener("resize", this.resizeEvent,null);
     },
     beforeMount() {
-      new URL('../assets/sounds/button.mp3', import.meta.url).href;
-      new URL('../assets/sounds/coins.mp3', import.meta.url).href;
-      new URL('../assets/sounds/selected.mp3', import.meta.url).href;
-      new URL('../assets/sounds/menu_open.mp3', import.meta.url).href;
-      new URL('../assets/sounds/menu_close.mp3', import.meta.url).href;
+      // new URL('../assets/sounds/button.mp3', import.meta.url).href;
+      // new URL('../assets/sounds/coins.mp3', import.meta.url).href;
+      // new URL('../assets/sounds/selected.mp3', import.meta.url).href;
+      // new URL('../assets/sounds/menu_open.mp3', import.meta.url).href;
+      // new URL('../assets/sounds/menu_close.mp3', import.meta.url).href;
     }
   }
 </script>

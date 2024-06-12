@@ -129,24 +129,24 @@ main {
     margin-bottom: 5px;
     margin-top: -8px;
     .left, .right {
-      background-image: url('@/assets/images/menu/scroller_right_top.png');
+      background-image: url('/assets/images/menu/scroller_right_top.png');
     }
     .center {
-      background-image: url('@/assets/images/menu/scroller_line_up.png');
+      background-image: url('/assets/images/menu/scroller_line_up.png');
       &.active {
-        background-image: url('@/assets/images/menu/scroller_arrow_top.png');
+        background-image: url('/assets/images/menu/scroller_arrow_top.png');
       }
     }
   }
   &.bottom {
     margin-top: 5px;
     .left, .right {
-      background-image: url('@/assets/images/menu/scroller_right_bottom.png');
+      background-image: url('/assets/images/menu/scroller_right_bottom.png');
     }
     .center {
-      background-image: url('@/assets/images/menu/scroller_line_down.png');
+      background-image: url('/assets/images/menu/scroller_line_down.png');
       &.active {
-        background-image: url('@/assets/images/menu/scroller_arrow_bottom.png');
+        background-image: url('/assets/images/menu/scroller_arrow_bottom.png');
       }
     }
   }
@@ -183,7 +183,7 @@ main {
       width: 100%;
       filter: invert(75%);
       z-index: 5;
-      background-image: url('@/assets/images/menu/selection_box_bg_1d.png');
+      background-image: url('/assets/images/menu/selection_box_bg_1d.png');
       background-size: 100% 100%;
     }
     h3 {
@@ -221,7 +221,7 @@ main {
       grid-gap: 25px;
       height: 100px;
       .background {
-        background-image: url('@/assets/images/menu/background_item.png');
+        background-image: url('/assets/images/menu/background_item.png');
       }
     }
     .image img {
@@ -283,7 +283,7 @@ main {
     border-color: #d80419;
     border-image-repeat: round;
     border-image-slice: 10 10 10 10 fill;
-    border-image-source: url("@/assets/images/menu/hover.png");
+    border-image-source: url("/assets/images/menu/hover.png");
     border-style: solid;
     border-width: 8px;
     bottom: -4px;
@@ -353,7 +353,7 @@ main {
         display: block;
         width: 100%;
         height: 100%;
-        background-image: url('@/assets/images/menu/swatch_bg_1a.png');
+        background-image: url('/assets/images/menu/swatch_bg_1a.png');
       }
       &:not(.active)::before {
         filter: invert(50%);
@@ -373,7 +373,7 @@ main {
         position: absolute;
         top: 2px;
         left: 0;
-        background-image: url('@/assets/images/menu/tank_meter_marker.png');
+        background-image: url('/assets/images/menu/tank_meter_marker.png');
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
@@ -414,7 +414,7 @@ main {
       position: absolute;
       top: -8px;
       left: -7px;
-      background-image: url('@/assets/images/menu/selection_box_square.png');
+      background-image: url('/assets/images/menu/selection_box_square.png');
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center;
@@ -454,8 +454,8 @@ main {
   &.color-2 {
     .tint0,.tint1 {
       width: 100%;
-      -webkit-mask-image: url('@/assets/images/tints/mask.png');
-      mask-image: url('@/assets/images/tints/mask.png');
+      -webkit-mask-image: url('/assets/images/tints/mask.png');
+      mask-image: url('/assets/images/tints/mask.png');
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-size: 100%;
@@ -467,7 +467,7 @@ main {
   }
   .border {
     width: 100%;
-    background-image: url('@/assets/images/tints/swatch_box.png');
+    background-image: url('/assets/images/tints/swatch_box.png');
     background-position: center;
   }
 }
@@ -480,7 +480,7 @@ main {
   display: block;
   width: 100%;
   height: 4px;
-  background-image: url('@/assets/images/menu/divider_line.png');
+  background-image: url('/assets/images/menu/divider_line.png');
 }
 
 .price {
@@ -512,7 +512,7 @@ main {
       content: '';
       position: absolute;
       display: block;
-      background-image: url('@/assets/images/menu/money_line.png');
+      background-image: url('/assets/images/menu/money_line.png');
       height: 5px;
       width: 100%;
       left: 0;
@@ -569,7 +569,7 @@ main {
         content: '';
         width: 20px;
         height: 10px;
-        background-image: url('@/assets/images/menu/scoretimer_centre_bg.png');
+        background-image: url('/assets/images/menu/scoretimer_centre_bg.png');
         background-size: 100% 100%;
         opacity: 0.20;
         &.active {

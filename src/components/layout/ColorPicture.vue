@@ -20,11 +20,11 @@ export default {
   methods: {
     getImage() {
       let color = this.color.texture.toLowerCase();
-      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
+      return `./assets/images/tints/${color}.png`;
     },
     getStyleTint(index) {
       nextTick(() => {
-        let url = new URL(`../../assets/images/menu/${this.color.palette}.png`, import.meta.url).href;
+        let url = `./assets/images/menu/${this.color.palette}.png`;
         let left = this.color['tint'+index]
         let height = -1*this.$refs['tint'+index].getBoundingClientRect().height
         left *= height

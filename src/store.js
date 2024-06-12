@@ -1011,31 +1011,32 @@ if (import.meta.env.DEV) {
        {
           title: 'Palette',
           previewPalette: false,
-          // description: 'test',
-          // price: 5,
-          // sliders : [
-          //   {
-          //     type: 'palette',
-          //     title: 'tint',
-          //     current:0,
-          //     tint: 'tint_makeup',
-          //     max: 63
-          //   },
-          //   {
-          //     type: 'palette',
-          //     title: 'tint',
-          //     current:0,
-          //     tint: 'tint_makeup',
-          //     max: 63
-          //   },
-          //   {
-          //     type: 'palette',
-          //     title: 'tint',
-          //     current:0,
-          //     tint: 'tint_makeup',
-          //     max: 63
-          //   },
-          // ],
+          icon: 'makeup',
+          description: 'test',
+          price: 5,
+          sliders : [
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ],
         },
       ],
     }

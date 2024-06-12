@@ -50,13 +50,13 @@ export default {
     },
     getImage(image) {
       if (typeof image == "object")
-        return new URL(`../../assets/images/icons/${image.icon}.png`, import.meta.url).href;
-      return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
+        return `./assets/images/icons/${image.icon}.png`
+      return `./assets/images/icons/${image}.png`
     },
     getMenuImage(image) {
       if (typeof image == "object")
-        return new URL(`../../assets/images/menu/${image.icon}.png`, import.meta.url).href;
-      return new URL(`../../assets/images/menu/${image}.png`, import.meta.url).href;
+        return `./assets/images/menu/${image.icon}.png`;
+      return `./assets/images/menu/${image}.png`;
     },
     getImageStyle(icon) {
       if (typeof icon == "object") {

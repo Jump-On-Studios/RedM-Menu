@@ -23,7 +23,7 @@
       break
     }
   }
-  let url = new URL(`../../assets/images/menu/${palette}.png`, import.meta.url).href;
+  let url = `./assets/images/menu/${palette}.png`;
 
   function  getStyleTint(index) {
     let slider

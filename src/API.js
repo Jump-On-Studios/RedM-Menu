@@ -182,13 +182,7 @@ class API {
 
   
   PlayAudio = function (name) {
-    var link = ""
-    if (import.meta.env.DEV) {
-      link = `./assets/sounds/${name}`
-    } else {
-      link = `./${name}`
-    }
-    var url = new URL(link, import.meta.url).href;
+    var url = `./assets/sounds/${name}`
     
     if (name == "button.mp3" && audio && !audio.paused && audio.src == url) {
       if (audio.currentTime < 0.015) return
