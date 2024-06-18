@@ -36,7 +36,7 @@
   import Scroller from './Scroller.vue'
   import List from './List.vue'
   import Slider from './Slider.vue'
-  import Color from './Color.vue'
+  import Color from './depreciated/Color.vue'
   import Price from './Price.vue'
   import Description from './Description.vue'
   import Loading from './Loading.vue'

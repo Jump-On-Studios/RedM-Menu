@@ -14,27 +14,39 @@
 
 
 
-<script>
-import { nextTick } from 'vue';
-export default {
-  methods: {
-    getImage() {
-      let color = this.color.texture.toLowerCase();
-      return `./assets/images/tints/${color}.png`;
-    },
-    getStyleTint(index) {
-      nextTick(() => {
-        let url = `./assets/images/menu/${this.color.palette}.png`;
-        let left = this.color['tint'+index]
-        let height = -1*this.$refs['tint'+index].getBoundingClientRect().height
-        left *= height
-        this.$refs["tint"+index].style.backgroundImage = "url("+url+")"
-        this.$refs["tint"+index].style.backgroundPosition =  left + "px 0px"
-      })
-    }
-  },
-  props: {
-    color: Object
+<script setup>
+  import { nextTick } from 'vue';
+
+  const tint0 = ref(null)
+  const tint1 = ref(null)
+  const tint2 = ref(null)
+
+  const color = props.color
+
+  function getImage() {
+    let color = color.texture.toLowerCase();
+    return `./assets/images/tints/${color}.png`;
   }
-}
+  function getStyleTint(index) {
+    nextTick(() => {
+      let url = `./assets/images/menu/${color.palette}.png`;
+      let left = color['tint'+index]
+      let box
+      switch (index) {
+        case 0:
+          box = tint0.value
+          break
+        case 1:
+          box = tint1.value
+          break
+        case 2:
+          box = tint2.value
+          break
+      }
+      height = -1*box.getBoundingClientRect().height
+      left *= height
+      box.style.backgroundImage = "url("+url+")"
+      box.style.backgroundPosition =  left + "px 0px"
+    })
+  }
 </script>

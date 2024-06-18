@@ -24,7 +24,7 @@
 <script setup>
   import { useStore } from 'vuex'
   import ColorPicture from './ColorPicture.vue'
-  import { useLangStore } from '../../stores/lang';
+  import { useLangStore } from '../../../stores/lang';
 import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
 
   const store = useStore()
