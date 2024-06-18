@@ -30,7 +30,6 @@ import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
   const store = useStore()
 
   const lang = useLangStore().lang
-  const menu = computed(() => store.getters.menu)
   const cItem = computed(() => store.getters.cItem)
   const currentMenu = computed(() => store.getters.currentMenu)
   const equipedItems = computed(() => store.getters.equipedItems)
@@ -52,7 +51,7 @@ import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
     return list;
   }
   function isCurrentColor(index) {
-    return cItem.colors.offset + index == menu.equipedColor
+    return cItem.colors.offset + index == useMenuStore.cMenu.equipedColor
   }
   function handleKeydown(e) {
     if (!cItem.colors) return

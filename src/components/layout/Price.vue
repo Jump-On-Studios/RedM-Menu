@@ -10,16 +10,6 @@
     </div>
     <div class="divider bottom"></div>
   </div>
-  <div class="price" v-if="globalPrice">
-    <div class="divider"></div>
-    <div class="content">
-      <h4>{{ lang(globalPrice.title) }}</h4>
-      <div class="amount">
-        <PriceDisplay :price="globalPrice.price" />
-      </div>
-    </div>
-    <div class="divider bottom"></div>
-  </div>
 </template>
 
 <script setup>
@@ -29,7 +19,6 @@ import PriceDisplay from './PriceDisplay.vue'
 const menuStore = useMenuStore()
 const lang = useLangStore().lang
 const cItem = computed(() => menuStore.cItem)
-const menu = computed(() => menuStore.menu)
 const cItemPrice = computed(() => menuStore.cItemPrice)
 
 function gold() {

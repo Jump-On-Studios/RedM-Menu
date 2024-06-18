@@ -7,7 +7,7 @@
           <img src="/assets/images/menu/selection_arrow_left.png">
         </span>
       </h2>
-      <template v-if="menuItems.length > 0">
+      <template v-if="menuStore.cMenuItems.length > 0">
         <Scroller
           direction = 'top'
         />
@@ -17,11 +17,11 @@
         />
       </template>
     </div>
-    <template v-if="menuItems.length == 0 & menu.type == 'list'">
+    <template v-if="menuStore.cMenuItems.length == 0 & menuStore.cMenu.type == 'list'">
       <Loading />
     </template>
     <div class="footer">
-      <template v-if="menuItems.length > 0">
+      <template v-if="menuStore.cMenuItems.length > 0">
         <Description />
         <Slider />
         <Color />
@@ -52,11 +52,9 @@ const keyPressed = {}
 let focus = false
 let mountedDate = 0
 
-const menu = computed(() => menuStore.menu)
-const menuItems = computed(() => menuItems.menu)
-const parentTree = computed(() => menuItems.parentTree)
-const menuEnter = computed(() => menuItems.menuEnter)
-const menuBack = computed(() => menuItems.menuBack)
+const parentTree = computed(() => menuStore.parentTree)
+const menuEnter = computed(() => menuStore.menuEnter)
+const menuBack = computed(() => menuStore.menuBack)
 function handleKeyUp(e) {
   keyPressed[e.key] = false
 }
@@ -87,10 +85,10 @@ function focusOut() {
   focus = false
 }
 function getTitle() {
-  if (menu.translateSubTitle) {
-    return lang(menu.subTitle)
+  if (menuStore.cMenu.translateSubTitle) {
+    return lang(menuStore.cMenu.subTitle)
   }
-  return menu.subTitle
+  return menuStore.cMenu.subTitle
 }
 onBeforeMount(() => {
   window.addEventListener('keydown', handleKeydown);

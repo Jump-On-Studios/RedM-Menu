@@ -25,7 +25,6 @@ import DefaultSlider from './sliders/DefaultSlider.vue'
 import Grid from './sliders/Grid.vue'
 
 const menuStore = useMenuStore()
-const menu = computed(() => menuStore.menu)
 const sliderLeft = computed(() => menuStore.sliderLeft)
 const sliderRight = computed(() => menuStore.sliderRight)
 const setSliderCurrent = computed(() => menuStore.setSliderCurrent)

@@ -1,12 +1,12 @@
 <template>
   <div style="position:relative">
     <ul id="list-items" class="list" :style="setStyle()">
-      <Item v-for="(item,index) in menuItems" :key=index
+      <Item v-for="(item,index) in menuStore.cMenuItems" :key=index
         :title="getTitle(item)"
         :icon="item.icon"
-        :isCurrent="item.index == menu.equipedItem.index"
+        :isCurrent="item.index == cMenu.equipedItem.index"
         :item="item"
-        :active="menu.currentItem == index"
+        :active="cMenu.currentItem == index"
         :id=index
       />
     </ul>
@@ -25,9 +25,8 @@ import { onBeforeMount, onBeforeUnmount, nextTick} from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
-const menu = computed(() => menuStore.menu)
+const cMenu = computed(() => menuStore.cMenu)
 const currentMenu = computed(() => menuStore.currentMenu)
-const menuItems = computed(() => menuStore.menuItems)
 const menuDown = computed(() => menuStore.menuDown)
 const menuUp = computed(() => menuStore.menuUp)
 const sliderLeft = computed(() => menuStore.sliderLeft)
@@ -35,7 +34,7 @@ const sliderRight = computed(() => menuStore.sliderRight)
 
 function setStyle() {
   return {
-    maxHeight: (menu.numberOnScreen * 53) - 6 +'px'
+    maxHeight: (cMenu.numberOnScreen * 53) - 6 +'px'
   }
 }
 function estElementVisible(element) {
@@ -49,7 +48,7 @@ function estElementVisible(element) {
   );
 }
 function updateScroll(isUp) {
-  const currentItem = document.getElementById('item-'+menu.currentItem)
+  const currentItem = document.getElementById('item-'+cMenu.currentItem)
   if (!estElementVisible(currentItem))
     currentItem.scrollIntoView(isUp)
 }
@@ -61,15 +60,15 @@ function getTitle(item) {
   return API.sprintf(lang('number'),item.index)
 }
 function items() {
-  let max = menu.numberOnScreen;
+  let max = cMenu.numberOnScreen;
   let itemDisplayed = [];
-  for (let index = menu.offset; index < menuItems.length; index++) {
-    if (menuItems[index].icon) {
+  for (let index = cMenu.offset; index < menuStore.cMenuItems.length; index++) {
+    if (menuStore.cMenuItems[index].icon) {
       max -=2
     } else {
       max--
     }
-    itemDisplayed.push(menuItems[index])
+    itemDisplayed.push(menuStore.cMenuItems[index])
     if (max <= 0) break;
   }
   return itemDisplayed;

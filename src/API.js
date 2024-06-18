@@ -1,4 +1,3 @@
-import store from '@/store'
 import { useLangStore } from './stores/lang';
 import { useDataStore } from './stores/datas';
 import { useMenuStore } from './stores/menus';

@@ -25,26 +25,25 @@
 </template>
 
 <script setup>
-  import { inject } from 'vue';
-  import { useMenuStore } from '../../../stores/menus';
-  const menuStore = useMenuStore()
-  import { useLangStore } from '../../../stores/lang';
-  const lang = useLangStore().lang
+import { inject } from 'vue';
+import { useMenuStore } from '../../../stores/menus';
+const menuStore = useMenuStore()
+import { useLangStore } from '../../../stores/lang';
+const lang = useLangStore().lang
 
-  const API = inject('API')
-  const cMenu = computed(() => menuStore.cMenu)
-  const slider = props.slider
-  const index = props.index
+const API = inject('API')
+const cMenu = computed(() => menuStore.cMenu)
+const slider = props.slider
+const index = props.index
 
-  function IsBought(vIndex) { {
-    return false
-  }
-  function numItem() {
-    return API.sprintf(lang('of'),slider.current, slider.values.length)
-  }
-  function click(vIndex) {
-    if (vIndex == slider.current) return
-    this.setSliderCurrent([index,vIndex])
-  }
+function IsBought(vIndex) {
+  return false
+}
+function numItem() {
+  return API.sprintf(lang('of'),slider.current, slider.values.length)
+}
+function click(vIndex) {
+  if (vIndex == slider.current) return
+  this.setSliderCurrent([index,vIndex])
 }
 </script>

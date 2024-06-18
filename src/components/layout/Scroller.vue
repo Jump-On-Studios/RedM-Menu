@@ -16,7 +16,6 @@ const lang = useLangStore().lang
 const menuStore = useMenuStore()
 const API = inject('API')
 
-const menuItems = computed(() => menuStore.menuItems)
 const menu = computed(() => menuStore.cMenu)
 const menuDown = computed(() => menuStore.menuDown)
 const menuUp = computed(() => menuStore.menuUp)
@@ -26,8 +25,8 @@ function getActive() {
   if (direction == 'top' && menu.offset > 0) return true
   if (direction == "bottom") {
     let gap = 0
-    for (let index = menu.offset; index < menuItems.length; index++) {
-      if (menuItems[index].icon) {
+    for (let index = menu.offset; index < menuStore.cMenuItems.length; index++) {
+      if (menuStore.cMenuItems[index].icon) {
         gap += 2
       } else {
         gap++;
@@ -45,6 +44,6 @@ function click() {
   }
 }
 function numItem() {
-  return API.sprintf(lang('of'),menu.currentItem+1, menuItems.length)
+  return API.sprintf(lang('of'),menu.currentItem+1, menuStore.cMenuItems.length)
 }
 </script>

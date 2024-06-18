@@ -4,9 +4,6 @@
       <img :src="`./assets/images/icons/${props.icon}.png`" />
     </div>
     <div class="current" v-if="props.isCurrent">
-      <div class="color" v-if="item.colors">
-        <ColorPicture :color="item.colors.values[item.colors.current]" />
-      </div>
       <div class="tick">
         <img src="/assets/images/menu/tick.png">
       </div>
@@ -20,17 +17,17 @@
       <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
         <img :class="item.prefix" :src="`./assets/images/icons/${item.prefix}.png`" />
       </div>
-      <span class="title" v-html="cItem.getTitle()"></span>
+      <span class="title" v-html="menuStore.cItem.getTitle()"></span>
       <template v-if="!item.disabled">
         <template v-for="(slider, index) in item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
-            <Switch :slider="slider" :index="index" :isCurrent="item == cItem" />
+            <Switch :slider="slider" :index="index" :isCurrent="item == menuStore.cItem" />
           </template>
         </template>
       </template>
       <PalettePreview v-if="item.previewPalette && hasPaletteSlider()" :sliders="item.sliders" />
       <div class="priceRight" v-if="!item.iconRight && !props.isCurrent">
-        <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
+        <PriceDisplay :price="(item.priceRight && (menuStore.cMenu.cItem == item && isItemBought()))?0:item.priceRight" />
       </div>
       <div class="textRight" v-if="item.textRight">
         <template v-if="item.translateTextRight">
@@ -40,9 +37,6 @@
           {{ item.textRight }}
         </template>
       </div>
-      <div class="textRight" v-if="item.colors?.displayRight">
-        <ColorPicture :color="item.colors.values[item.colors.current]" />
-      </div>
     </h3>
     <div class="background"></div>
   </li>
@@ -51,7 +45,6 @@
 <script setup>
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
-import ColorPicture from "./ColorPicture.vue"
 import PalettePreview from "./PalettePreview.vue"
 import { computed } from 'vue'
 import { useMenuStore } from '../../stores/menus'
@@ -59,12 +52,6 @@ import { useLangStore } from '../../stores/lang'
 const menuStore = useMenuStore()
 const API = inject('API')
 const lang = useLangStore().lang
-
-const currentMenu = computed(() => menuStore.currentMenu)
-const equipedItems = computed(() => menuStore.equipedItems)
-const colors = computed(() => menuStore.colors)
-const cItem = computed(() => menuStore.cItem)
-const menu = computed(() => menuStore.menu)
 
 defineProps({
   icon : {
@@ -83,10 +70,10 @@ defineProps({
 const item = computed(() => props.item)
 
 function click() {
-  if (menu.currentItem == item.id) {
+  if (menuStore.cMenu.currentItem == item.id) {
     menuStore.menuEnter()
   } else {
-    menuStore.setCurrentItem({offset:menu.offset,id:item.id})
+    menuStore.setCurrentItem({offset:menuStore.cMenu.offset,id:item.id})
   }
   API.PlayAudio('button')
 }

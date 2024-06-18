@@ -194,6 +194,7 @@ class Menu {
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
     if (data.translateTitle != undefined) this.setTranslateTitle(data.translateTitle)
+    if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape) this.setDisableEscape(data.disableEscape)
   }
@@ -247,6 +248,9 @@ class Menu {
   setTranslateTitle(value) {
     this.translateTitle = value
   }
+  setTranslateSubtitle(value) {
+    this.translateSubtitle = value
+  }
 
   setDisableEscape(value) {
     this.disableEscape = value
@@ -259,7 +263,6 @@ export const useMenuStore = defineStore('menus', {
       parentTree: [],
       currentMenu : '',
       menus: {},
-      globalPrices: [],
       displayOutfitId: false,
       refreshID: 0,
       refreshLastID: -1,
@@ -267,14 +270,9 @@ export const useMenuStore = defineStore('menus', {
     }
   },
   getters: {
-    menu: ({ menus, currentMenu}) => menus[currentMenu],
     cMenu: ({ menus, currentMenu}) => menus[currentMenu],
-    menuItems: (state, getters) => getters.menu.items.filter(item => item.visible),
-    cItem: (state, getters) => getters.menuItems[getters.menu.currentItem],
-    globalPrice: (state) => {
-      let globalPrice = state.globalPrices.find(globalPrice => globalPrice.menus.includes(state.currentMenu))
-      return globalPrice || false
-    },
+    cMenuItems: (state, getters) => getters.cMenu.items.filter(item => item.visible),
+    cItem: (state, getters) => getters.cMenuItems[state.cMenu.currentItem],
     cItemPrice: (state, getters) => {
       const cItem = getters.cItem
       if (cItem.sliders) {
@@ -361,8 +359,8 @@ export const useMenuStore = defineStore('menus', {
       this.refreshID ++
       this.updatePreview()
     },
-    menuEnter({ getters }) {
-      let item = getters.cItem
+    menuEnter() {
+      let item = this.cItem
       if (item.disabled) return
       API.PlayAudio('button')
       if (item.child) {
@@ -372,15 +370,15 @@ export const useMenuStore = defineStore('menus', {
         this.updatePreview()
       } else {
         API.post('select',{
-          menu: this.getters.currentMenu,
-          item: this.getters.cItem
+          menu: this.currentMenu,
+          item: this.cItem
         })
       }
     },
-    menuBack({ getters }) {
+    menuBack() {
       API.post('back',{
-        menu: this.getters.currentMenu,
-        item: getters.cItem
+        menu: this.currentMenu,
+        item: this.cItem
       })
       if (this.parentTree.length > 0) {
         this.currentMenu = this.parentTree.pop()
@@ -388,9 +386,9 @@ export const useMenuStore = defineStore('menus', {
         this.updatePreview()
       }
     },
-    menuDown({ getters }) {
-      let menu = getters.menu
-      let items = getters.menuItems
+    menuDown() {
+      let menu = this.cMenu
+      let items = this.cMenuItems
       if (menu.currentItem < items.length -1) {
         menu.currentItem++;
       } else {
@@ -405,9 +403,9 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    menuUp({getters}) {
-      let menu = getters.menu
-      let items = getters.menuItems
+    menuUp() {
+      let menu = this.cMenu
+      let items = this.cMenuItems
       if (menu.currentItem > 0) {
         menu.currentItem--;
       } else {
@@ -422,9 +420,9 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    sliderLeft({ getters },index) {
-      if (getters.cItem.disabled) return
-      let item = getters.cItem
+    sliderLeft(index) {
+      if (this.cItem.disabled) return
+      let item = this.cItem
       let slider = undefined
       if (index == undefined) {
         index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
@@ -451,9 +449,9 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    sliderRight({ getters },index) {
-      if (getters.cItem.disabled) return
-      let item = getters.cItem
+    sliderRight(index) {
+      if (this.cItem.disabled) return
+      let item = this.cItem
       let slider = undefined
       if (index == undefined) {
         index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
@@ -480,8 +478,8 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    setSliderCurrent({getters},data) {
-      let item = getters.cItem
+    setSliderCurrent(data) {
+      let item = this.cItem
       let slider = item.sliders[data.index]
       if (!slider) return;
       if (slider.type == "grid") {
@@ -507,8 +505,8 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    saveGridPosition({getters}, data) {
-      let item = getters.cItem
+    saveGridPosition(data) {
+      let item = this.cItem
       if (!item.grid) return
       let values = item.grid.values
       let change = false
@@ -529,8 +527,8 @@ export const useMenuStore = defineStore('menus', {
         this.updatePreview()
       } 
     },
-    gridLeft({getters}) {
-      let item = getters.cItem
+    gridLeft() {
+      let item = this.cItem
       if (!item.grid) return
       let values = item.grid.values
       values[0].current -= values[0].gap
@@ -539,8 +537,8 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    gridRight({getters}) {
-      let item = getters.cItem
+    gridRight() {
+      let item = this.cItem
       if (!item.grid) return
       let values = item.grid.values
       values[0].current += values[0].gap
@@ -549,10 +547,10 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    gridUp({getters}) {
-      let item = getters.cItem
-      if (!getters.cItem.grid) return
-      if (!(getters.cItem.grid.values.length == 2)) return
+    gridUp() {
+      let item = this.cItem
+      if (!this.cItem.grid) return
+      if (!(this.cItem.grid.values.length == 2)) return
       if (!item.grid) return
       if (!(item.grid.values.length == 2)) return
       let values = item.grid.values
@@ -563,8 +561,8 @@ export const useMenuStore = defineStore('menus', {
       this.refreshID ++
       this.updatePreview()
     },
-    gridDown({getters}) {
-      let item = getters.cItem
+    gridDown() {
+      let item = this.cItem
       if (!item.grid) return
       if (!(item.grid.values.length == 2)) return
       let values = item.grid.values
@@ -574,12 +572,13 @@ export const useMenuStore = defineStore('menus', {
       API.PlayAudio('button')
       this.updatePreview()
     },
-    updatePreview({ getters }) {
-      if (getters.cItem == undefined) return
-      let item = getters.cItem
+    updatePreview() {
+      console.log("=>",this.cItem)
+      if (this.cItem == undefined) return
+      let item = this.cItem
       API.post('updatePreview',{
         menu: this.currentMenu,
-        current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+        current: {id:this.cMenu.currentItem, offset: this.cMenu.offset},
         item: item,
       })
     },
