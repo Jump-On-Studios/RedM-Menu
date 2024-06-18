@@ -27,54 +27,48 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-export default {
-  computed: {
-    ...mapGetters(['lang'])
-  },
-  methods : {
-    getLabel() {
-      if (this.stat.translateLabel == false){
-        return this.stat.label
-      } else {
-        return this.lang(this.stat.label)
-      }
-    },
-    getValue() {
-      if (this.stat.translateValue == false){
-        return this.stat.value
-      } else {
-        return this.lang(this.stat.value)
-      }
-    },
-    getImage(image) {
-      if (typeof image == "object")
-        return `./assets/images/icons/${image.icon}.png`
-      return `./assets/images/icons/${image}.png`
-    },
-    getMenuImage(image) {
-      if (typeof image == "object")
-        return `./assets/images/menu/${image.icon}.png`;
-      return `./assets/images/menu/${image}.png`;
-    },
-    getImageStyle(icon) {
-      if (typeof icon == "object") {
-        return {
-          opacity: icon.opacity
-        }
-      }
-    },
-    IsActive(value) {
-      return (value <= this.stat.value[0])
-    },
-    IsPossible(value) {
-      if (this.stat.value.length == 1) return false
-      return (value > this.stat.value[0] && value <= this.stat.value[1])
-    }
-  },
-  props : {
-    stat : Object
+<script setup>
+import { computed } from 'vue';
+import { useLangStore } from '../../stores/lang';
+
+const lang = useLangStore().lang
+const stat = computed(() => props.stat)
+function getLabel() {
+  if (stat.translateLabel == false){
+    return stat.label
+  } else {
+    return lang(stat.label)
   }
+}
+function getValue() {
+  if (stat.translateValue == false){
+    return stat.value
+  } else {
+    return lang(stat.value)
+  }
+}
+function getImage(image) {
+  if (typeof image == "object")
+    return `./assets/images/icons/${image.icon}.png`
+  return `./assets/images/icons/${image}.png`
+}
+function getMenuImage(image) {
+  if (typeof image == "object")
+    return `./assets/images/menu/${image.icon}.png`;
+  return `./assets/images/menu/${image}.png`;
+}
+function getImageStyle(icon) {
+  if (typeof icon == "object") {
+    return {
+      opacity: icon.opacity
+    }
+  }
+}
+function IsActive(value) {
+  return (value <= stat.value[0])
+}
+function IsPossible(value) {
+  if (stat.value.length == 1) return false
+  return (value > stat.value[0] && value <= stat.value[1])
 }
 </script>

@@ -7,43 +7,44 @@
   <div class="scounter hapna" v-if="direction=='bottom'">{{ numItem() }}</div>
 </template>
 
-<script>
-import { mapActions, mapGetters } from 'vuex'
+<script setup>
+import { computed } from 'vue';
+import { useLangStore } from '../../stores/lang';
+import { useMenuStore } from '../../stores/menus';
 
-export default {
-  computed: {
-    ...mapGetters(['lang', 'menuItems','menu'])
-  },
-  methods : {
-    ...mapActions(['menuDown','menuUp']),
-    getActive() {
-      if (this.direction == 'top' && this.menu.offset > 0) return true
-      if (this.direction == "bottom") {
-        let gap = 0
-        for (let index = this.menu.offset; index < this.menuItems.length; index++) {
-          if (this.menuItems[index].icon) {
-            gap += 2
-          } else {
-            gap++;
-          }
-          if (gap > this.menu.numberOnScreen) return true
-        }
-      }
-      return false
-    },
-    click() {
-      if (this.direction == "bottom") {
-        this.menuDown()
+const lang = useLangStore().lang
+const menuStore = useMenuStore()
+const API = inject('API')
+
+const menuItems = computed(() => menuStore.menuItems)
+const menu = computed(() => menuStore.cMenu)
+const menuDown = computed(() => menuStore.menuDown)
+const menuUp = computed(() => menuStore.menuUp)
+const direction = computed(() => props.direction)
+
+function getActive() {
+  if (direction == 'top' && menu.offset > 0) return true
+  if (direction == "bottom") {
+    let gap = 0
+    for (let index = menu.offset; index < menuItems.length; index++) {
+      if (menuItems[index].icon) {
+        gap += 2
       } else {
-        this.menuUp()
+        gap++;
       }
-    },
-    numItem() {
-      return this.$API.sprintf(this.lang('of'),this.menu.currentItem+1, this.menuItems.length)
+      if (gap > menu.numberOnScreen) return true
     }
-  },
-  props : {
-    direction: String
   }
+  return false
+}
+function click() {
+  if (direction == "bottom") {
+    menuDown()
+  } else {
+    menuUp()
+  }
+}
+function numItem() {
+  return API.sprintf(lang('of'),menu.currentItem+1, menuItems.length)
 }
 </script>

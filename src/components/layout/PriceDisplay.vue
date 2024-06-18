@@ -26,41 +26,39 @@
   </template>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
+import { computed } from 'vue';
+import { useLangStore } from '../../stores/lang';
+import { useMenuStore } from '../../stores/menus';
+const menuStore = useMenuStore();
+const lang = useLangStore().lang
+const menu = computed(() => menuStore.cMenu)
+const price = computed(() => props.price)
 
-export default {
-  computed: {
-    ...mapGetters(['isItemBought','lang','menu'])
-  },
-  methods: {
-    gold() {
-      if (this.price.gold%1 == 0) return this.price.gold.toString()
-      return this.price.gold.toFixed(2).toString()
-    },
-    getPrice() {
-      if (typeof(this.price) == 'object')
-        return this.price.money
-      return this.price
-    },
-    priceRounded() {
-      let price = this.getPrice()
-      if (this.getPrice() == 0)
-        return this.lang('free')
-      return Math.trunc(price)
-    },
-    centimes() {
-      let price = this.getPrice()
-      if (price == 0)
-        return ''
-      return (price%1).toFixed(2).toString().substring(2);
-    },
-    devise() {
-      if (this.getPrice() == 0)
-        return ''
-      return this.lang('devise')
-    }
-  },
-  props : ['price'],
+function gold() {
+  if (price.gold%1 == 0) return price.gold.toString()
+  return price.gold.toFixed(2).toString()
+}
+function getPrice() {
+  if (typeof(price) == 'object')
+    return price.money
+  return price
+}
+function priceRounded() {
+  let price = getPrice()
+  if (getPrice() == 0)
+    return lang('free')
+  return Math.trunc(price)
+}
+function centimes() {
+  let price = getPrice()
+  if (price == 0)
+    return ''
+  return (price%1).toFixed(2).toString().substring(2);
+}
+function devise() {
+  if (getPrice() == 0)
+    return ''
+  return lang('devise')
 }
 </script>
