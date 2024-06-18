@@ -120,11 +120,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown);
   window.removeEventListener('wheel', handleWheel);
 })
-watch: {
-  currentMenu: function() {
-    nextTick(() => {
-      updateScroll(true)
-    });
-  }
-}
+watch(currentMenu, function() {
+  nextTick(() => {
+    updateScroll(true)
+  });
+})
 </script>

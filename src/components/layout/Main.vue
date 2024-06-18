@@ -108,5 +108,5 @@ onBeforeUnmount(() => {
   document.removeEventListener('focusin', focusIn);
   document.removeEventListener('focusout', focusOut);
   API.PlayAudio('menu_close');
-}
+})
 </script>

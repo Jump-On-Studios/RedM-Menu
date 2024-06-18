@@ -15,7 +15,7 @@ const currentMenu = computed(() => menuStore.currentMenu)
 
 function haveIcon() {
   return cItem.icon
-},
+}
 function getTop() {
   let top = 0;
   const active = document.getElementsByClassName('item active')[0];
