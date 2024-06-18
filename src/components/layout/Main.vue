@@ -3,7 +3,7 @@
     <div class="article">
       <h2 id="title">
         {{ getTitle() }}
-        <span v-if="parentTree.length > 0" class="backer clicker" @click="menuBack()">
+        <span v-if="menuStore.parentTree.length > 0" class="backer clicker" @click="menuStore.menuBack()">
           <img src="/assets/images/menu/selection_arrow_left.png">
         </span>
       </h2>
@@ -24,7 +24,6 @@
       <template v-if="menuStore.cMenuItems.length > 0">
         <Description />
         <Slider />
-        <Color />
       </template>
       <Price />
     </div>
@@ -42,7 +41,7 @@ import Loading from './Loading.vue'
 import { useDataStore } from '../../stores/datas'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
-import { computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+import { inject, computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 const datas = useDataStore()
 const menuStore = useMenuStore()
 const lang = useLangStore().lang
@@ -52,15 +51,12 @@ const keyPressed = {}
 let focus = false
 let mountedDate = 0
 
-const parentTree = computed(() => menuStore.parentTree)
-const menuEnter = computed(() => menuStore.menuEnter)
-const menuBack = computed(() => menuStore.menuBack)
 function handleKeyUp(e) {
   keyPressed[e.key] = false
 }
 function handleKeydown(e) {
   if (e.code == "KeyQ")
-    datas.isQwerty(e.key == "q")
+    datas.defineQwerty(e.key == "q")
   if (focus) return
   if (keyPressed[e.key]) return
   
@@ -68,13 +64,13 @@ function handleKeydown(e) {
   if (Date.now()-mountedDate < 100) return
   switch(e.key) {
     case 'Enter':
-      menuEnter()
+      menuStore.menuEnter()
       return
     case 'Backspace':
-      menuBack()
+       menuStore.menuBack()
       return
     case 'Escape':
-      menuBack()
+       menuStore.menuBack()
       return
   }
 }

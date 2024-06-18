@@ -72,7 +72,7 @@ html, body {
       height: 100%;
       top: 0;
       left: 0;
-      background-image: url('./assets/images/background.png');
+      background-image: url('/assets/images/background.png');
       filter: invert(100%);
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -81,7 +81,7 @@ html, body {
 }
 
 header {
-  background: url('./assets/images/menu_header.png');
+  background: url('/assets/images/menu_header.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -709,7 +709,7 @@ main {
 .v-leave-active {
   transition: all var(--transition-duration) ease;
   .container {
-    -webkit-mask-image: url('./assets/images/background_mask.png');
+    -webkit-mask-image: url('/assets/images/background_mask.png');
   }
 }
 
@@ -730,7 +730,7 @@ main {
 .smudge {
   display: none;
   content: '';
-  background-image: url('./assets/images/background_smudge.png');
+  background-image: url('/assets/images/background_smudge.png');
   height: 100%;
   width: 100%;
   background-size: 100% 100%;
@@ -806,7 +806,7 @@ main {
   .grid {
     width: 100%;
     height: 38px;
-    background-image: url('./assets/images/menu/grid.png');
+    background-image: url('/assets/images/menu/grid.png');
     background-size: cover;
     position: relative;
     #marker {
@@ -816,7 +816,7 @@ main {
       transform: translate(-50%,-50%);
       width: 20px;
       height: 20px;
-      background-image: url('./assets/images/menu/marker.png');
+      background-image: url('/assets/images/menu/marker.png');
       background-size: 25px;
       background-repeat: no-repeat;
       background-position: center;

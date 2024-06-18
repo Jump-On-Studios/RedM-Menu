@@ -36,7 +36,9 @@
   const menuStore = useMenuStore()
   const API = inject('API')
 
-  const cItem = computed(() => menuStore.cItem)
+  const props = defineProps(['index','slider'])
+
+  const cItem =  menuStore.cItem
   const index = props.index
   const slider = props.slider
   let mounted = false

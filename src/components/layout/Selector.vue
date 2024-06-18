@@ -8,13 +8,8 @@ import { useMenuStore } from '../../stores/menus';
 
 const menuStore = useMenuStore()
 
-const menuItems = computed(() => menuStore.menuItems)
-const cItem = computed(() => menuStore.cItem)
-const menu = computed(() => menuStore.cMenu)
-const currentMenu = computed(() => menuStore.currentMenu)
-
 function haveIcon() {
-  return cItem.icon
+  return menuStore.cItem.icon
 }
 function getTop() {
   let top = 0;

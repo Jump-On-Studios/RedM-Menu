@@ -7,7 +7,7 @@ class MenuItem {
   iconRight = false;
   iconClass = '';
   child = false;
-  sliders = false;
+  sliders = [];
   colors = false;
   price = false;
   priceTitle = false;
@@ -258,23 +258,17 @@ class Menu {
 }
 
 export const useMenuStore = defineStore('menus', {
-  state: () => {
-    return {
-      parentTree: [],
-      currentMenu : '',
-      menus: {},
-      displayOutfitId: false,
-      refreshID: 0,
-      refreshLastID: -1,
-      menus: {},
-    }
-  },
+  state: () => ({
+    parentTree: [],
+    currentMenuId : 'home',
+    menus: {},
+  }),
   getters: {
-    cMenu: ({ menus, currentMenu}) => menus[currentMenu],
-    cMenuItems: (state, getters) => getters.cMenu.items.filter(item => item.visible),
-    cItem: (state, getters) => getters.cMenuItems[state.cMenu.currentItem],
-    cItemPrice: (state, getters) => {
-      const cItem = getters.cItem
+    cMenu: (state) => state.menus[state.currentMenuId],
+    cMenuItems() { return this.cMenu.items.filter(item => item.visible) },
+    cItem() { return this.cMenuItems[this.cMenu.currentItem]},
+    cItemPrice() {
+      const cItem = this.cItem
       if (cItem.sliders) {
         for (let index = 0; index < cItem.sliders.length; index++) {
           const slider = cItem.sliders[index];
@@ -297,9 +291,9 @@ export const useMenuStore = defineStore('menus', {
       }
     },
     menuSwitch(data) {
-      this.parentTree.push(this.currentMenu)
+      this.parentTree.push(this.currentMenuId)
       if (data.reset) this.menus[data.menu].reset()
-      this.currentMenu = data.menu
+      this.currentMenuId = data.menu
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -349,14 +343,13 @@ export const useMenuStore = defineStore('menus', {
       }
     },
     setCurrentItem(data) {
-      this.menus[this.currentMenu].offset = data.offset
-      this.menus[this.currentMenu].setCurrent(data.id)
+      this.menus[this.currentMenuId].offset = data.offset
+      this.menus[this.currentMenuId].setCurrent(data.id)
       this.updatePreview()
     },
-    setCurrentMenu(data) {
-      this.currentMenu = data.menu
+    setcurrentMenu(data) {
+      this.currentMenuId = data.menu
       this.parentTree = []
-      this.refreshID ++
       this.updatePreview()
     },
     menuEnter() {
@@ -364,24 +357,23 @@ export const useMenuStore = defineStore('menus', {
       if (item.disabled) return
       API.PlayAudio('button')
       if (item.child) {
-        state.parentTree.push(state.currentMenu)
-        state.currentMenu = item.child
-        state.refreshID ++
+        state.parentTree.push(state.currentMenuId)
+        state.currentMenuId = item.child
         this.updatePreview()
       } else {
         API.post('select',{
-          menu: this.currentMenu,
+          menu: this.currentMenuId,
           item: this.cItem
         })
       }
     },
     menuBack() {
       API.post('back',{
-        menu: this.currentMenu,
+        menu: this.currentMenuId,
         item: this.cItem
       })
       if (this.parentTree.length > 0) {
-        this.currentMenu = this.parentTree.pop()
+        this.currentMenuId = this.parentTree.pop()
         API.PlayAudio('button')
         this.updatePreview()
       }
@@ -417,6 +409,7 @@ export const useMenuStore = defineStore('menus', {
           menu.items[menu.currentItem].colors.offset = 0
         }
       }
+      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -435,7 +428,7 @@ export const useMenuStore = defineStore('menus', {
       if (slider.type == "slider" || slider.type == "switch") {
         if (slider.current == 1 && !slider.looped) return
         slider.current--
-        if (slider.current == 0) slider.values.length
+        if (slider.current == 0) slider.current = slider.values.length
       } else if (slider.type == "palette") {
         if (slider.current <= 0) return
         slider.current--;
@@ -446,6 +439,7 @@ export const useMenuStore = defineStore('menus', {
         if (values[0].current < values[0].min)
           values[0].current = values[0].min
       }
+      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -461,7 +455,7 @@ export const useMenuStore = defineStore('menus', {
       }
       if (!slider) return;
   
-      if (slider.type == "slider" && slider.type == "switch") {
+      if (slider.type == "slider" || slider.type == "switch") {
         if (slider.current == slider.values.length && !slider.looped) return
         slider.current++;
         if (slider.current > slider.values.length) slider.current = 1
@@ -475,6 +469,7 @@ export const useMenuStore = defineStore('menus', {
         if (values[0].current > values[0].max)
           values[0].current = values[0].max
       }
+      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -558,7 +553,6 @@ export const useMenuStore = defineStore('menus', {
       if (values[1].current < values[1].min)
         values[1].current = values[1].min
       API.PlayAudio('button')
-      this.refreshID ++
       this.updatePreview()
     },
     gridDown() {
@@ -573,12 +567,10 @@ export const useMenuStore = defineStore('menus', {
       this.updatePreview()
     },
     updatePreview() {
-      console.log("=>",this.cItem)
       if (this.cItem == undefined) return
       let item = this.cItem
       API.post('updatePreview',{
-        menu: this.currentMenu,
-        current: {id:this.cMenu.currentItem, offset: this.cMenu.offset},
+        menu: this.currentMenuId,
         item: item,
       })
     },

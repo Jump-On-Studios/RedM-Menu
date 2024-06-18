@@ -21,12 +21,12 @@ import Selector from './Selector.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, nextTick} from 'vue';
+import { onBeforeMount, onBeforeUnmount, nextTick, inject, computed, watch} from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
 const cMenu = computed(() => menuStore.cMenu)
-const currentMenu = computed(() => menuStore.currentMenu)
+const currentMenuId = computed(() => menuStore.currentMenuId)
 const menuDown = computed(() => menuStore.menuDown)
 const menuUp = computed(() => menuStore.menuUp)
 const sliderLeft = computed(() => menuStore.sliderLeft)
@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown);
   window.removeEventListener('wheel', handleWheel);
 })
-watch(currentMenu, function() {
+watch(currentMenuId, function() {
   nextTick(() => {
     updateScroll(true)
   });

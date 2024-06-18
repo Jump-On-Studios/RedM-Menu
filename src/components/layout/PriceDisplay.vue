@@ -29,10 +29,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useLangStore } from '../../stores/lang';
-import { useMenuStore } from '../../stores/menus';
-const menuStore = useMenuStore();
+const props = defineProps(['price',])
 const lang = useLangStore().lang
-const menu = computed(() => menuStore.cMenu)
 const price = computed(() => props.price)
 
 function gold() {

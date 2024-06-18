@@ -11,8 +11,7 @@
 <script setup>
   import { useLangStore } from '../../../stores/lang';
   const lang = useLangStore().lang
-  import { useMenuStore } from '../../../stores/menus';
-  const menuStore = useMenuStore()
+  const props = defineProps(['slider','isCurrent'])
 
   function getSufixLabel() {
     if (!props.slider.translate) return props.slider.values[props.slider.current -1].label 

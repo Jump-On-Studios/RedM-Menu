@@ -18,45 +18,43 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onBeforeUnmount } from 'vue';
+import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
 import { useMenuStore } from '../../stores/menus';
 import ColorPalette from './sliders/ColorPalette.vue'
 import DefaultSlider from './sliders/DefaultSlider.vue'
 import Grid from './sliders/Grid.vue'
 
 const menuStore = useMenuStore()
-const sliderLeft = computed(() => menuStore.sliderLeft)
-const sliderRight = computed(() => menuStore.sliderRight)
-const setSliderCurrent = computed(() => menuStore.setSliderCurrent)
+const cItem = menuStore.cItem
 
 function handleKeydown(e) {
   if (!cItem.sliders) return
   switch(e.code) {
     //LEFT
     case 'ArrowLeft':
-      sliderLeft()
+      menuStore.sliderLeft()
       break;
     case 'KeyQ':
-      sliderLeft(1)
+      menuStore.sliderLeft(1)
       break;
     case 'Numpad4':
-      sliderLeft(2)
+      menuStore.sliderLeft(2)
       break;
     case 'Digit4':
-      sliderLeft(2)
+      menuStore.sliderLeft(2)
       break;
     //RIGHT
     case 'ArrowRight':
-      sliderRight()
+      menuStore.sliderRight()
       break;
     case 'KeyE':
-      sliderRight(1)
+      menuStore.sliderRight(1)
       break;
     case 'Numpad6':
-      sliderRight(2)
+      menuStore.sliderRight(2)
       break;
     case 'Digit6':
-      sliderRight(2)
+      menuStore.sliderRight(2)
       break;
   }
   return;

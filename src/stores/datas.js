@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('datas', {
-  state: () => {
-    return {
-      showMenu: false,
-      menuPositionRight: false,
-      isQwerty: false
-    }
-  },
+  state: () => ({
+    showMenu: false,
+    menuPositionRight: false,
+    isQwerty: false
+  }),
   actions: {
     defineShow(value) {
       this.showMenu = value
@@ -15,7 +13,7 @@ export const useDataStore = defineStore('datas', {
     definePosition(value) {
       this.menuPositionRight = value == "right"
     },
-    isQwerty(value) {
+    defineQwerty(value) {
       this.isQwerty = value
     }
   }

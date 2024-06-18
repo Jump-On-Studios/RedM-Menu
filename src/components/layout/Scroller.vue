@@ -8,9 +8,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed,inject } from 'vue';
 import { useLangStore } from '../../stores/lang';
 import { useMenuStore } from '../../stores/menus';
+
+const props = defineProps(['direction'])
 
 const lang = useLangStore().lang
 const menuStore = useMenuStore()

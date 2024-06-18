@@ -17,7 +17,7 @@
       <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
         <img :class="item.prefix" :src="`./assets/images/icons/${item.prefix}.png`" />
       </div>
-      <span class="title" v-html="menuStore.cItem.getTitle()"></span>
+      <span class="title" v-html="item.title"></span>
       <template v-if="!item.disabled">
         <template v-for="(slider, index) in item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
@@ -49,11 +49,12 @@ import PalettePreview from "./PalettePreview.vue"
 import { computed } from 'vue'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
+import { inject } from 'vue'
 const menuStore = useMenuStore()
 const API = inject('API')
 const lang = useLangStore().lang
 
-defineProps({
+const props = defineProps({
   icon : {
     default : false,
   },
@@ -67,7 +68,7 @@ defineProps({
   },
 })
 
-const item = computed(() => props.item)
+const item = props.item
 
 function click() {
   if (menuStore.cMenu.currentItem == item.id) {
