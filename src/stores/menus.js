@@ -334,9 +334,6 @@ export const useMenuStore = defineStore('menus', {
       if (data.reset) {
         this.menus[data.menu.id].reset()
       }
-      if (this.currentMenu == data.menu.id) {
-        this.this.updatePreview()
-      }
       if (data.switch) {
         window.postMessage({
           event:"menuSwitch",
@@ -367,43 +364,40 @@ export const useMenuStore = defineStore('menus', {
     setCurrentItem(data) {
       this.menus[this.currentMenu].offset = data.offset
       this.menus[this.currentMenu].setCurrent(data.id)
-      this.refreshID ++
+      this.updatePreview()
     },
     setCurrentMenu(data) {
       this.currentMenu = data.menu
       this.parentTree = []
       this.refreshID ++
+      this.updatePreview()
     },
     menuEnter({ getters }) {
       let item = getters.cItem
       if (item.disabled) return
+      API.PlayAudio('button')
       if (item.child) {
         state.parentTree.push(state.currentMenu)
         state.currentMenu = item.child
         state.refreshID ++
+        this.updatePreview()
+      } else {
+        API.post('select',{
+          menu: this.getters.currentMenu,
+          item: this.getters.cItem
+        })
       }
-      API.PlayAudio('button')
-      API.post('select',{
-        menu: this.getters.currentMenu,
-        item: this.getters.cItem
-      })
     },
     menuBack({ getters }) {
       API.post('back',{
         menu: this.getters.currentMenu,
         item: getters.cItem
       })
-      if (this.parentTree.length == 0) {
-        if (this.menus[this.currentMenu].disableEscape) return
-        //quitter
-        this.show = false
-        API.post('close')
-        this.refreshID = 0
-        return
+      if (this.parentTree.length > 0) {
+        this.currentMenu = this.parentTree.pop()
+        API.PlayAudio('button')
+        this.updatePreview()
       }
-      this.currentMenu = this.parentTree.pop()
-      API.PlayAudio('button')
-      this.updatePreview()
     },
     menuDown({ getters }) {
       let menu = getters.menu
@@ -451,29 +445,21 @@ export const useMenuStore = defineStore('menus', {
       }
       if (!slider) return;
   
-      if (slider.type == "slider" && slider.current > 1) {
-        slider.current--;
-        API.PlayAudio('button')
-      }
-      if (slider.type == "switch") {
+      if (slider.type == "slider" || slider.type == "switch") {
         if (slider.current == 1 && !slider.looped) return
+        slider.current--
+        if (slider.current == 0) slider.values.length
+      } else if (slider.type == "palette") {
+        if (slider.current <= 0) return
         slider.current--;
-        if (slider.current < 1) slider.current = slider.values.length
-        API.PlayAudio('button')
-      }
-      if (slider.type == "palette") {
-        if (slider.current > 0) {
-          slider.current--;
-          API.PlayAudio('button')
-        }
-      }
-      if (slider.type == "grid") {
+      } else if (slider.type == "grid") {
         let values = slider.values
+        if (values[0].current == values[0].min) return
         values[0].current -= values[0].gap
         if (values[0].current < values[0].min)
           values[0].current = values[0].min
-        API.PlayAudio('button')
       }
+      API.PlayAudio('button')
       this.updatePreview()
     },
     sliderRight({ getters },index) {
@@ -488,32 +474,21 @@ export const useMenuStore = defineStore('menus', {
       }
       if (!slider) return;
   
-      if (slider.type == "slider" && slider.current < slider.values.length) {
-        slider.current++;
-        API.PlayAudio('button')
-        this.refreshID ++
-      }
-      if (slider.type == "switch") {
+      if (slider.type == "slider" && slider.type == "switch") {
         if (slider.current == slider.values.length && !slider.looped) return
         slider.current++;
         if (slider.current > slider.values.length) slider.current = 1
-        API.PlayAudio('button')
-        this.refreshID ++
-      }
-      if (slider.type == "palette") {
-        if (slider.current < (slider.max)) {
-          slider.current++;
-          API.PlayAudio('button')
-          this.refreshID ++
-        }
-      }
-      if (slider.type == "grid") {
+      } else if (slider.type == "palette") {
+        if (slider.current == slider.max) return
+        slider.current++;
+      } else if (slider.type == "grid") {
         let values = slider.values
+        if (values[0].current == values[0].max) return
         values[0].current += values[0].gap
         if (values[0].current > values[0].max)
           values[0].current = values[0].max
-        API.PlayAudio('button')
       }
+      API.PlayAudio('button')
       this.updatePreview()
     },
     setSliderCurrent({getters},data) {
@@ -542,18 +517,6 @@ export const useMenuStore = defineStore('menus', {
       }
       API.PlayAudio('button')
       this.updatePreview()
-    },
-    colorLeft({ commit, dispatch }) {
-      commit('COLOR_LEFT')
-      dispatch('updatePreview', true)
-    },
-    colorRight({ commit, dispatch }) {
-      commit('COLOR_RIGHT')
-      dispatch('updatePreview', true)
-    },
-    setColorCurrent({commit,dispatch},value) {
-      commit('SET_COLOR_CURRENT', value)
-      dispatch('updatePreview', true)
     },
     saveGridPosition({getters}, data) {
       let item = getters.cItem
