@@ -8,9 +8,8 @@
 </template>
 
 <script setup>
-import { defineProps,nextTick,ref } from 'vue';
+import {nextTick,ref } from 'vue';
 
-const props = defineProps(['sliders'])
 const tint0 = ref(null);
 const tint1 = ref(null);
 const tint2 = ref(null);
