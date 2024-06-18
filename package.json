@@ -10,8 +10,7 @@
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
     "util": "^0.12.5",
-    "vue": "^3.2.41",
-    "vuex": "^4.1.0"
+    "vue": "^3.2.41"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

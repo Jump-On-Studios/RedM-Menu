@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapGetters(['cItem','lang'])

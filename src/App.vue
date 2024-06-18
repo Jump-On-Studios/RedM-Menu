@@ -11,9 +11,10 @@
   @import "./scss/_main.scss";
 </style>
 
-
 <script setup>
   import Menu from './components/Menu.vue'
+
+  import _ from './dev'
 
   import { computed } from 'vue';
   import { useDataStore } from './stores/datas';

@@ -7,7 +7,6 @@
 <script setup>
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
-import { mapGetters } from 'vuex'
 import { useLangStore } from '../../stores/lang';
 const lang = useLangStore().lang
 

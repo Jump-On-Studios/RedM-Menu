@@ -22,77 +22,75 @@
 </template>
 
 <script setup>
-  import { useStore } from 'vuex'
-  import ColorPicture from './ColorPicture.vue'
-  import { useLangStore } from '../../../stores/lang';
+import ColorPicture from './ColorPicture.vue'
+import { useLangStore } from '../../../stores/lang';
 import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
+import { useMenuStore } from '../stores/menus';
 
-  const store = useStore()
+const menuStore = useMenuStore()
 
-  const lang = useLangStore().lang
-  const cItem = computed(() => store.getters.cItem)
-  const currentMenu = computed(() => store.getters.currentMenu)
-  const equipedItems = computed(() => store.getters.equipedItems)
+const lang = useLangStore().lang
+const cItem = computed(() => menuStore.cItem)
 
-  const colorLeft = computed(() => store.actions.colorLeft)
-  const colorRight = computed(() => store.actions.colorRight)
-  const setColorCurrent = computed(() => store.actions.setColorCurrent)
+const colorLeft = computed(() => store.actions.colorLeft)
+const colorRight = computed(() => store.actions.colorRight)
+const setColorCurrent = computed(() => store.actions.setColorCurrent)
 
-  function numItem() {
-    return $API.sprintf(lang('of'),cItem.colors.current+1, cItem.colors.values.length)
-  }
+function numItem() {
+  return $API.sprintf(lang('of'),cItem.colors.current+1, cItem.colors.values.length)
+}
 
-  function colorsDisplayed() {
-    var list = new Array();
-    for (let index = cItem.colors.offset; index < cItem.colors.values.length; index++) {
-      if (index > cItem.colors.offset + 8) break
-      list.push(cItem.colors.values[index])
-    }
-    return list;
+function colorsDisplayed() {
+  var list = new Array();
+  for (let index = cItem.colors.offset; index < cItem.colors.values.length; index++) {
+    if (index > cItem.colors.offset + 8) break
+    list.push(cItem.colors.values[index])
   }
-  function isCurrentColor(index) {
-    return cItem.colors.offset + index == useMenuStore.cMenu.equipedColor
+  return list;
+}
+function isCurrentColor(index) {
+  return cItem.colors.offset + index == useMenuStore.cMenu.equipedColor
+}
+function handleKeydown(e) {
+  if (!cItem.colors) return
+  if (cItem.disabled) return
+  switch(e.key) {
+    case 'ArrowRight':
+      colorRight()
+      return;
+    case 'ArrowLeft':
+      colorLeft()
+      return;
   }
-  function handleKeydown(e) {
-    if (!cItem.colors) return
-    if (cItem.disabled) return
-    switch(e.key) {
-      case 'ArrowRight':
-        colorRight()
-        return;
-      case 'ArrowLeft':
-        colorLeft()
-        return;
-    }
-    return;
+  return;
+}
+function click(index) {
+  if (index == cItem.colors.current) return
+  setColorCurrent(index)
+}
+function getStyleTint(color,index) {
+  let left = color['tint'+index]-1
+  switch (index) {
+    case 0:
+      left *= -37
+      break;
+    case 1:
+      left *= -22
+      break;
+    case 2:
+      left *= -11
+      break;
   }
-  function click(index) {
-    if (index == cItem.colors.current) return
-    setColorCurrent(index)
+  let url = `./assets/images/menu/${color.palette}.png`
+  return {
+    backgroundImage: "url("+url+")",
+    backgroundPosition: left + "px 0px"
   }
-  function getStyleTint(color,index) {
-    let left = color['tint'+index]-1
-    switch (index) {
-      case 0:
-        left *= -37
-        break;
-      case 1:
-        left *= -22
-        break;
-      case 2:
-        left *= -11
-        break;
-    }
-    let url = `./assets/images/menu/${color.palette}.png`
-    return {
-      backgroundImage: "url("+url+")",
-      backgroundPosition: left + "px 0px"
-    }
-  }
-  onBeforeMount(() => {
-  	window.addEventListener('keydown', handleKeydown, null);
-  })
-  onBeforeUnmount(() => {
-  	window.removeEventListener('keydown', handleKeydown);
-  })
+}
+onBeforeMount(() => {
+  window.addEventListener('keydown', handleKeydown, null);
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown);
+})
 </script>

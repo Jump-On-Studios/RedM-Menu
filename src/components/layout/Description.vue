@@ -11,14 +11,15 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
 import { computed } from 'vue'
-const store = useStore()
 import Statistic from "./Statistic.vue"
 import { useLangStore } from '../../stores/lang';
+import { useMenuStore } from '../../stores/menus';
 const lang = useLangStore().lang
 
-const cItem = computed(() => store.getters.cItem)
+const menuStore = useMenuStore()
+
+const cItem = computed(() => menuStore.cItem)
 function getDescription(item) {
   if (item.translateDescription) {
     return lang(item.description)
