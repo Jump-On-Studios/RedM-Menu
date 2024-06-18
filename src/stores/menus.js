@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import API from './API'
-import _, { get } from 'lodash'
+import API from '../API'
 
 class MenuItem {
   title = '';
@@ -259,7 +258,6 @@ export const useMenuStore = defineStore('menus', {
       currentMenu : '',
       menus: {},
       globalPrices: [],
-      boughtItems: [],
       displayOutfitId: false,
       refreshID: 0,
       refreshLastID: -1,
@@ -268,26 +266,15 @@ export const useMenuStore = defineStore('menus', {
   },
   getters: {
     menu: ({ menus, currentMenu}) => menus[currentMenu],
+    cMenu: ({ menus, currentMenu}) => menus[currentMenu],
     menuItems: (state, getters) => getters.menu.items.filter(item => item.visible),
     cItem: (state, getters) => getters.menuItems[getters.menu.currentItem],
-    isItemBought: ({ boughtItems }, getters) => (hash)=> {
-      if (hash == undefined) {
-        let item = getters.cItem
-        if (item == undefined) return false
-        if (!item.slider) return false
-        hash = item.sliders[0].values[item.sliders[0].current -1]
-      }
-      return boughtItems.filter(el => {return _.isEqual(el,hash)}).length > 0
-    },
     globalPrice: (state) => {
       let globalPrice = state.globalPrices.find(globalPrice => globalPrice.menus.includes(state.currentMenu))
       return globalPrice || false
     },
     cItemPrice: (state, getters) => {
       const cItem = getters.cItem
-      if (getters.isItemBought()) {
-        return 0
-      }
       if (cItem.sliders) {
         for (let index = 0; index < cItem.sliders.length; index++) {
           const slider = cItem.sliders[index];
@@ -537,8 +524,8 @@ export const useMenuStore = defineStore('menus', {
       }
       if (change) {
         API.PlayAudio('button')
+        this.updatePreview()
       } 
-      this.updatePreview()
     },
     gridLeft({getters}) {
       let item = getters.cItem

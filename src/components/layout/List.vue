@@ -19,7 +19,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Item from './Item.vue'
 import Selector from './Selector.vue'
 
-import { useMenusStore } from '../../stores/menus';
+import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 
 export default {

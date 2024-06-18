@@ -9,5 +9,5 @@ const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 app.use(store)
-app.config.globalProperties.$API = API
+app.provide('API', API)
 app.mount('#app')
