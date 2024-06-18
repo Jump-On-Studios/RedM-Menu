@@ -290,7 +290,6 @@ var state = {
   },
   boughtItems: [],
   displayOutfitId: false,
-  menuPositionRight: false,
   isQwerty: true,
   refreshID: 0,
   refreshLastID: -1,
@@ -318,15 +317,12 @@ state.menus = {
 const getters = {
   show: ({ show }) => show,
   isQwerty: ({ isQwerty }) => isQwerty,
-  audios: ({ audios }) => audios,
-  menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
   menu: ({ menus, currentMenu}) => menus[currentMenu],
   menuItems: (state, getters) => getters.menu.items.filter(item => item.visible),
   cItem: (state, getters) => getters.menuItems[getters.menu.currentItem],
   lang: ({ lang }) => (index) => lang[index]?lang[index]:('#'+index),
   parentTree: ({ parentTree }) => parentTree,
   currentMenu: ({ currentMenu }) => currentMenu,
-  audios: ({ audios }) => audios,
   isItemBought: ({ boughtItems }, getters) => (hash)=> {
     if (hash == undefined) {
       let item = getters.cItem
@@ -362,12 +358,13 @@ const actions = {
   menuEnter({ commit, dispatch, getters }) {
     let item = getters.cItem
     if (item.disabled) return
-    if (item.child) {
-      commit('MENU_ENTER')
-      dispatch('updatePreview')
-    } else {
-      commit('MENU_ENTER')
-    }
+    commit('MENU_ENTER')
+    API.PlayAudio('button')
+    API.post('action',{
+      menu: this.getters.currentMenu,
+      item: this.getters.cItem
+    })
+    dispatch('updatePreview')
   },
   menuBack({ commit, dispatch, state }) {
     commit('MENU_BACK')
@@ -570,7 +567,7 @@ const mutations = {
         menu.items[menu.currentItem].colors.offset = 0
       }
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   MENU_UP (state) {
@@ -587,7 +584,7 @@ const mutations = {
         menu.items[menu.currentItem].colors.offset = 0
       }
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   MENU_ENTER (state) {
@@ -595,22 +592,14 @@ const mutations = {
     if (item.child) {
       state.parentTree.push(state.currentMenu)
       state.currentMenu = item.child
-      API.PlayAudio(state.audios.button)
       state.refreshID ++
-    } else {
-      if (this.getters.cItem.action) {
-        API.post('action',{
-          menu: this.getters.currentMenu,
-          item: this.getters.cItem
-        })
-      }
     }
   },
   MENU_SWITCH (state,data) {
     state.parentTree.push(state.currentMenu)
     if (data.reset) state.menus[data.menu].reset()
     state.currentMenu = data.menu
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   MENU_BACK (state) {
@@ -623,7 +612,7 @@ const mutations = {
       return
     }
     state.currentMenu = state.parentTree.pop()
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   SLIDER_LEFT (state, index) {
@@ -639,20 +628,20 @@ const mutations = {
 
     if (slider.type == "slider" && slider.current > 1) {
       slider.current--;
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
     if (slider.type == "switch") {
       if (slider.current == 1 && !slider.looped) return
       slider.current--;
       if (slider.current < 1) slider.current = slider.values.length
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
     if (slider.type == "palette") {
       if (slider.current > 0) {
         slider.current--;
-        API.PlayAudio(state.audios.button)
+        API.PlayAudio('button')
         state.refreshID ++
       }
     }
@@ -661,7 +650,7 @@ const mutations = {
       values[0].current -= values[0].gap
       if (values[0].current < values[0].min)
         values[0].current = values[0].min
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
   },
@@ -678,20 +667,20 @@ const mutations = {
 
     if (slider.type == "slider" && slider.current < slider.values.length) {
       slider.current++;
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
     if (slider.type == "switch") {
       if (slider.current == slider.values.length && !slider.looped) return
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
     if (slider.type == "palette") {
       if (slider.current < (slider.max)) {
         slider.current++;
-        API.PlayAudio(state.audios.button)
+        API.PlayAudio('button')
         state.refreshID ++
       }
     }
@@ -700,7 +689,7 @@ const mutations = {
       values[0].current += values[0].gap
       if (values[0].current > values[0].max)
         values[0].current = values[0].max
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     }
   },
@@ -728,7 +717,7 @@ const mutations = {
       if (slider.current == vIndex) return
       slider.current = vIndex
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   COLOR_LEFT (state) {
@@ -748,7 +737,7 @@ const mutations = {
         }
       })
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   COLOR_RIGHT (state) {
@@ -768,7 +757,7 @@ const mutations = {
         }
       })
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   SET_COLOR_CURRENT (state,value) {
@@ -783,7 +772,7 @@ const mutations = {
         }
       })
     }
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   SET_EQUIPED_ITEM (state, data) {
@@ -827,9 +816,6 @@ const mutations = {
   },
   DISPLAY_OUTFIT_ID(state, value) {
     state.displayOutfitId = value
-  },
-  MENU_POSITION_RIGHT(state,value) {
-    state.menuPositionRight = value
   },
   UPDATE_HEADER(state,value) {
     state.lang.headerTitle = value
@@ -900,7 +886,7 @@ const mutations = {
       change = true
     }
     if (change) {
-      API.PlayAudio(state.audios.button)
+      API.PlayAudio('button')
       state.refreshID ++
     } 
   },
@@ -911,7 +897,7 @@ const mutations = {
     values[0].current -= values[0].gap
     if (values[0].current < values[0].min)
       values[0].current = values[0].min
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
       state.refreshID ++
   },
   GRID_RIGHT() {
@@ -921,7 +907,7 @@ const mutations = {
     values[0].current += values[0].gap
     if (values[0].current > values[0].max)
       values[0].current = values[0].max
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   GRID_UP() {
@@ -932,7 +918,7 @@ const mutations = {
     values[1].current -= values[1].gap
     if (values[1].current < values[1].min)
       values[1].current = values[1].min
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   GRID_DOWN() {
@@ -943,7 +929,7 @@ const mutations = {
     values[1].current += values[1].gap
     if (values[1].current > values[1].max)
       values[1].current = values[1].max
-    API.PlayAudio(state.audios.button)
+    API.PlayAudio('button')
     state.refreshID ++
   },
   IS_QWERTY(state,value) {
@@ -974,40 +960,40 @@ if (import.meta.env.DEV) {
       equipedColor: 1,
       disableEscape: true,
       items: [
-        // {
-        //   title: 'Palette',
-        //   // description: 'test',
-        //   price: 5,
-        //   // disabled: true,
-        //   sliders : [
-        //     {
-        //       type: 'switch',
-        //       current: 1,
-        //       values: [
-        //         {
-        //           label: 'test',price:10,
-        //         },
-        //         {
-        //           label: 'test2'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       type: 'palette',
-        //       title: 'tint',
-        //       current:0,
-        //       tint: 'tint_makeup',
-        //       max: 63
-        //     },
-        //     {
-        //       type: 'palette',
-        //       title: 'tint',
-        //       current:0,
-        //       tint: 'tint_makeup',
-        //       max: 63
-        //     },
-        //   ],
-        // },
+        {
+          title: 'Palette',
+          // description: 'test',
+          price: 5,
+          // disabled: true,
+          sliders : [
+            {
+              type: 'switch',
+              current: 1,
+              values: [
+                {
+                  label: 'test',price:10,
+                },
+                {
+                  label: 'test2'
+                }
+              ]
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ],
+        },
        {
           title: 'Palette',
           previewPalette: false,
@@ -1049,7 +1035,7 @@ if (import.meta.env.DEV) {
 
   setTimeout(function() {
     window.postMessage({
-      event:"show",
+      event:"updateShow",
       show:true
     })
   },200)

@@ -20,6 +20,7 @@ export default defineConfig({
     define: {
       'process.env.NODE_ENV': '"production"'
     },
+    output: './build',
     assetsInlineLimit: 0,
     rollupOptions: {
       output: {

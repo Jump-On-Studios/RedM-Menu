@@ -80,7 +80,7 @@ export default {
       } else {
         this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})
       }
-      this.$API.PlayAudio(this.audios.button)
+      this.$API.PlayAudio('button')
     },
     hasPaletteSlider() {
       let needPreview = false

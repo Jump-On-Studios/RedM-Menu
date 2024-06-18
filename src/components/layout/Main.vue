@@ -40,6 +40,8 @@
   import Price from './Price.vue'
   import Description from './Description.vue'
   import Loading from './Loading.vue'
+  import { useDataStore } from '../../stores/datas'
+  const datas = useDataStore()
   
 import { mapGetters, mapActions, mapMutations } from 'vuex'
   export default {
@@ -58,13 +60,12 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
     },
     methods: {
       ...mapActions(['menuEnter','menuBack']),
-      ...mapMutations(['IS_QWERTY']),
       handleKeyUp(e) {
         this.keyPressed[e.key] = false
       },
       handleKeydown(e) {
         if (e.code == "KeyQ")
-          this.IS_QWERTY(e.key == "q")
+          datas.isQwerty(e.key == "q")
         if (this.focus) return
         if (this.keyPressed[e.key]) return
         
@@ -103,14 +104,14 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
     },
     mounted () {
       this.mountedDate = Date.now();
-      this.$API.PlayAudio('menu_open.mp3');
+      this.$API.PlayAudio('menu_open');
     },
     beforeUnmount () {
       window.removeEventListener('keydown', this.handleKeydown);
       window.removeEventListener('keyup', this.handleKeyUp);
       document.removeEventListener('focusin', this.focusIn);
       document.removeEventListener('focusout', this.focusOut);
-      this.$API.PlayAudio('menu_close.mp3');
+      this.$API.PlayAudio('menu_close');
     }
   }
 </script>

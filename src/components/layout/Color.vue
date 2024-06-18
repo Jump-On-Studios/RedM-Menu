@@ -21,75 +21,79 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
-import ColorPicture from './ColorPicture.vue'
+<script setup>
+  import { useStore } from 'vuex'
+  import ColorPicture from './ColorPicture.vue'
+  import { useLangStore } from '../../stores/lang';
+import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
 
-export default {
-  components: {
-    ColorPicture
-  },
-  computed: {
-    ...mapGetters(['menu','cItem','lang', 'colors','currentMenu','equipedItems'])
-  },
-  methods: {
-    ...mapActions(['colorLeft','colorRight','setColorCurrent']),
-    numItem() {
-      return this.$API.sprintf(this.lang('of'),this.cItem.colors.current+1, this.cItem.colors.values.length)
-    },
-    colorsDisplayed() {
-      var list = new Array();
-      for (let index = this.cItem.colors.offset; index < this.cItem.colors.values.length; index++) {
-        if (index > this.cItem.colors.offset + 8) break
-        list.push(this.cItem.colors.values[index])
-      }
-      return list;
-    },
-    isCurrentColor(index) {
-      return this.cItem.colors.offset + index == this.menu.equipedColor
-    },
-    handleKeydown(e) {
-      if (!this.cItem.colors) return
-      if (this.cItem.disabled) return
-      switch(e.key) {
-        case 'ArrowRight':
-          this.colorRight()
-          return;
-        case 'ArrowLeft':
-          this.colorLeft()
-          return;
-      }
-      return;
-    },
-    click(index) {
-      if (index == this.cItem.colors.current) return
-      this.setColorCurrent(index)
-    },
-    getStyleTint(color,index) {
-      let left = color['tint'+index]-1
-      switch (index) {
-        case 0:
-          left *= -37
-          break;
-        case 1:
-          left *= -22
-          break;
-        case 2:
-          left *= -11
-          break;
-      }
-      let url = `./assets/images/menu/${color.palette}.png`
-      return {
-        backgroundImage: "url("+url+")",
-        backgroundPosition: left + "px 0px"
-      }
-    }
-  },
-  beforeMount () {
-  	window.addEventListener('keydown', this.handleKeydown, null);
-  },
-  beforeUnmount () {
-  	window.removeEventListener('keydown', this.handleKeydown);
+  const store = useStore()
+
+  const lang = useLangStore().lang
+  const menu = computed(() => store.getters.menu)
+  const cItem = computed(() => store.getters.cItem)
+  const currentMenu = computed(() => store.getters.currentMenu)
+  const equipedItems = computed(() => store.getters.equipedItems)
+
+  const colorLeft = computed(() => store.actions.colorLeft)
+  const colorRight = computed(() => store.actions.colorRight)
+  const setColorCurrent = computed(() => store.actions.setColorCurrent)
+
+  function numItem() {
+    return $API.sprintf(lang('of'),cItem.colors.current+1, cItem.colors.values.length)
   }
-}
+
+  function colorsDisplayed() {
+    var list = new Array();
+    for (let index = cItem.colors.offset; index < cItem.colors.values.length; index++) {
+      if (index > cItem.colors.offset + 8) break
+      list.push(cItem.colors.values[index])
+    }
+    return list;
+  }
+  function isCurrentColor(index) {
+    return cItem.colors.offset + index == menu.equipedColor
+  }
+  function handleKeydown(e) {
+    if (!cItem.colors) return
+    if (cItem.disabled) return
+    switch(e.key) {
+      case 'ArrowRight':
+        colorRight()
+        return;
+      case 'ArrowLeft':
+        colorLeft()
+        return;
+    }
+    return;
+  }
+  function click(index) {
+    if (index == cItem.colors.current) return
+    setColorCurrent(index)
+  }
+  function getStyleTint(color,index) {
+    let left = color['tint'+index]-1
+    switch (index) {
+      case 0:
+        left *= -37
+        break;
+      case 1:
+        left *= -22
+        break;
+      case 2:
+        left *= -11
+        break;
+    }
+    let url = `./assets/images/menu/${color.palette}.png`
+    return {
+      backgroundImage: "url("+url+")",
+      backgroundPosition: left + "px 0px"
+    }
+  }
+  onBeforeMount(() => {
+  	window.addEventListener('keydown', handleKeydown, null);
+  })
+  onBeforeUnmount(() => {
+  	window.removeEventListener('keydown', handleKeydown);
+  })
 </script>

@@ -19,6 +19,9 @@ import { mapGetters, mapActions } from 'vuex'
 import Item from './Item.vue'
 import Selector from './Selector.vue'
 
+import { useMenusStore } from '../../stores/menus';
+const menuStore = useMenuStore()
+
 export default {
   components: {
     Item, Selector
@@ -72,11 +75,11 @@ export default {
     handleKeydown(e) {
       switch(e.key) {
         case 'ArrowDown':
-          this.menuDown()
+          menuStore.menuDown()
           this.updateScroll(false)
           return;
         case 'ArrowUp':
-          this.menuUp()
+          menuStore.menuUp()
           this.updateScroll(true)
           return;
       }

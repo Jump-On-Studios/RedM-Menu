@@ -71,7 +71,7 @@ export default {
             price: this.menuItems[this.menu.currentItem].price
           })
           if (bought) {
-            this.$API.PlayAudio(this.audios.coin)
+            this.$API.PlayAudio('coin')
           }
         },2000)
       }
