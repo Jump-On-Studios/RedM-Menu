@@ -290,13 +290,6 @@ export const useMenuStore = defineStore('menus', {
         value.reset()
       }
     },
-    menuSwitch(data) {
-      this.parentTree.push(this.currentMenuId)
-      if (data.reset) this.menus[data.menu].reset()
-      this.currentMenuId = data.menu
-      API.PlayAudio('button')
-      this.updatePreview()
-    },
     updateMenu(data) {
       let current = -1
       let offset = -1
@@ -347,10 +340,18 @@ export const useMenuStore = defineStore('menus', {
       this.menus[this.currentMenuId].setCurrent(data.id)
       this.updatePreview()
     },
-    setcurrentMenu(data) {
-      this.currentMenuId = data.menu
-      this.parentTree = []
-      this.updatePreview()
+    setCurrentMenu(data) {
+      if (data.keepHistoric) {
+        this.parentTree.push(this.currentMenuId)
+        if (data.reset) this.menus[data.menu].reset()
+        this.currentMenuId = data.menu
+        API.PlayAudio('button')
+        this.updatePreview()
+      } else {
+        this.currentMenuId = data.menu
+        this.parentTree = []
+        this.updatePreview()
+      }
     },
     menuEnter() {
       let item = this.cItem
@@ -361,14 +362,14 @@ export const useMenuStore = defineStore('menus', {
         state.currentMenuId = item.child
         this.updatePreview()
       } else {
-        API.post('select',{
+        API.post('click',{
           menu: this.currentMenuId,
           item: this.cItem
         })
       }
     },
     menuBack() {
-      API.post('back',{
+      API.post('backMenu',{
         menu: this.currentMenuId,
         item: this.cItem
       })
@@ -409,7 +410,6 @@ export const useMenuStore = defineStore('menus', {
           menu.items[menu.currentItem].colors.offset = 0
         }
       }
-      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -439,7 +439,6 @@ export const useMenuStore = defineStore('menus', {
         if (values[0].current < values[0].min)
           values[0].current = values[0].min
       }
-      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },
@@ -469,7 +468,6 @@ export const useMenuStore = defineStore('menus', {
         if (values[0].current > values[0].max)
           values[0].current = values[0].max
       }
-      console.log(slider)
       API.PlayAudio('button')
       this.updatePreview()
     },

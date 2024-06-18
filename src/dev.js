@@ -80,7 +80,7 @@ if (import.meta.env.DEV) {
   })
 
   window.postMessage({
-    event:'setcurrentMenu',
+    event:'setCurrentMenu',
     menu: 'home'
   })
 
