@@ -32,86 +32,81 @@
   </main>
 </template>
 
-<script>
-  import Scroller from './Scroller.vue'
-  import List from './List.vue'
-  import Slider from './Slider.vue'
-  import Color from './depreciated/Color.vue'
-  import Price from './Price.vue'
-  import Description from './Description.vue'
-  import Loading from './Loading.vue'
-  import { useDataStore } from '../../stores/datas'
-  const datas = useDataStore()
+<script setup>
+import Scroller from './Scroller.vue'
+import List from './List.vue'
+import Slider from './Slider.vue'
+import Price from './Price.vue'
+import Description from './Description.vue'
+import Loading from './Loading.vue'
+import { useDataStore } from '../../stores/datas'
+import { useMenuStore } from '../../stores/menus'
+import { useLangStore } from '../../stores/lang'
+import { computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+const datas = useDataStore()
+const menuStore = useMenuStore()
+const lang = useLangStore().lang
+const API = inject('API')
+
+const keyPressed = {}
+let focus = false
+let mountedDate = 0
+
+const menu = computed(() => menuStore.menu)
+const menuItems = computed(() => menuItems.menu)
+const parentTree = computed(() => menuItems.parentTree)
+const menuEnter = computed(() => menuItems.menuEnter)
+const menuBack = computed(() => menuItems.menuBack)
+function handleKeyUp(e) {
+  keyPressed[e.key] = false
+}
+function handleKeydown(e) {
+  if (e.code == "KeyQ")
+    datas.isQwerty(e.key == "q")
+  if (focus) return
+  if (keyPressed[e.key]) return
   
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-  export default {
-    components: {
-      Scroller, List, Slider, Price, Description, Color,Loading
-    },
-    data() {
-      return {
-        keyPressed: {},
-        focus: false,
-        mountedDate: 0
-      }
-    },
-    computed: {
-      ...mapGetters(['menu', 'lang',"menuItems",'parentTree'])
-    },
-    methods: {
-      ...mapActions(['menuEnter','menuBack']),
-      handleKeyUp(e) {
-        this.keyPressed[e.key] = false
-      },
-      handleKeydown(e) {
-        if (e.code == "KeyQ")
-          datas.isQwerty(e.key == "q")
-        if (this.focus) return
-        if (this.keyPressed[e.key]) return
-        
-        this.keyPressed[e.key] = true
-        if (Date.now()-this.mountedDate < 100) return
-        switch(e.key) {
-          case 'Enter':
-            this.menuEnter()
-            return
-          case 'Backspace':
-            this.menuBack()
-            return
-          case 'Escape':
-            this.menuBack()
-            return
-        }
-      },
-      focusIn() {
-        this.focus = true
-      },
-      focusOut() {
-        this.focus = false
-      },
-      getTitle() {
-        if (this.menu.translateTitle) {
-          return this.lang(this.menu.title)
-        }
-        return this.menu.title
-      }
-    },
-    beforeMount () {
-      window.addEventListener('keydown', this.handleKeydown);
-      window.addEventListener('keyup', this.handleKeyUp);
-      document.addEventListener('focusin', this.focusIn);
-      document.addEventListener('focusout', this.focusOut);
-    },
-    mounted () {
-      this.mountedDate = Date.now();
-      this.$API.PlayAudio('menu_open');
-    },
-    beforeUnmount () {
-      window.removeEventListener('keydown', this.handleKeydown);
-      window.removeEventListener('keyup', this.handleKeyUp);
-      document.removeEventListener('focusin', this.focusIn);
-      document.removeEventListener('focusout', this.focusOut);
-      this.$API.PlayAudio('menu_close');
-    }
+  keyPressed[e.key] = true
+  if (Date.now()-mountedDate < 100) return
+  switch(e.key) {
+    case 'Enter':
+      menuEnter()
+      return
+    case 'Backspace':
+      menuBack()
+      return
+    case 'Escape':
+      menuBack()
+      return
   }
+}
+function focusIn() {
+  focus = true
+}
+function focusOut() {
+  focus = false
+}
+function getTitle() {
+  if (menu.translateSubTitle) {
+    return lang(menu.subTitle)
+  }
+  return menu.subTitle
+}
+onBeforeMount(() => {
+  window.addEventListener('keydown', handleKeydown);
+  window.addEventListener('keyup', handleKeyUp);
+  document.addEventListener('focusin', focusIn);
+  document.addEventListener('focusout', focusOut);
+})
+onMounted(() => {
+  mountedDate = Date.now();
+  API.PlayAudio('menu_open');
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('keyup', handleKeyUp);
+  document.removeEventListener('focusin', focusIn);
+  document.removeEventListener('focusout', focusOut);
+  API.PlayAudio('menu_close');
+}
 </script>

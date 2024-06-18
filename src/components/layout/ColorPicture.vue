@@ -15,38 +15,38 @@
 
 
 <script setup>
-  import { nextTick } from 'vue';
+import { nextTick } from 'vue';
 
-  const tint0 = ref(null)
-  const tint1 = ref(null)
-  const tint2 = ref(null)
+const tint0 = ref(null)
+const tint1 = ref(null)
+const tint2 = ref(null)
 
-  const color = props.color
+const color = props.color
 
-  function getImage() {
-    let color = color.texture.toLowerCase();
-    return `./assets/images/tints/${color}.png`;
-  }
-  function getStyleTint(index) {
-    nextTick(() => {
-      let url = `./assets/images/menu/${color.palette}.png`;
-      let left = color['tint'+index]
-      let box
-      switch (index) {
-        case 0:
-          box = tint0.value
-          break
-        case 1:
-          box = tint1.value
-          break
-        case 2:
-          box = tint2.value
-          break
-      }
-      height = -1*box.getBoundingClientRect().height
-      left *= height
-      box.style.backgroundImage = "url("+url+")"
-      box.style.backgroundPosition =  left + "px 0px"
-    })
-  }
+function getImage() {
+  let color = color.texture.toLowerCase();
+  return `./assets/images/tints/${color}.png`;
+}
+function getStyleTint(index) {
+  nextTick(() => {
+    let url = `./assets/images/menu/${color.palette}.png`;
+    let left = color['tint'+index]
+    let box
+    switch (index) {
+      case 0:
+        box = tint0.value
+        break
+      case 1:
+        box = tint1.value
+        break
+      case 2:
+        box = tint2.value
+        break
+    }
+    height = -1*box.getBoundingClientRect().height
+    left *= height
+    box.style.backgroundImage = "url("+url+")"
+    box.style.backgroundPosition =  left + "px 0px"
+  })
+}
 </script>

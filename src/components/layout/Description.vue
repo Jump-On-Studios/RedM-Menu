@@ -7,9 +7,6 @@
         <Statistic :stat="stat" />
       </template>
     </div>
-    <template v-if="cItem.grid">
-      <Grid />
-    </template>
   </div>
 </template>
 
@@ -18,7 +15,6 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 const store = useStore()
 import Statistic from "./Statistic.vue"
-import Grid from './Grid.vue'
 import { useLangStore } from '../../stores/lang';
 const lang = useLangStore().lang
 

@@ -8,42 +8,42 @@
 </template>
 
 <script setup>
-  import { defineProps,nextTick,ref } from 'vue';
-  
-  const props = defineProps(['sliders'])
-  const tint0 = ref(null);
-  const tint1 = ref(null);
-  const tint2 = ref(null);
+import { defineProps,nextTick,ref } from 'vue';
 
-  let palette = ""
-  for (let index = 0; index < props.sliders.length; index++) {
-    const slider = props.sliders[index];
+const props = defineProps(['sliders'])
+const tint0 = ref(null);
+const tint1 = ref(null);
+const tint2 = ref(null);
+
+let palette = ""
+for (let index = 0; index < props.sliders.length; index++) {
+  const slider = props.sliders[index];
+  if (slider.type == "palette") {
+    palette = slider.tint
+    break
+  }
+}
+let url = `./assets/images/menu/${palette}.png`;
+
+function  getStyleTint(index) {
+  let slider
+
+  let counter = 0
+  for (let i = 0; i < props.sliders.length; i++) {
+    slider = props.sliders[i];
     if (slider.type == "palette") {
-      palette = slider.tint
-      break
+      if (counter == index )
+        break
+      counter++
     }
   }
-  let url = `./assets/images/menu/${palette}.png`;
+  if (counter < index)
+    return {}
 
-  function  getStyleTint(index) {
-    let slider
-
-    let counter = 0
-    for (let i = 0; i < props.sliders.length; i++) {
-      slider = props.sliders[i];
-      if (slider.type == "palette") {
-        if (counter == index )
-          break
-        counter++
-      }
-    }
-    if (counter < index)
-      return {}
-
-    let percent = (slider.current/slider.max)*100
-    return {
-      backgroundImage: "url("+url+")",
-      backgroundPosition: percent+ "% 0px"
-    }
+  let percent = (slider.current/slider.max)*100
+  return {
+    backgroundImage: "url("+url+")",
+    backgroundPosition: percent+ "% 0px"
   }
+}
 </script>

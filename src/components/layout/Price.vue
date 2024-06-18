@@ -22,22 +22,18 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
+import { useLangStore } from '../../stores/lang';
+import { useMenuStore } from '../../stores/menus';
 import PriceDisplay from './PriceDisplay.vue'
+const menuStore = useMenuStore()
+const lang = useLangStore().lang
+const cItem = computed(() => menuStore.cItem)
+const menu = computed(() => menuStore.menu)
+const cItemPrice = computed(() => menuStore.cItemPrice)
 
-export default {
-  components: {
-    PriceDisplay
-  },
-  computed: {
-    ...mapGetters(['cItem','isItemBought','lang','menu','globalPrice','cItemPrice'])
-  },
-  methods: {
-    gold() {
-      if (this.cItem.price.gold%1 == 0) return this.cItem.price.gold.toString()
-      return this.cItem.price.gold.toFixed(2).toString()
-    },
-  }
+function gold() {
+  if (cItem.price.gold%1 == 0) return cItem.price.gold.toString()
+  return cItem.price.gold.toFixed(2).toString()
 }
 </script>

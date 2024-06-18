@@ -135,9 +135,11 @@ class ItemStatistic {
 }
 
 class Menu {
-  title = "";
-  type = "list";
+  title = "Menu";
   translateTitle = true;
+  subTitle = "Elements";
+  translateSubTitle = true;
+  type = "list";
   currentItem = 0;
   equipedItem = {
     index: -1,
