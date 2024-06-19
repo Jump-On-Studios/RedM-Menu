@@ -1,7 +1,7 @@
 <template>
   <div style="position:relative">
     <ul ref="listEl" id="list-items" class="list" :style="setStyle()">
-      <Item v-for="(item,index) in menuStore.cMenuItems" :key=index
+      <Item v-for="(item,index) in menuStore.cMenuItems" :key="`${menuStore.currentMenuId}-${index}`"
         :title="getTitle(item)"
         :icon="item.icon"
         :isCurrent="item.index == menuStore.cMenu.equipedItem.index"
@@ -92,9 +92,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown);
   window.removeEventListener('wheel', handleWheel);
 })
-watch(menuStore.currentMenuId, function() {
-  nextTick(() => {
-    updateScroll(true)
-  });
+
+let tempcMenuId = menuStore.currentMenuId
+menuStore.$subscribe((mutation,state) => {
+  if (state.currentMenuId != tempcMenuId) {
+    nextTick(() => {
+      updateScroll(true)
+    });
+    tempcMenuId = state.currentMenuId
+  }
 })
 </script>

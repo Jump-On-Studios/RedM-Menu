@@ -18,8 +18,8 @@ class MenuItem {
   visible = true;
   description = '';
   action = false;
-  translate = true;
-  translateDescription = true;
+  translate = false;
+  translateDescription = false;
   data = false;
   prefix = false;
   statistics = [];
@@ -27,7 +27,7 @@ class MenuItem {
   grid = false;
   id = 0;
   textRight = false;
-  translateTextRight = true;
+  translateTextRight = false;
   previewPalette = true;
 
   constructor(id) {
@@ -47,7 +47,7 @@ class MenuItem {
     sliders = Array.isArray(sliders)?sliders:[sliders]
 
     sliders.forEach(slid => {
-      this.sliders.push({...{current:0,values:[], offset:0, translate: true,type:'slider', looped: true},...slid})
+      this.sliders.push({...{current:0,values:[], offset:0, translate: false,type:'slider', looped: true},...slid})
     })
   }
   setChild(value) {
@@ -136,9 +136,9 @@ class ItemStatistic {
 
 class Menu {
   title = "Menu";
-  translateTitle = true;
-  subTitle = "Elements";
-  translateSubTitle = true;
+  translateTitle = false;
+  subtitle = "Elements";
+  translateSubtitle = false;
   type = "list";
   currentItem = 0;
   equipedItem = {
@@ -194,6 +194,7 @@ class Menu {
     if (data.globalColor) this.setGlobalColor(data.globalColor)
     if (data.equipedColor) this.setEquipedColor(data.equipedColor)
     if (data.translateTitle != undefined) this.setTranslateTitle(data.translateTitle)
+    if (data.subtitle != undefined) this.setSubtitle(data.subtitle)
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape) this.setDisableEscape(data.disableEscape)
@@ -201,6 +202,10 @@ class Menu {
 
   setTitle(title) {
     this.title = title
+  }
+
+  setSubtitle(subtitle) {
+    this.subtitle = subtitle
   }
 
   setType(value) {
@@ -248,6 +253,7 @@ class Menu {
   setTranslateTitle(value) {
     this.translateTitle = value
   }
+
   setTranslateSubtitle(value) {
     this.translateSubtitle = value
   }
@@ -264,7 +270,7 @@ export const useMenuStore = defineStore('menus', {
     menus: {},
   }),
   getters: {
-    cMenu: (state) => state.menus[state.currentMenuId],
+    cMenu: (state) => state.menus[state.currentMenuId] || new Menu({}),
     cMenuItems() { return this.cMenu.items.filter(item => item.visible) },
     cItem() { return this.cMenuItems[this.cMenu.currentItem]},
     cItemPrice() {
@@ -316,6 +322,10 @@ export const useMenuStore = defineStore('menus', {
         })
       }
     },
+    removeMenu(data) {
+      if (this.menus[data.menu] == undefined) return
+      delete this.menus[data.menu]
+    },
     updateMenuData(data) {
       if (!this.menus[data.menu]) return
       this.menus[data.menu] = API.deepMerge(this.menus[data.menu], data.data)
@@ -357,8 +367,8 @@ export const useMenuStore = defineStore('menus', {
       if (item.disabled) return
       API.PlayAudio('button')
       if (item.child) {
-        state.parentTree.push(state.currentMenuId)
-        state.currentMenuId = item.child
+        this.parentTree.push(this.currentMenuId)
+        this.currentMenuId = item.child
         this.updatePreview()
       } else {
         API.post('click',{

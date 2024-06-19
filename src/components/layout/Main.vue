@@ -27,7 +27,6 @@
       </template>
       <Price />
     </div>
-    
   </main>
 </template>
 
@@ -81,10 +80,10 @@ function focusOut() {
   focus = false
 }
 function getTitle() {
-  if (menuStore.cMenu.translateSubTitle) {
-    return lang(menuStore.cMenu.subTitle)
+  if (menuStore.cMenu.translateSubtitle) {
+    return lang(menuStore.cMenu.subtitle)
   }
-  return menuStore.cMenu.subTitle
+  return menuStore.cMenu.subtitle
 }
 onBeforeMount(() => {
   window.addEventListener('keydown', handleKeydown);

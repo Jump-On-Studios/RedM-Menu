@@ -3,7 +3,6 @@
 <template>
   <button v-if="devMode" style="position: absolute; left: 0; top: 0; z-index:999; color: black" @click="HideButton()">Toggle show {{ datas.showMenu }}</button>
   <img v-if="devMode" style="position: absolute; left: 0; top: 0; width:100vw;height:100vh" src="/assets/images/background_dev.jpg">
-  {{ datas }}
   <Menu />
 </template>
 

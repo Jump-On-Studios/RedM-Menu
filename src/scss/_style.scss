@@ -38,6 +38,7 @@ html, body {
   position: relative;
   display: flex;
   align-items: center;
+  overflow: hidden;
   //background-color: grey;
 }
 .menu {
@@ -94,6 +95,7 @@ header {
   h1 {
     font-weight: 100;
     font-size: 40px;
+    text-align: center;
   }
 }
 
@@ -199,6 +201,11 @@ main {
       }
       .title {
         flex: 1 1 auto;
+        span {
+          font-size: 0.7em;
+          margin-top: -5px;
+          display: block;
+        }
       }
       .sufix {
         font-size: 0.65em;

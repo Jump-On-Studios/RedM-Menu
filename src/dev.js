@@ -6,7 +6,7 @@ if (import.meta.env.DEV) {
     menu: {
       id: 'home',
       title: 'home',
-      translateTitle: false,
+      subtitle: 'Subtitle',
       numberOnScreen : 8,
       globalColor: true,
       equipedColor: 1,
@@ -16,6 +16,7 @@ if (import.meta.env.DEV) {
           title: 'Palette',
           description: 'test',
           price: 5,
+          child: 'child',
           // disabled: true,
           sliders : [
             {
@@ -74,6 +75,24 @@ if (import.meta.env.DEV) {
               max: 63
             },
           ],
+        },
+      ],
+    }
+  })
+
+  window.postMessage({
+    event:'updateMenu',
+    menu: {
+      id: 'child',
+      title: 'ChildMenu',
+      subtitle: 'Subtitle 2',
+      numberOnScreen : 8,
+      globalColor: true,
+      equipedColor: 1,
+      disableEscape: true,
+      items: [
+        {
+          title: 'Child',
         },
       ],
     }
