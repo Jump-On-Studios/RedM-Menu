@@ -1,7 +1,7 @@
 <template>
-  <template v-if="price !== undefined && price !== false">
+  <template v-if="props.price !== undefined && props.price !== false">
     <div class="priceDisplay">
-      <template v-if="(typeof(price) == 'object') && price.gold && price.money">
+      <template v-if="(typeof(props.price) == 'object') && props.price.gold && props.price.money">
         <span class="gold left">
           <span class="icon">
             <img src="/assets/images/gold.png">
@@ -9,7 +9,7 @@
           {{ gold() }}
         </span>
       </template>
-      <template v-if="price.gold && !price.money">
+      <template v-if="props.price.gold && !props.price.money">
         <span class="gold">
           <span class="icon">
             <img src="/assets/images/gold.png">
@@ -27,20 +27,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { useLangStore } from '../../stores/lang';
-const props = defineProps(['price',])
+const props = defineProps(['price'])
 const lang = useLangStore().lang
-const price = computed(() => props.price)
 
 function gold() {
-  if (price.gold%1 == 0) return price.gold.toString()
-  return price.gold.toFixed(2).toString()
+  if (props.price.gold%1 == 0) return props.price.gold.toString()
+  return props.price.gold.toFixed(2).toString()
 }
 function getPrice() {
-  if (typeof(price) == 'object')
-    return price.money
-  return price
+  if (typeof(props.price) == 'object')
+    return props.price.money
+  return props.price
 }
 function priceRounded() {
   let price = getPrice()

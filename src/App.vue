@@ -13,14 +13,14 @@
 
 <script setup>
   import Menu from './components/Menu.vue'
-
   import _ from './dev'
 
-  import { computed } from 'vue';
   import { useDataStore } from './stores/datas';
-  const datas = useDataStore();
+  let datas = {}
 
   const devMode = import.meta.env.DEV;
+  if (devMode)
+    datas = useDataStore();
 
   function HideButton() {
     datas.defineShow(!datas.showMenu);

@@ -14,7 +14,7 @@
 <script setup>
   import Main from './layout/Main.vue'
   import Header from './layout/Header.vue'
-  import { onMounted, computed } from 'vue';
+  import { onMounted } from 'vue';
   import { useDataStore } from '../stores/datas';
   const datas = useDataStore()
 

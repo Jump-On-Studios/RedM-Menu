@@ -1,12 +1,12 @@
 <template>
   <div style="position:relative">
-    <ul id="list-items" class="list" :style="setStyle()">
+    <ul ref="listEl" id="list-items" class="list" :style="setStyle()">
       <Item v-for="(item,index) in menuStore.cMenuItems" :key=index
         :title="getTitle(item)"
         :icon="item.icon"
-        :isCurrent="item.index == cMenu.equipedItem.index"
+        :isCurrent="item.index == menuStore.cMenu.equipedItem.index"
         :item="item"
-        :active="cMenu.currentItem == index"
+        :active="menuStore.cMenu.currentItem == index"
         :id=index
       />
     </ul>
@@ -21,24 +21,19 @@ import Selector from './Selector.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, nextTick, inject, computed, watch} from 'vue';
+import { onBeforeMount, onBeforeUnmount, nextTick, inject, watch, ref} from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
-const cMenu = computed(() => menuStore.cMenu)
-const currentMenuId = computed(() => menuStore.currentMenuId)
-const menuDown = computed(() => menuStore.menuDown)
-const menuUp = computed(() => menuStore.menuUp)
-const sliderLeft = computed(() => menuStore.sliderLeft)
-const sliderRight = computed(() => menuStore.sliderRight)
+const listEl = ref(null)
 
 function setStyle() {
   return {
-    maxHeight: (cMenu.numberOnScreen * 53) - 6 +'px'
+    maxHeight: (menuStore.cMenu.numberOnScreen * 53) - 6 +'px'
   }
 }
 function estElementVisible(element) {
-  var container = document.getElementById("list-items"); // Remplace cela par l'ID de ton conteneur avec défilement
+  var container = listEl.value; // Remplace cela par l'ID de ton conteneur avec défilement
   var elementRect = element.getBoundingClientRect();
   var containerRect = container.getBoundingClientRect();
 
@@ -48,7 +43,7 @@ function estElementVisible(element) {
   );
 }
 function updateScroll(isUp) {
-  const currentItem = document.getElementById('item-'+cMenu.currentItem)
+  const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
   if (!estElementVisible(currentItem))
     currentItem.scrollIntoView(isUp)
 }
@@ -58,20 +53,6 @@ function getTitle(item) {
     return lang(item.title)
   }
   return API.sprintf(lang('number'),item.index)
-}
-function items() {
-  let max = cMenu.numberOnScreen;
-  let itemDisplayed = [];
-  for (let index = cMenu.offset; index < menuStore.cMenuItems.length; index++) {
-    if (menuStore.cMenuItems[index].icon) {
-      max -=2
-    } else {
-      max--
-    }
-    itemDisplayed.push(menuStore.cMenuItems[index])
-    if (max <= 0) break;
-  }
-  return itemDisplayed;
 }
 function handleKeydown(e) {
   switch(e.key) {
@@ -87,27 +68,19 @@ function handleKeydown(e) {
   return;
 }
 function handleWheel(e) {
-  if (e.target.closest('.slider.color') != null) {
+  if ((e.target.closest('.slider') != null) || (e.target.closest('.colorPicker') != null)) {
     if (e.deltaY < 0) {
-      colorLeft()
+      menuStore.sliderLeft()
     } else {
-      colorRight()
-    }
-    return
-  }
-  else if ((e.target.closest('.slider') != null) || (e.target.closest('.colorPicker') != null)) {
-    if (e.deltaY < 0) {
-      sliderLeft()
-    } else {
-      sliderRight()
+      menuStore.sliderRight()
     }
     return
   }
   if (e.deltaY < 0) {
-    menuUp()
+    menuStore.menuUp()
     updateScroll(false)
   } else {
-    menuDown()
+    menuStore.menuDown()
     updateScroll(true)
   }
 }
@@ -119,7 +92,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown);
   window.removeEventListener('wheel', handleWheel);
 })
-watch(currentMenuId, function() {
+watch(menuStore.currentMenuId, function() {
   nextTick(() => {
     updateScroll(true)
   });

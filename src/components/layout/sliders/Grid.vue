@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
@@ -29,7 +28,6 @@ const menuStore = useMenuStore
 
 const index = props.index
 const slider = props.slider
-const cItem = computed(() => menuStore.cItem)
 
 let boxTop= 0
 let boxLeft= 0

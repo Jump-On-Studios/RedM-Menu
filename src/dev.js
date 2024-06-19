@@ -50,7 +50,7 @@ if (import.meta.env.DEV) {
           title: 'Palette',
           previewPalette: false,
           description: 'test',
-          price: 5,
+          price: {money:6,gold:10},
           sliders : [
             {
               type: 'palette',

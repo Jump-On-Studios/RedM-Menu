@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onBeforeUnmount, computed } from 'vue';
+import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { useMenuStore } from '../../stores/menus';
 import ColorPalette from './sliders/ColorPalette.vue'
 import DefaultSlider from './sliders/DefaultSlider.vue'

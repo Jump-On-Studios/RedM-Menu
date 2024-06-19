@@ -341,17 +341,16 @@ export const useMenuStore = defineStore('menus', {
       this.updatePreview()
     },
     setCurrentMenu(data) {
+      if (this.menus[data.menu] == undefined) return console.log("ERROR ! No menu : "+data.menu)
+      if (data.reset) this.menus[data.menu].reset()
       if (data.keepHistoric) {
         this.parentTree.push(this.currentMenuId)
-        if (data.reset) this.menus[data.menu].reset()
-        this.currentMenuId = data.menu
         API.PlayAudio('button')
-        this.updatePreview()
       } else {
-        this.currentMenuId = data.menu
         this.parentTree = []
-        this.updatePreview()
       }
+      this.currentMenuId = data.menu
+      this.updatePreview()
     },
     menuEnter() {
       let item = this.cItem

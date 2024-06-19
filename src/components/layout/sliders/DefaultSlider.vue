@@ -13,7 +13,7 @@
           :class="['box clicker',{
             'active' : vIndex < slider.current,
             'current' : vIndex == slider.current,
-            'equiped' : vIndex == cMenu.equipedItem.variation && cItem.index == cMenu.equipedItem.index,
+            'equiped' : vIndex == menuStore.cMenu.equipedItem.variation && cItem.index == menuStore.cMenu.equipedItem.index,
             'bought' : IsBought(vIndex)
           }]"
           @click="click(vIndex)"
@@ -32,7 +32,6 @@ import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang
 
 const API = inject('API')
-const cMenu = computed(() => menuStore.cMenu)
 const slider = props.slider
 const index = props.index
 

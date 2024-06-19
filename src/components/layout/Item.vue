@@ -1,5 +1,5 @@
 <template>
-  <li v-if="item" :id="'item-'+props.id" :class="['item','clicker',{'with-icon':props.icon,'disabled':item.disabled,'active':props.active}]" @click="click()">
+  <li v-if="item" :id="`item-${props.id}`" :class="['item','clicker',{'with-icon':props.icon,'disabled':item.disabled,'active':props.active}]" @click="click()">
     <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="props.icon">
       <img :src="`./assets/images/icons/${props.icon}.png`" />
     </div>
@@ -46,7 +46,6 @@
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
 import PalettePreview from "./PalettePreview.vue"
-import { computed } from 'vue'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
 import { inject } from 'vue'
@@ -66,6 +65,7 @@ const props = defineProps({
     default : false,
     type: Boolean
   },
+  id: Number
 })
 
 const item = props.item

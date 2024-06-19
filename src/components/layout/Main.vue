@@ -41,7 +41,7 @@ import Loading from './Loading.vue'
 import { useDataStore } from '../../stores/datas'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
-import { inject, computed, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+import { inject, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
 const datas = useDataStore()
 const menuStore = useMenuStore()
 const lang = useLangStore().lang

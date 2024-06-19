@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-  import { onBeforeUnmount, onMounted, ref, inject, computed} from 'vue';
+  import { onBeforeUnmount, onMounted, inject} from 'vue';
   import { useLangStore } from '../../../stores/lang';
   const lang = useLangStore().lang
   import { useMenuStore } from '../../../stores/menus';
