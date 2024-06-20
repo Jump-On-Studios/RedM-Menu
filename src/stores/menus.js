@@ -20,7 +20,6 @@ class MenuItem {
   action = false;
   translate = false;
   translateDescription = false;
-  data = false;
   prefix = false;
   statistics = [];
   disabled = false;
@@ -147,7 +146,6 @@ class Menu {
   };
   items = [];
   offset = 0;
-  child = false;
   currentColor = 0;
   offsetColor = 0;
   helpers = false;
