@@ -154,7 +154,7 @@ class Menu {
   numberOnScreen = 8;
   globalColor = false;
   equipedColor = 0;
-  disableEscape = false;
+  disableEscape = true;
 
   constructor(data) {
     this.setTitle(data.title);
@@ -197,7 +197,7 @@ class Menu {
     if (data.subtitle != undefined) this.setSubtitle(data.subtitle)
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
-    if (data.disableEscape) this.setDisableEscape(data.disableEscape)
+    if (data.disableEscape != undefined) this.setDisableEscape(data.disableEscape)
   }
 
   setTitle(title) {
@@ -578,6 +578,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       API.post('updatePreview',{
         menu: this.currentMenuId,
+        index: this.cMenu.currentItem + 1,
         item: item,
       })
     },

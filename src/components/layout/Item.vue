@@ -21,7 +21,7 @@
       <template v-if="!item.disabled">
         <template v-for="(slider, index) in item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
-            <Switch :slider="slider" :index="index" :isCurrent="item == menuStore.cItem" />
+            <Switch :slider="slider" :index="index" :isCurrent="item.index == menuStore.cItem.index" />
           </template>
         </template>
       </template>

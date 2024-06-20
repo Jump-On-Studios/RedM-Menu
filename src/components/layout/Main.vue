@@ -2,7 +2,7 @@
   <main>
     <div class="article">
       <h2 id="title">
-        {{ getTitle() }}
+        <span v-html=getTitle()></span>
         <span v-if="menuStore.parentTree.length > 0" class="backer clicker" @click="menuStore.menuBack()">
           <img src="/assets/images/menu/selection_arrow_left.png">
         </span>
