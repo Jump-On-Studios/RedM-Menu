@@ -112,6 +112,11 @@ main {
   }
 }
 
+.article {
+  h2#title {
+    min-height: 1em;
+  }
+}
 .footer {
   flex-grow: 1;
   display: flex;

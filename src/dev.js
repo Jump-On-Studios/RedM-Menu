@@ -138,7 +138,8 @@ if (import.meta.env.DEV) {
 
   window.postMessage({
     event:'setCurrentMenu',
-    menu: 'home'
+    menu: 'home',
+    keepHistoric: true
   })
 
   setTimeout(function() {

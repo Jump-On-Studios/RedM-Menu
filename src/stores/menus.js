@@ -255,14 +255,14 @@ class Menu {
 
 export const useMenuStore = defineStore('menus', {
   state: () => ({
-    parentTree: [],
-    currentMenuId : 'home',
+    parentTree: ["test"],
+    currentMenuId : '',
     menus: {},
   }),
   getters: {
     cMenu: (state) => state.menus[state.currentMenuId] || new Menu({}),
     cMenuItems() { return this.cMenu.items.filter(item => item.visible) },
-    cItem() { return this.cMenuItems[this.cMenu.currentItem]},
+    cItem() { return this.cMenuItems[this.cMenu.currentItem] || {}},
     cItemPrice() {
       const cItem = this.cItem
       if (cItem.sliders) {
@@ -344,7 +344,8 @@ export const useMenuStore = defineStore('menus', {
       if (this.menus[data.menu] == undefined) return console.log("ERROR ! No menu : "+data.menu)
       if (data.reset) this.menus[data.menu].reset()
       if (data.keepHistoric) {
-        this.parentTree.push(this.currentMenuId)
+        if (this.parentTree.at(-1) != this.currentMenuId && this.currentMenuId.length > 0)
+          this.parentTree.push(this.currentMenuId)
         API.PlayAudio('button')
       } else {
         this.parentTree = []
@@ -471,11 +472,8 @@ export const useMenuStore = defineStore('menus', {
       this.updatePreview()
     },
     setSliderCurrent(data) {
-      console.log(data)
       let item = this.cItem
-      console.log(this.cItem)
       let slider = item.sliders[data.index]
-      console.log(slider)
       if (!slider) return;
       if (slider.type == "grid") {
         let values = slider.values

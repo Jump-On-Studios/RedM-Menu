@@ -45,7 +45,6 @@ function numItem() {
 }
 function click(vIndex) {
   if (vIndex == props.slider.current) return
-  console.log(vIndex)
   menuStore.setSliderCurrent({index: props.index,value:parseInt(vIndex)})
 }
 </script>
