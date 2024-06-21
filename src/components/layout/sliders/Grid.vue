@@ -24,7 +24,7 @@
 import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
-const menuStore = useMenuStore
+const menuStore = useMenuStore()
 
 const props = defineProps(['index','slider'])
 
@@ -79,7 +79,7 @@ function MoveMarker(e) {
 
     values.push(parseFloat(marker.style.top).toFixed(2)/(boxBottom-boxTop).toFixed(2))
   }
-  menuStore.setSliderCurrent([props.index,values])
+   menuStore.setSliderCurrent({index: props.index,value:values})
 }
 function markerPosition() {
   let position = {

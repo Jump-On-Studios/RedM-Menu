@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="current" v-if="props.item.iconRight">
-      <div class="tick" v-if="props.item.iconRight == 'tick'">
-        <img src="/assets/images/menu/tick.png">
+      <div class="tick">
+        <img :src="`./assets/images/icons/${props.item.iconRight}.png`">
       </div>
     </div>
     <h3>

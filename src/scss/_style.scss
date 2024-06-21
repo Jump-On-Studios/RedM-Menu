@@ -247,8 +247,8 @@ main {
       }
     }
     &.with-icon {
-      grid-template-columns: 80px auto;
-      grid-gap: 25px;
+      grid-template-columns: 60px auto;
+      grid-gap: 20px;
       height: 100px;
       .background {
         background-image: url('/assets/images/menu/background_item.png');
@@ -832,6 +832,7 @@ main {
   .center {
     display: grid;
     gap: 10px;
+    justify-items: center;
   }
   .grid {
     width: 100%;

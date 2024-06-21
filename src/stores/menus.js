@@ -471,28 +471,31 @@ export const useMenuStore = defineStore('menus', {
       this.updatePreview()
     },
     setSliderCurrent(data) {
+      console.log(data)
       let item = this.cItem
+      console.log(this.cItem)
       let slider = item.sliders[data.index]
+      console.log(slider)
       if (!slider) return;
       if (slider.type == "grid") {
         let values = slider.values
         let change = false
         if (slider.values.length == 2) {
-          let current2 = data.vIndex[1]*(values[1].max - values[1].min) + values[1].min
+          let current2 = data.value[1]*(values[1].max - values[1].min) + values[1].min
           if (current2 != values[1].current) {
             values[1].current = current2
             change = true
           }
         }
-        let current = data.vIndex[0]*(values[0].max - values[0].min) + values[0].min
+        let current = data.value[0]*(values[0].max - values[0].min) + values[0].min
         if (current != values[0].current) {
           values[0].current = current
           change = true
         }
         if (!change) return
       } else {
-        if (slider.current == data.vIndex) return
-        slider.current = data.vIndex
+        if (slider.current == data.value) return
+        slider.current = data.value
       }
       API.PlayAudio('button')
       this.updatePreview()

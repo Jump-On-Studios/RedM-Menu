@@ -10,30 +10,70 @@ if (import.meta.env.DEV) {
       numberOnScreen : 8,
       items: [
         {
-          title: 'Statistics'
+          title: 'Classic item',
+          prefix: 'tick'
         },
         {
-          title: 'Two'
+          title: 'Classic item',
+          prefix: 'tick'
         },
         {
-          title: '1'
+          title: 'Title',
+          textRight: "Right text"
         },
         {
-          title: 'Statistics'
+          title: 'Classic item',
+          prefix: 'tick'
         },
         {
-          title: 'Statistics'
+          title: 'Sliders',
+          sliders: [
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ]
         },
         {
-          title: 'Statistics'
+          title: 'Sliders',
+          sliders: [
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: 'tint',
+              current:0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ]
         },
         {
-          title: 'Statistics'
-        },
-        {
-          title: 'Palette',
+          title: 'Switch',
           description: 'The item description',
-          price: 5,
+          price: {money:5.12, gold:1},
           child: 'child',
           // disabled: true,
           sliders : [
@@ -42,20 +82,11 @@ if (import.meta.env.DEV) {
               current: 1,
               values: [
                 {
-                  label: 'test',price:10,
+                  label: 'value 1',
                 },
                 {
-                  label: 'test2'
+                  label: 'value 2'
                 }
-              ]
-            },
-            {
-              type: 'grid',
-              title: 'tint',
-              current:0,
-              labels: ['left','right'],
-              values: [
-                {current: 0.5, max: 1.0, min: -1.0},
               ]
             },
             {
@@ -80,23 +111,9 @@ if (import.meta.env.DEV) {
           ],
         },
         {
-          title: 'Statistics'
-        },
-        {
-          title: 'Two'
-        },
-        {
-          title: '1'
-        },
-        {
-          title: 'Statistics'
-        },
-        {
-          title: 'Statistics'
-        },
-        {
-          title: 'Statistics'
-        },
+          title: 'With Icon',
+          icon: 'makeup'
+        }
       ],
     }
   })

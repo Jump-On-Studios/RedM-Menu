@@ -25,7 +25,10 @@
 <script setup>
 import { inject } from 'vue';
 import { useLangStore } from '../../../stores/lang';
+import { useMenuStore } from '../../../stores/menus';
 const lang = useLangStore().lang
+
+const menuStore = useMenuStore()
 
 const props = defineProps(['slider','index'])
 
@@ -42,6 +45,7 @@ function numItem() {
 }
 function click(vIndex) {
   if (vIndex == props.slider.current) return
-  this.setSliderCurrent([props.index,vIndex])
+  console.log(vIndex)
+  menuStore.setSliderCurrent({index: props.index,value:parseInt(vIndex)})
 }
 </script>
