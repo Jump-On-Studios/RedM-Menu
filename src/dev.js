@@ -10,22 +10,13 @@ if (import.meta.env.DEV) {
       numberOnScreen : 8,
       items: [
         {
-          title: 'Statistics<br>Line'
-        },
-        {
-          title: 'Two<br><br>Lines'
-        },
-        {
-          title: '1<br>2<br>3<br>4<br>5'
-        },
-        {
           title: 'Statistics'
         },
         {
-          title: 'Statistics'
+          title: 'Two'
         },
         {
-          title: 'Statistics'
+          title: '1'
         },
         {
           title: 'Statistics'
@@ -87,6 +78,24 @@ if (import.meta.env.DEV) {
               ]
             },
           ],
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Two'
+        },
+        {
+          title: '1'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
         },
       ],
     }

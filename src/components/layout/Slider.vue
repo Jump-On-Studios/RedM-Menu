@@ -1,7 +1,7 @@
 <template>
-  <template v-if="!cItem.disabled">
-    <div :class="['sliders',{full:fullHeight()}]" v-if="cItem.sliders && (cItem.sliders.length > 0)">
-      <template v-for="(slider,index) in cItem.sliders" :key="index">
+  <template v-if="!menuStore.cItem.disabled">
+    <div :class="['sliders',{full:fullHeight()}]" v-if="menuStore.cItem.sliders && (menuStore.cItem.sliders.length > 0)">
+      <template v-for="(slider,index) in menuStore.cItem.sliders" :key="index">
         <template v-if="slider.type == 'palette'">
           <ColorPalette :index="index" :slider="slider" />
         </template>
@@ -25,10 +25,9 @@ import DefaultSlider from './sliders/DefaultSlider.vue'
 import Grid from './sliders/Grid.vue'
 
 const menuStore = useMenuStore()
-const cItem = menuStore.cItem
 
 function handleKeydown(e) {
-  if (!cItem.sliders) return
+  if (!menuStore.cItem.sliders) return
   switch(e.code) {
     //LEFT
     case 'ArrowLeft':
@@ -60,8 +59,8 @@ function handleKeydown(e) {
   return;
 }
 function fullHeight() {
-  if (cItem.description.length > 0) return false
-  if (cItem.statistics.length > 0) return false
+  if (menuStore.cItem.description.length > 0) return false
+  if (menuStore.cItem.statistics.length > 0) return false
   return true
 }
 onBeforeMount(()=> {

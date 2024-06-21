@@ -30,7 +30,7 @@ import Scroller from './Scroller.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, nextTick, inject, watch, ref} from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref} from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -43,23 +43,12 @@ function updateScroller() {
 
 function setStyle() {
   return {
-    maxHeight: (menuStore.cMenu.numberOnScreen * 55) + 6 +'px'
+    maxHeight: (menuStore.cMenu.numberOnScreen * 53) + 6 +'px'
   }
 }
-function estElementVisible(element) {
-  var container = listEl.value; // Remplace cela par l'ID de ton conteneur avec défilement
-  var elementRect = element.getBoundingClientRect();
-  var containerRect = container.getBoundingClientRect();
-
-  return (
-    elementRect.top >= containerRect.top &&
-    elementRect.bottom <= containerRect.bottom
-  );
-}
-function updateScroll(isUp) {
+function updateScroll() {
   const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
-  if (!estElementVisible(currentItem))
-    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+  currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
 }
 function getTitle(item) {
   if (item.title.length > 0) {
@@ -71,12 +60,12 @@ function getTitle(item) {
 function handleKeydown(e) {
   switch(e.key) {
     case 'ArrowDown':
+      e.preventDefault()
       menuStore.menuDown()
-      // updateScroll(false)
       return;
     case 'ArrowUp':
+      e.preventDefault()
       menuStore.menuUp()
-      // updateScroll(true)
       return;
   }
   return;
@@ -92,10 +81,8 @@ function handleWheel(e) {
   }
   if (e.deltaY < 0) {
     menuStore.menuUp()
-    // updateScroll(true)
   } else {
     menuStore.menuDown()
-    // updateScroll(false)
   }
 }
 onBeforeMount(() => {
@@ -107,14 +94,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
 })
 
-let currentItemScroll = `${menuStore.currentMenuId}-${menuStore.cMenu.currentItem}`
-menuStore.$subscribe((mutation,state) => {
-  nextTick(() => {
-    let newItemScroll = `${menuStore.currentMenuId}-${menuStore.cMenu.currentItem}`
-    if (newItemScroll != currentItemScroll) {
-      updateScroll(false)
-    }
-    currentItemScroll = newItemScroll
-  });
+menuStore.$subscribe(() => {
+  updateScroll()
 })
 </script>
