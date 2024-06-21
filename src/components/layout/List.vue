@@ -1,6 +1,11 @@
 <template>
   <div style="position:relative">
-    <ul ref="listEl" id="list-items" class="list" :style="setStyle()">
+    <Scroller
+      direction = 'top'
+      :parent="listEl"
+      :key = scrollTop
+    />
+    <ul ref="listEl" id="list-items" class="list" :style="setStyle()" @scroll="updateScroller()">
       <Item v-for="(item,index) in menuStore.cMenuItems" :key="`${menuStore.currentMenuId}-${index}`"
         :title="getTitle(item)"
         :icon="item.icon"
@@ -10,13 +15,17 @@
         :id=index
       />
     </ul>
-    <Selector />
+    <Scroller
+      direction = 'bottom'
+      :parent="listEl"
+      :key = scrollTop
+    />
   </div>
 </template>
 
 <script setup>
 import Item from './Item.vue'
-import Selector from './Selector.vue'
+import Scroller from './Scroller.vue'
 
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
@@ -25,11 +34,16 @@ import { onBeforeMount, onBeforeUnmount, nextTick, inject, watch, ref} from 'vue
 const lang = useLangStore().lang
 const API = inject('API')
 
-const listEl = ref(null)
+const listEl = ref({})
+const scrollTop = ref(0)
+
+function updateScroller() {
+  scrollTop.value = listEl.value.scrollTop
+}
 
 function setStyle() {
   return {
-    maxHeight: (menuStore.cMenu.numberOnScreen * 53) - 6 +'px'
+    maxHeight: (menuStore.cMenu.numberOnScreen * 55) + 6 +'px'
   }
 }
 function estElementVisible(element) {
@@ -45,7 +59,7 @@ function estElementVisible(element) {
 function updateScroll(isUp) {
   const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
   if (!estElementVisible(currentItem))
-    currentItem.scrollIntoView(isUp)
+    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
 }
 function getTitle(item) {
   if (item.title.length > 0) {
@@ -58,11 +72,11 @@ function handleKeydown(e) {
   switch(e.key) {
     case 'ArrowDown':
       menuStore.menuDown()
-      updateScroll(false)
+      // updateScroll(false)
       return;
     case 'ArrowUp':
       menuStore.menuUp()
-      updateScroll(true)
+      // updateScroll(true)
       return;
   }
   return;
@@ -78,10 +92,10 @@ function handleWheel(e) {
   }
   if (e.deltaY < 0) {
     menuStore.menuUp()
-    updateScroll(false)
+    // updateScroll(true)
   } else {
     menuStore.menuDown()
-    updateScroll(true)
+    // updateScroll(false)
   }
 }
 onBeforeMount(() => {
@@ -93,13 +107,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
 })
 
-let tempcMenuId = menuStore.currentMenuId
+let currentItemScroll = `${menuStore.currentMenuId}-${menuStore.cMenu.currentItem}`
 menuStore.$subscribe((mutation,state) => {
-  if (state.currentMenuId != tempcMenuId) {
-    nextTick(() => {
-      updateScroll(true)
-    });
-    tempcMenuId = state.currentMenuId
-  }
+  nextTick(() => {
+    let newItemScroll = `${menuStore.currentMenuId}-${menuStore.cMenu.currentItem}`
+    if (newItemScroll != currentItemScroll) {
+      updateScroll(false)
+    }
+    currentItemScroll = newItemScroll
+  });
 })
 </script>

@@ -124,11 +124,11 @@ main {
   grid-template-columns: 204px 24px 204px;
   div {
     background-repeat: no-repeat;
-    background-size: contain;
     height: 24px;
+    background-size: auto;
   }
   &.top {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     margin-top: -8px;
     .left, .right {
       background-image: url('/assets/images/menu/scroller_right_top.png');
@@ -141,7 +141,7 @@ main {
     }
   }
   &.bottom {
-    margin-top: 5px;
+    margin-top: 2px;
     .left, .right {
       background-image: url('/assets/images/menu/scroller_right_bottom.png');
     }
@@ -157,32 +157,53 @@ main {
 .list {
   position: relative;
   //height: 420px;
-  overflow: hidden;
+  overflow-y: hidden;
+  display: block;
+  padding-top: 3px;
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  padding-bottom: 3px;
   .item {
     display: grid;
-    width: 100%;
-    height: 47px;
     position: relative;
-    grid-template-columns: repeat(auto);
+    width: 100%;
+    // min-height: 55px;
+    // grid-template-columns: repeat(auto);
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    &.active {
-      //background-color: red;
+    padding-left: 26px;
+    padding-right: 26px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    scroll-margin-top: 3px;
+    scroll-margin-bottom: 3px;
+    &.active::after {
+      border-color: #d80419;
+      border-image-repeat: round;
+      border-image-slice: 10 10 10 10 fill;
+      border-image-source: url("/assets/images/menu/hover.png");
+      border-style: solid;
+      border-width: 8px;
+      box-sizing: border-box;
+      content: "";
+      opacity: 1;
+      pointer-events: none;
+      position: absolute;
+      right: 0px;
+      top: -3px;
+      bottom: -3px;
+      left: 0px;
+      z-index: 10;
     }
     & > * {
       display: block;
       z-index: 10;
     }
-    &:not(:last-child) {
-      margin-bottom: 6px;  
-    }
     .background {
       position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
+      top: 3px;
+      bottom: 3px;
+      left: 6px;
+      right: 6px;
       filter: invert(75%);
       z-index: 5;
       background-image: url('/assets/images/menu/selection_box_bg_1d.png');
@@ -201,6 +222,8 @@ main {
       }
       .title {
         flex: 1 1 auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
         span {
           font-size: 0.7em;
           margin-top: -5px;

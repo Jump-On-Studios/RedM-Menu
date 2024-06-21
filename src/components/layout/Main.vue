@@ -8,13 +8,7 @@
         </span>
       </h2>
       <template v-if="menuStore.cMenuItems.length > 0">
-        <Scroller
-          direction = 'top'
-        />
         <List />
-        <Scroller
-          direction = 'bottom'
-        />
       </template>
     </div>
     <template v-if="menuStore.cMenuItems.length == 0 & menuStore.cMenu.type == 'list'">
@@ -31,7 +25,6 @@
 </template>
 
 <script setup>
-import Scroller from './Scroller.vue'
 import List from './List.vue'
 import Slider from './Slider.vue'
 import Price from './Price.vue'

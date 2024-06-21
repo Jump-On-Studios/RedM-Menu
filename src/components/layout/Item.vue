@@ -1,6 +1,6 @@
 <template>
-  <li v-if="item" :id="`item-${props.id}`" :class="['item','clicker',{'with-icon':props.icon,'disabled':item.disabled,'active':props.active}]" @click="click()">
-    <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="props.icon">
+  <li v-if="props.item" :id="`item-${props.id}`" :class="['item','clicker',{'with-icon':props.icon,'disabled':props.item.disabled,'active':props.active}]" @click="click()">
+    <div :class="[{'bw opacity50':props.item.disabled},'image', props.item.iconClass]" v-if="props.icon">
       <img :src="`./assets/images/icons/${props.icon}.png`" />
     </div>
     <div class="current" v-if="props.isCurrent">
@@ -8,33 +8,33 @@
         <img src="/assets/images/menu/tick.png">
       </div>
     </div>
-    <div class="current" v-if="item.iconRight">
-      <div class="tick" v-if="item.iconRight == 'tick'">
+    <div class="current" v-if="props.item.iconRight">
+      <div class="tick" v-if="props.item.iconRight == 'tick'">
         <img src="/assets/images/menu/tick.png">
       </div>
     </div>
     <h3>
-      <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
-        <img :class="item.prefix" :src="`./assets/images/icons/${item.prefix}.png`" />
+      <div v-if="props.item.prefix" :class="['prefix',{'bw opacity50':props.item.disabled}]">
+        <img :class="props.item.prefix" :src="`./assets/images/icons/${props.item.prefix}.png`" />
       </div>
-      <span class="title" v-html="item.title"></span>
-      <template v-if="!item.disabled">
-        <template v-for="(slider, index) in item.sliders" :key="index">
+      <span class="title" v-html="props.item.title"></span>
+      <template v-if="!props.item.disabled">
+        <template v-for="(slider, index) in props.item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
-            <Switch :slider="slider" :index="index" :isCurrent="item.index == menuStore.cItem.index" />
+            <Switch :slider="slider" :index="index" :isCurrent="props.item.index == menuStore.cItem.index" />
           </template>
         </template>
       </template>
-      <PalettePreview v-if="item.previewPalette && hasPaletteSlider()" :sliders="item.sliders" />
-      <div class="priceRight" v-if="!item.iconRight && !props.isCurrent">
-        <PriceDisplay :price="(item.priceRight && (menuStore.cMenu.cItem == item && isItemBought()))?0:item.priceRight" />
+      <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :sliders="props.item.sliders" />
+      <div class="priceRight" v-if="!props.item.iconRight && !props.isCurrent">
+        <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item))?0:item.priceRight" />
       </div>
-      <div class="textRight" v-if="item.textRight">
-        <template v-if="item.translateTextRight">
-          {{ lang(item.textRight) }}
+      <div class="textRight" v-if="props.item.textRight">
+        <template v-if="props.item.translateTextRight">
+          {{ lang(props.item.textRight) }}
         </template>
         <template v-else>
-          {{ item.textRight }}
+          {{ props.item.textRight }}
         </template>
       </div>
     </h3>
@@ -68,20 +68,18 @@ const props = defineProps({
   id: Number
 })
 
-const item = props.item
-
 function click() {
-  if (menuStore.cMenu.currentItem == item.id) {
+  if (menuStore.cMenu.currentItem == props.item.id) {
     menuStore.menuEnter()
   } else {
-    menuStore.setCurrentItem({offset:menuStore.cMenu.offset,id:item.id})
+    menuStore.setCurrentItem(props.item.id)
   }
   API.PlayAudio('button')
 }
 function hasPaletteSlider() {
   let needPreview = false
-  for (let index = 0; index < item.sliders.length; index++) {
-    const slider = item.sliders[index];
+  for (let index = 0; index < props.item.sliders.length; index++) {
+    const slider = props.item.sliders[index];
     if (slider.type == "switch" && slider.values.length > 1)
       return false
     if (slider.type == "palette") {

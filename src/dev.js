@@ -5,16 +5,43 @@ if (import.meta.env.DEV) {
     event:'updateMenu',
     menu: {
       id: 'home',
-      title: 'home',
-      subtitle: 'Subtitle',
+      title: 'My title',
+      subtitle: 'The subtitle',
       numberOnScreen : 8,
-      globalColor: true,
-      equipedColor: 1,
-      disableEscape: true,
       items: [
         {
+          title: 'Statistics<br>Line'
+        },
+        {
+          title: 'Two<br><br>Lines'
+        },
+        {
+          title: '1<br>2<br>3<br>4<br>5'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
+          title: 'Statistics'
+        },
+        {
           title: 'Palette',
-          description: 'test',
+          description: 'The item description',
           price: 5,
           child: 'child',
           // disabled: true,
@@ -32,33 +59,13 @@ if (import.meta.env.DEV) {
               ]
             },
             {
-              type: 'palette',
+              type: 'grid',
               title: 'tint',
               current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
-            },
-          ],
-        },
-        {
-          title: 'Palette',
-          previewPalette: false,
-          description: 'test',
-          price: {money:6,gold:10},
-          sliders : [
-            {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
+              labels: ['left','right'],
+              values: [
+                {current: 0.5, max: 1.0, min: -1.0},
+              ]
             },
             {
               type: 'palette',
@@ -68,11 +75,16 @@ if (import.meta.env.DEV) {
               max: 63
             },
             {
-              type: 'palette',
-              title: 'tint',
-              current:0,
-              tint: 'tint_makeup',
-              max: 63
+              title: 'Variations',
+              current:2,
+              values: [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+              ]
             },
           ],
         },

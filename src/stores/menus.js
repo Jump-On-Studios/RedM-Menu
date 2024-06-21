@@ -92,9 +92,10 @@ class MenuItem {
   setPrefix(value) {
     this.prefix = value
   }
-  setStatistics(value) {
-    for (var p in value) {
-      this.statistics.push(Object.assign(new ItemStatistic(),value[p]))
+  setStatistics(values) {
+    const stat = new ItemStatistic()
+    for (var p in values) {
+      this.statistics.push({...stat,...values[p]})
     }
   }
   setIconClass(value) {
@@ -131,6 +132,8 @@ class ItemStatistic {
   type = "bar"
   class = ""
   value = [0,0,10]
+  translateLabel = false
+  translateValue = false
 }
 
 class Menu {
@@ -145,10 +148,8 @@ class Menu {
     variation: -1
   };
   items = [];
-  offset = 0;
   currentColor = 0;
   offsetColor = 0;
-  helpers = false;
   numberOnScreen = 8;
   globalColor = false;
   equipedColor = 0;
@@ -214,14 +215,6 @@ class Menu {
     this.currentItem = value
   }
 
-  setHelpers(helpers) {
-    this.helpers = []
-    helpers.forEach(helper => {
-      this.helpers.push(
-        {keys: helper.keys, title: helper.title})
-    })
-  }
-
   setEquipedItem(value) {
     this.equipedItem = {
       index: value.index,
@@ -243,7 +236,6 @@ class Menu {
 
   reset() {
     this.currentItem = 0
-    this.offset = 0
     this.currentColor = 0
     this.offsetColor = 0
   }
@@ -326,6 +318,7 @@ export const useMenuStore = defineStore('menus', {
     },
     updateMenuData(data) {
       if (!this.menus[data.menu]) return
+      const menu = new Menu(data.data)
       this.menus[data.menu] = API.deepMerge(this.menus[data.menu], data.data)
     },
     updateItem(data) {
@@ -343,9 +336,8 @@ export const useMenuStore = defineStore('menus', {
         })
       }
     },
-    setCurrentItem(data) {
-      this.menus[this.currentMenuId].offset = data.offset
-      this.menus[this.currentMenuId].setCurrent(data.id)
+    setCurrentItem(index) {
+      this.menus[this.currentMenuId].setCurrent(index)
       this.updatePreview()
     },
     setCurrentMenu(data) {

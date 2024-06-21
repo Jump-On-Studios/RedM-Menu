@@ -1,8 +1,8 @@
 <template>
-  <template v-if="color.texture">
+  <template v-if="props.color.texture">
     <img :src="getImage()" />
   </template>
-  <template v-if="color.custom">
+  <template v-if="props.color.custom">
     <div class="colorCustom" ref="boxParent">
       <div class="tint0" ref="tint0" :style="getStyleTint(0)"></div>
       <div class="tint1" ref="tint1" :style="getStyleTint(1)"></div>
@@ -21,16 +21,16 @@ const tint0 = ref(null)
 const tint1 = ref(null)
 const tint2 = ref(null)
 
-const color = props.color
+const props = defineProps(['color'])
 
 function getImage() {
-  let color = color.texture.toLowerCase();
+  let color = props.color.texture.toLowerCase();
   return `./assets/images/tints/${color}.png`;
 }
 function getStyleTint(index) {
   nextTick(() => {
-    let url = `./assets/images/menu/${color.palette}.png`;
-    let left = color['tint'+index]
+    let url = `./assets/images/menu/${props.color.palette}.png`;
+    let left = props.color['tint'+index]
     let box
     switch (index) {
       case 0:

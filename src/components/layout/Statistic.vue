@@ -31,6 +31,8 @@
 import { useLangStore } from '../../stores/lang';
 const lang = useLangStore().lang
 
+const props = defineProps(['stat'])
+
 function getLabel() {
   if (props.stat.translateLabel == false){
     return props.stat.label

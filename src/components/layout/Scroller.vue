@@ -12,24 +12,19 @@ import { inject } from 'vue';
 import { useLangStore } from '../../stores/lang';
 import { useMenuStore } from '../../stores/menus';
 
-const props = defineProps(['direction'])
+const props = defineProps(['direction','parent'])
 
 const lang = useLangStore().lang
 const menuStore = useMenuStore()
 const API = inject('API')
 
 function getActive() {
-  if (props.direction == 'top' && menuStore.cMenu.offset > 0) return true
+  if (props.parent == null) return false
+  if (props.direction == 'top') {
+    return props.parent.scrollTop > 0
+  }
   if (props.direction == "bottom") {
-    let gap = 0
-    for (let index = menuStore.cMenu.offset; index < menuStore.cMenuItems.length; index++) {
-      if (menuStore.cMenuItems[index].icon) {
-        gap += 2
-      } else {
-        gap++;
-      }
-      if (gap > menuStore.cMenu.numberOnScreen) return true
-    }
+    return props.parent.offsetHeight + props.parent.scrollTop < props.parent.scrollHeight
   }
   return false
 }
