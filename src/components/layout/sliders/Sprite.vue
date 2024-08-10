@@ -7,7 +7,7 @@
         <div class="text hapna">{{ numItem() }}</div>
         <div class="arrow right clicker" @click="menuStore.sliderRight(props.index)"><img src="/assets/images/menu/selection_arrow_right.png"></div>
       </div>
-      <div class="sprites">
+      <div class="sprites" id="scroller">
         <div v-for="(value,vIndex) in props.slider.values"
           :key="vIndex+1"
           :class="['sprite clicker',{'current' : (vIndex+1) == props.slider.current}]"
@@ -48,10 +48,35 @@ function click(vIndex) {
   if (vIndex == props.slider.current) return
   menuStore.setSliderCurrent({index: props.index,value:parseInt(vIndex)})
 }
+
+function scrollToElementHOrizontal(scroller,element) {
+    const scrollerRect = scroller.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const scrollerScrollLeft = scroller.scrollLeft;
+    const elementLeft = elementRect.left - scrollerRect.left + scrollerScrollLeft;
+    const elementRight = elementRect.right - scrollerRect.left + scrollerScrollLeft;
+
+    // Scroller vers la gauche si l'élément est à gauche de la zone visible de la div
+    if (elementRect.left < scrollerRect.left) {
+        scroller.scrollTo({
+            left: elementLeft,
+            behavior: 'smooth'
+        });
+    }
+    // Scroller vers la droite si l'élément est à droite de la zone visible de la div
+    else if (elementRect.right > scrollerRect.right) {
+        scroller.scrollTo({
+            left: elementRight - scrollerRect.width,
+            behavior: 'smooth'
+        });
+    }
+}
+
 function updateScroll() {
   nextTick(() => {
-    const currentItem = document.getElementById('sprite-'+props.slider.current)
-    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+    const scroller = document.querySelector('#scroller');
+    const currentItem = document.querySelector('#scroller #sprite-'+props.slider.current)
+    scrollToElementHOrizontal(scroller,currentItem)
   })
 }
 menuStore.$subscribe(() => {
