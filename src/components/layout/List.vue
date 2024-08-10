@@ -30,7 +30,7 @@ import Scroller from './Scroller.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, inject, ref} from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick} from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -47,8 +47,11 @@ function setStyle() {
   }
 }
 function updateScroll() {
-  const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
-  currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+  nextTick(() => {
+    const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
+    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+  })
+ 
 }
 function getTitle(item) {
   if (item.title.length > 0) {

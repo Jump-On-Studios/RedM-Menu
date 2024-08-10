@@ -11,7 +11,33 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'Classic item',
-          prefix: 'tick'
+          prefix: 'tick',
+          sliders: [
+            {
+              type: 'sprite',
+              title: 'Sprite',
+              current: 1,
+              values: [
+                {sprite:'tints/BLONDE'},
+                {sprite:'tints/BROWN'},
+                {sprite:'tints/DARK_BLONDE'},
+                {sprite:'tints/DARKEST_BROWN'},
+                {sprite:'tints/DARK_GINGER'},
+                {sprite:'tints/DARK_GREY'},
+                {sprite:'tints/GINGER'},
+                {sprite:'tints/GREY'},
+                {sprite:'tints/JET_BLACK'},
+                {sprite:'tints/LIGHT_BLONDE'},
+                {sprite:'tints/LIGHT_BROWN'},
+                {sprite:'tints/LIGHT_GINGER'},
+                {sprite:'tints/LIGHT_GREY'},
+                {sprite:'tints/MEDIUM_BROWN'},
+                {sprite:'tints/SALT_PEPPER'},
+                {sprite:'tints/STRAWBERRY_BLONDE'},
+                {sprite:'tints/UNCLE_GREY'}
+              ]
+            }
+          ]
         },
         {
           title: 'Classic item',

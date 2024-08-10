@@ -8,7 +8,6 @@ class MenuItem {
   iconClass = '';
   child = false;
   sliders = [];
-  colors = false;
   price = false;
   priceTitle = false;
   priceRight = false;
@@ -51,13 +50,6 @@ class MenuItem {
   }
   setChild(value) {
     this.child = value
-  }
-  setColors(colors) {
-    this.colors = {...{title:'', current:0,offset:0,values:[],displayRight:false,displayTick:true},...colors}
-    if (this.colors.current >= 8) {
-      this.colors.offset = this.colors.current - 8
-      if (this.colors.offset < 0) this.colors.offset = 0
-    }
   }
   setPrice(price) {
     this.price = price
@@ -149,7 +141,6 @@ class Menu {
   };
   items = [];
   currentColor = 0;
-  offsetColor = 0;
   numberOnScreen = 8;
   globalColor = false;
   equipedColor = 0;
@@ -165,7 +156,6 @@ class Menu {
         if (item.slider) this.items[newId].setSliders(item.slider)
         if (item.sliders) this.items[newId].setSliders(item.sliders)
         if (item.child) this.items[newId].setChild(item.child)
-        if (item.colors) this.items[newId].setColors(item.colors)
         if (item.price !== false) this.items[newId].setPrice(item.price)
         if (item.priceRight !== false) this.items[newId].setPriceRight(item.priceRight)
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
@@ -237,7 +227,6 @@ class Menu {
   reset() {
     this.currentItem = 0
     this.currentColor = 0
-    this.offsetColor = 0
   }
 
   setTranslateTitle(value) {
@@ -346,7 +335,7 @@ export const useMenuStore = defineStore('menus', {
       if (data.keepHistoric) {
         if (this.parentTree.at(-1) != this.currentMenuId && this.currentMenuId.length > 0)
           this.parentTree.push(this.currentMenuId)
-        API.PlayAudio('button')
+        // API.PlayAudio('button')
       } else {
         this.parentTree = []
       }
@@ -425,11 +414,7 @@ export const useMenuStore = defineStore('menus', {
       }
       if (!slider) return;
   
-      if (slider.type == "slider" || slider.type == "switch") {
-        if (slider.current == 1 && !slider.looped) return
-        slider.current--
-        if (slider.current == 0) slider.current = slider.values.length
-      } else if (slider.type == "palette") {
+      if (slider.type == "palette") {
         if (slider.current <= 0) return
         slider.current--;
       } else if (slider.type == "grid") {
@@ -438,6 +423,10 @@ export const useMenuStore = defineStore('menus', {
         values[0].current -= values[0].gap
         if (values[0].current < values[0].min)
           values[0].current = values[0].min
+      } else {
+        if (slider.current == 1 && !slider.looped) return
+        slider.current--
+        if (slider.current == 0) slider.current = slider.values.length
       }
       API.PlayAudio('button')
       this.updatePreview()
@@ -454,11 +443,7 @@ export const useMenuStore = defineStore('menus', {
       }
       if (!slider) return;
   
-      if (slider.type == "slider" || slider.type == "switch") {
-        if (slider.current == slider.values.length && !slider.looped) return
-        slider.current++;
-        if (slider.current > slider.values.length) slider.current = 1
-      } else if (slider.type == "palette") {
+      if (slider.type == "palette") {
         if (slider.current == slider.max) return
         slider.current++;
       } else if (slider.type == "grid") {
@@ -467,6 +452,10 @@ export const useMenuStore = defineStore('menus', {
         values[0].current += values[0].gap
         if (values[0].current > values[0].max)
           values[0].current = values[0].max
+      } else {
+        if (slider.current == slider.values.length && !slider.looped) return
+        slider.current++;
+        if (slider.current > slider.values.length) slider.current = 1
       }
       API.PlayAudio('button')
       this.updatePreview()

@@ -9,8 +9,11 @@
         <template v-else-if="slider.type == 'grid'">
           <Grid :index="index" :slider="slider" />
         </template>
+        <template v-else-if="slider.type == 'sprite'">
+          <Sprite :index="index" :slider="slider" />
+        </template>
         <template v-else>
-          <DefaultSlider :index="index" :slider="slider" />
+          <Default :index="index" :slider="slider" />
         </template>
       </template>
     </div>
@@ -21,8 +24,9 @@
 import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { useMenuStore } from '../../stores/menus';
 import ColorPalette from './sliders/ColorPalette.vue'
-import DefaultSlider from './sliders/DefaultSlider.vue'
+import Default from './sliders/Default.vue'
 import Grid from './sliders/Grid.vue'
+import Sprite from './sliders/Sprite.vue'
 
 const menuStore = useMenuStore()
 

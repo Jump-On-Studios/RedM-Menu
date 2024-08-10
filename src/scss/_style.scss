@@ -420,19 +420,24 @@ main {
   }
 }
 
-.color-boxes {
+.slider .sprites {
   display: flex;
   align-items: center;
-  justify-content: center;
-  column-gap: 12px;
+  justify-content: flex-start;
   margin-top: 16px;
   width: 432px;
   position: relative;
-  .box {
+  overflow: hidden;
+  height: 55px;
+  .sprite {
     position: relative;
+    padding: 8px 8px;
+    width: 54px;
+    min-width: 54px;
+    max-width: 54px;
     img {
-      width: 37px;
-      height: 37px;
+      width: 100%;
+      aspect-ratio: 1 / 1;
     }
   }
   
@@ -447,15 +452,15 @@ main {
       content: '';
       display: block;
       position: absolute;
-      top: -8px;
-      left: -7px;
+      top: 0px;
+      left: 0px;
+      bottom: 1px;
+      right: 0px;
       background-image: url('/assets/images/menu/selection_box_square.png');
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center;
       filter: brightness(0.5) sepia(1) saturate(10000%);
-      height: calc(100% + 14px);
-      width: calc(100% + 14px);
     }
   }
 }
