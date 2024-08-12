@@ -2,6 +2,13 @@ export default {}
 
 if (import.meta.env.DEV) {
   window.postMessage({
+    event: 'updateLang',
+    lang: {
+      price: "New"
+    }
+  })
+
+  window.postMessage({
     event:'updateMenu',
     menu: {
       id: 'home',
@@ -36,9 +43,22 @@ if (import.meta.env.DEV) {
                 {sprite:'tints/STRAWBERRY_BLONDE'},
                 {sprite:'tints/UNCLE_GREY'}
               ]
+            },
+            {
+              type: "grid",
+              title: "Opacity",
+              labels: ['left','right'],
+              values: [
+                {
+                  max: 10,
+                  min: 1,
+                  current: 5
+                }
+              ]
             }
           ]
         },
+        
         {
           title: 'Classic item',
           prefix: 'tick'

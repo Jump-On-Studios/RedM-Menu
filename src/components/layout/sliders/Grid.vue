@@ -1,21 +1,24 @@
 <template>
-  <div :class="['grid-container','slider','dimension-'+props.slider.values.length]">
-    <div class="left">
-      {{ label(0) }}
-    </div>
-    <div class="center">
-      <div v-if="props.slider.values.length == 2">
-        {{ label(2) }}
+  <div class="slider">
+    <h2 v-if="props.slider.title">{{ title() }}</h2>
+    <div :class="['grid-container','dimension-'+props.slider.values.length]">
+      <div class="left">
+        {{ label(0) }}
       </div>
-      <div class="grid" id="box" @mousedown="startMoveMarker">
-        <div id="marker" :style="markerPosition()"></div>
+      <div class="center">
+        <div v-if="props.slider.values.length == 2">
+          {{ label(2) }}
+        </div>
+        <div class="grid" id="box" @mousedown="startMoveMarker">
+          <div id="marker" :style="markerPosition()"></div>
+        </div>
+        <div v-if="props.slider.values.length == 2">
+          {{ label(3) }}
+        </div>
       </div>
-      <div v-if="props.slider.values.length == 2">
-        {{ label(3) }}
+      <div class="right">
+        {{ label(1) }}
       </div>
-    </div>
-    <div class="right">
-      {{ label(1) }}
     </div>
   </div>
 </template>
@@ -34,7 +37,14 @@ let boxBottom= 0
 let boxRight= 0
 let marker= false
 
+function title() {
+  if (props.slider.translate)
+    return lang(props.slider.title)
+  return props.slider.title
+}
+
 function label(index) {
+  if (!props.slider.labels) return ''
   if (props.slider.translate)
     return lang(props.slider.labels[index])
   return props.slider.labels[index]

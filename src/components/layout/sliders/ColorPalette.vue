@@ -1,5 +1,5 @@
 <template>
-  <div class="colorPicker">
+  <div class="colorPicker slider">
     <h2>{{ getTitle() }}</h2>
     <div class="arrows">
       <div class="arrow left clicker" @click="menuStore.sliderLeft(props.index)"><img src="/assets/images/menu/selection_arrow_left.png"></div>

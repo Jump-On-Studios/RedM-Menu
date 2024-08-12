@@ -69,8 +69,8 @@ class API {
   }
 
   updateLang(data) {
-    const useLangStore = useLangStore()
-    useLangStore.updateStrings(data.lang)
+    const langStore = useLangStore()
+    langStore.updateStrings(data.lang)
   }
 
   startAudio(data) {

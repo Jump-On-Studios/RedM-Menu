@@ -358,6 +358,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 10px;
   &.full {
     flex-grow: 1;
   }
@@ -367,11 +368,10 @@ main {
 }
 
 .slider {
-  margin-bottom: 30px;
-  bottom: 50px;
   width: 100%;
-  .arrows {
-    margin-top: 8px;
+  h2 {
+    margin-bottom: 8px;
+    margin-top: 0px;
   }
   .boxes {
     display: flex;
@@ -379,6 +379,7 @@ main {
     justify-content: center;
     column-gap: 4px;
     margin-top: 16px;
+    margin-bottom: 10px;
     .box {
       position: relative;
       width: 30px;
