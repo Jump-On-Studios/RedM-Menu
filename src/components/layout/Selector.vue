@@ -17,7 +17,6 @@ function getTop() {
   if (active) {
     const container = document.getElementById('list-items')
     top = active.getBoundingClientRect().top - container.getBoundingClientRect().top 
-  } else {
   }
   return {
       top: top + "px"

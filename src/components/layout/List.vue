@@ -48,6 +48,8 @@ function setStyle() {
 }
 
 function scrollToElementVertically(scroller, element) {
+    if (scroller == undefined) return
+    if (element == undefined) return
     const scrollerRect = scroller.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
     const scrollerScrollTop = scroller.scrollTop;
