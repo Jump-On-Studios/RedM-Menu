@@ -1,18 +1,18 @@
 <template>
-  <template v-if="price !== undefined && price !== false">
+  <template v-if="props.price !== undefined && props.price !== false">
     <div class="priceDisplay">
-      <template v-if="(typeof(price) == 'object') && price.gold && price.money">
+      <template v-if="(typeof(props.price) == 'object') && props.price.gold && props.price.money">
         <span class="gold left">
           <span class="icon">
-            <img src="@/assets/images/gold.png">
+            <img src="/assets/images/gold.png">
           </span>
           {{ gold() }}
         </span>
       </template>
-      <template v-if="price.gold && !price.money">
+      <template v-if="props.price.gold && !props.price.money">
         <span class="gold">
           <span class="icon">
-            <img src="@/assets/images/gold.png">
+            <img src="/assets/images/gold.png">
           </span>
           <span class="round">{{ gold() }}</span>
         </span>
@@ -26,41 +26,35 @@
   </template>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
+import { useLangStore } from '../../stores/lang';
+const props = defineProps(['price'])
+const lang = useLangStore().lang
 
-export default {
-  computed: {
-    ...mapGetters(['isItemBought','lang','menu'])
-  },
-  methods: {
-    gold() {
-      if (this.price.gold%1 == 0) return this.price.gold.toString()
-      return this.price.gold.toFixed(2).toString()
-    },
-    getPrice() {
-      if (typeof(this.price) == 'object')
-        return this.price.money
-      return this.price
-    },
-    priceRounded() {
-      let price = this.getPrice()
-      if (this.getPrice() == 0)
-        return this.lang('free')
-      return Math.trunc(price)
-    },
-    centimes() {
-      let price = this.getPrice()
-      if (price == 0)
-        return ''
-      return (price%1).toFixed(2).toString().substring(2);
-    },
-    devise() {
-      if (this.getPrice() == 0)
-        return ''
-      return this.lang('devise')
-    }
-  },
-  props : ['price'],
+function gold() {
+  if (props.price.gold%1 == 0) return props.price.gold.toString()
+  return props.price.gold.toFixed(2).toString()
+}
+function getPrice() {
+  if (typeof(props.price) == 'object')
+    return props.price.money
+  return props.price
+}
+function priceRounded() {
+  let price = getPrice()
+  if (getPrice() == 0)
+    return lang('free')
+  return Math.trunc(price)
+}
+function centimes() {
+  let price = getPrice()
+  if (price == 0)
+    return ''
+  return (price%1).toFixed(2).toString().substring(2);
+}
+function devise() {
+  if (getPrice() == 0)
+    return ''
+  return lang('devise')
 }
 </script>

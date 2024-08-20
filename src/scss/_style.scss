@@ -38,6 +38,7 @@ html, body {
   position: relative;
   display: flex;
   align-items: center;
+  overflow: hidden;
   //background-color: grey;
 }
 .menu {
@@ -72,7 +73,7 @@ html, body {
       height: 100%;
       top: 0;
       left: 0;
-      background-image: url('./assets/images/background.png');
+      background-image: url('/assets/images/background.png');
       filter: invert(100%);
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -81,7 +82,7 @@ html, body {
 }
 
 header {
-  background: url('./assets/images/menu_header.png');
+  background: url('/assets/images/menu_header.png');
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -94,6 +95,7 @@ header {
   h1 {
     font-weight: 100;
     font-size: 40px;
+    text-align: center;
   }
 }
 
@@ -110,6 +112,11 @@ main {
   }
 }
 
+.article {
+  h2#title {
+    min-height: 1em;
+  }
+}
 .footer {
   flex-grow: 1;
   display: flex;
@@ -122,31 +129,31 @@ main {
   grid-template-columns: 204px 24px 204px;
   div {
     background-repeat: no-repeat;
-    background-size: contain;
     height: 24px;
+    background-size: auto;
   }
   &.top {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     margin-top: -8px;
     .left, .right {
-      background-image: url('@/assets/images/menu/scroller_right_top.png');
+      background-image: url('/assets/images/menu/scroller_right_top.png');
     }
     .center {
-      background-image: url('@/assets/images/menu/scroller_line_up.png');
+      background-image: url('/assets/images/menu/scroller_line_up.png');
       &.active {
-        background-image: url('@/assets/images/menu/scroller_arrow_top.png');
+        background-image: url('/assets/images/menu/scroller_arrow_top.png');
       }
     }
   }
   &.bottom {
-    margin-top: 5px;
+    margin-top: 2px;
     .left, .right {
-      background-image: url('@/assets/images/menu/scroller_right_bottom.png');
+      background-image: url('/assets/images/menu/scroller_right_bottom.png');
     }
     .center {
-      background-image: url('@/assets/images/menu/scroller_line_down.png');
+      background-image: url('/assets/images/menu/scroller_line_down.png');
       &.active {
-        background-image: url('@/assets/images/menu/scroller_arrow_bottom.png');
+        background-image: url('/assets/images/menu/scroller_arrow_bottom.png');
       }
     }
   }
@@ -155,35 +162,56 @@ main {
 .list {
   position: relative;
   //height: 420px;
-  overflow: hidden;
+  overflow-y: hidden;
+  display: block;
+  padding-top: 3px;
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  padding-bottom: 3px;
   .item {
     display: grid;
-    width: 100%;
-    height: 47px;
     position: relative;
-    grid-template-columns: repeat(auto);
+    width: 100%;
+    min-height: 53px;
+    // grid-template-columns: repeat(auto);
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    &.active {
-      //background-color: red;
+    padding-left: 26px;
+    padding-right: 26px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    scroll-margin-top: 3px;
+    scroll-margin-bottom: 3px;
+    &.active::after {
+      border-color: #d80419;
+      border-image-repeat: round;
+      border-image-slice: 10 10 10 10 fill;
+      border-image-source: url("/assets/images/menu/hover.png");
+      border-style: solid;
+      border-width: 8px;
+      box-sizing: border-box;
+      content: "";
+      opacity: 1;
+      pointer-events: none;
+      position: absolute;
+      right: 0px;
+      top: -3px;
+      bottom: -3px;
+      left: 0px;
+      z-index: 10;
     }
     & > * {
       display: block;
       z-index: 10;
     }
-    &:not(:last-child) {
-      margin-bottom: 6px;  
-    }
     .background {
       position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
+      top: 3px;
+      bottom: 3px;
+      left: 6px;
+      right: 6px;
       filter: invert(75%);
       z-index: 5;
-      background-image: url('@/assets/images/menu/selection_box_bg_1d.png');
+      background-image: url('/assets/images/menu/selection_box_bg_1d.png');
       background-size: 100% 100%;
     }
     h3 {
@@ -199,6 +227,13 @@ main {
       }
       .title {
         flex: 1 1 auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        span {
+          font-size: 0.7em;
+          margin-top: -5px;
+          display: block;
+        }
       }
       .sufix {
         font-size: 0.65em;
@@ -217,11 +252,11 @@ main {
       }
     }
     &.with-icon {
-      grid-template-columns: 80px auto;
-      grid-gap: 25px;
+      grid-template-columns: 60px auto;
+      grid-gap: 20px;
       height: 100px;
       .background {
-        background-image: url('@/assets/images/menu/background_item.png');
+        background-image: url('/assets/images/menu/background_item.png');
       }
     }
     .image img {
@@ -229,15 +264,15 @@ main {
     }
     .current {
       position: absolute;
-      top: 50%;
+      top: 46%;
       transform: translateY(-50%);
-      right: 20px;
+      right: 28px;
       width: 32px;
       height: 32px;
+      z-index: 20;
       &>div {
         width: 100%;
         height: 100%;
-        position: absolute;
         left: 0;
         top: 0;
       }
@@ -283,7 +318,7 @@ main {
     border-color: #d80419;
     border-image-repeat: round;
     border-image-slice: 10 10 10 10 fill;
-    border-image-source: url("@/assets/images/menu/hover.png");
+    border-image-source: url("/assets/images/menu/hover.png");
     border-style: solid;
     border-width: 8px;
     bottom: -4px;
@@ -323,6 +358,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 10px;
   &.full {
     flex-grow: 1;
   }
@@ -332,11 +368,10 @@ main {
 }
 
 .slider {
-  margin-bottom: 30px;
-  bottom: 50px;
   width: 100%;
-  .arrows {
-    margin-top: 8px;
+  h2 {
+    margin-bottom: 8px;
+    margin-top: 0px;
   }
   .boxes {
     display: flex;
@@ -344,6 +379,7 @@ main {
     justify-content: center;
     column-gap: 4px;
     margin-top: 16px;
+    margin-bottom: 10px;
     .box {
       position: relative;
       width: 30px;
@@ -353,7 +389,7 @@ main {
         display: block;
         width: 100%;
         height: 100%;
-        background-image: url('@/assets/images/menu/swatch_bg_1a.png');
+        background-image: url('/assets/images/menu/swatch_bg_1a.png');
       }
       &:not(.active)::before {
         filter: invert(50%);
@@ -373,7 +409,7 @@ main {
         position: absolute;
         top: 2px;
         left: 0;
-        background-image: url('@/assets/images/menu/tank_meter_marker.png');
+        background-image: url('/assets/images/menu/tank_meter_marker.png');
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
@@ -385,19 +421,24 @@ main {
   }
 }
 
-.color-boxes {
+.slider .sprites {
   display: flex;
   align-items: center;
-  justify-content: center;
-  column-gap: 12px;
+  justify-content: flex-start;
   margin-top: 16px;
   width: 432px;
   position: relative;
-  .box {
+  overflow: hidden;
+  height: 55px;
+  .sprite {
     position: relative;
+    padding: 8px 8px;
+    width: 54px;
+    min-width: 54px;
+    max-width: 54px;
     img {
-      width: 37px;
-      height: 37px;
+      width: 100%;
+      aspect-ratio: 1 / 1;
     }
   }
   
@@ -412,15 +453,15 @@ main {
       content: '';
       display: block;
       position: absolute;
-      top: -8px;
-      left: -7px;
-      background-image: url('@/assets/images/menu/selection_box_square.png');
+      top: 0px;
+      left: 0px;
+      bottom: 1px;
+      right: 0px;
+      background-image: url('/assets/images/menu/selection_box_square.png');
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center;
       filter: brightness(0.5) sepia(1) saturate(10000%);
-      height: calc(100% + 14px);
-      width: calc(100% + 14px);
     }
   }
 }
@@ -454,8 +495,8 @@ main {
   &.color-2 {
     .tint0,.tint1 {
       width: 100%;
-      -webkit-mask-image: url('@/assets/images/tints/mask.png');
-      mask-image: url('@/assets/images/tints/mask.png');
+      -webkit-mask-image: url('/assets/images/tints/mask.png');
+      mask-image: url('/assets/images/tints/mask.png');
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-size: 100%;
@@ -467,7 +508,7 @@ main {
   }
   .border {
     width: 100%;
-    background-image: url('@/assets/images/tints/swatch_box.png');
+    background-image: url('/assets/images/tints/swatch_box.png');
     background-position: center;
   }
 }
@@ -480,7 +521,7 @@ main {
   display: block;
   width: 100%;
   height: 4px;
-  background-image: url('@/assets/images/menu/divider_line.png');
+  background-image: url('/assets/images/menu/divider_line.png');
 }
 
 .price {
@@ -512,7 +553,7 @@ main {
       content: '';
       position: absolute;
       display: block;
-      background-image: url('@/assets/images/menu/money_line.png');
+      background-image: url('/assets/images/menu/money_line.png');
       height: 5px;
       width: 100%;
       left: 0;
@@ -569,7 +610,7 @@ main {
         content: '';
         width: 20px;
         height: 10px;
-        background-image: url('@/assets/images/menu/scoretimer_centre_bg.png');
+        background-image: url('/assets/images/menu/scoretimer_centre_bg.png');
         background-size: 100% 100%;
         opacity: 0.20;
         &.active {
@@ -709,7 +750,7 @@ main {
 .v-leave-active {
   transition: all var(--transition-duration) ease;
   .container {
-    -webkit-mask-image: url('./assets/images/background_mask.png');
+    -webkit-mask-image: url('/assets/images/background_mask.png');
   }
 }
 
@@ -730,7 +771,7 @@ main {
 .smudge {
   display: none;
   content: '';
-  background-image: url('./assets/images/background_smudge.png');
+  background-image: url('/assets/images/background_smudge.png');
   height: 100%;
   width: 100%;
   background-size: 100% 100%;
@@ -802,11 +843,12 @@ main {
   .center {
     display: grid;
     gap: 10px;
+    justify-items: center;
   }
   .grid {
     width: 100%;
     height: 38px;
-    background-image: url('./assets/images/menu/grid.png');
+    background-image: url('/assets/images/menu/grid.png');
     background-size: cover;
     position: relative;
     #marker {
@@ -816,7 +858,7 @@ main {
       transform: translate(-50%,-50%);
       width: 20px;
       height: 20px;
-      background-image: url('./assets/images/menu/marker.png');
+      background-image: url('/assets/images/menu/marker.png');
       background-size: 25px;
       background-repeat: no-repeat;
       background-position: center;

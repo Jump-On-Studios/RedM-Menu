@@ -18,6 +18,7 @@ coverage
 
 # Editor directories and files
 .vscode/*
+..VSCodeCounter/*
 !.vscode/extensions.json
 .idea
 *.suo
@@ -26,3 +27,4 @@ coverage
 *.sln
 *.sw?
 dist/*
+menu/*

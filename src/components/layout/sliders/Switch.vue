@@ -1,30 +1,20 @@
 <template>
-  <div class="sufix" v-if="slider.type == 'switch' && slider.values.length > 1">
+  <div class="sufix" v-if="props.slider.type == 'switch' && props.slider.values.length > 1">
     <div class="arrows" @click.stop="">
-      <div class="arrow left clicker" @click="sliderLeft(index)" v-if="isCurrent"><img src="@/assets/images/menu/selection_arrow_left.png"></div>
-      <div class="text hapna">{{ getSufixLabel(slider)}}</div>
-      <div class="arrow right clicker" @click="sliderRight(index)" v-if="isCurrent"><img src="@/assets/images/menu/selection_arrow_right.png"></div>
+      <div class="arrow left clicker" @click="menuStore.sliderLeft(props.index)" v-if="props.isCurrent"><img src="/assets/images/menu/selection_arrow_left.png"></div>
+      <div class="text hapna">{{ getSufixLabel()}}</div>
+      <div class="arrow right clicker" @click="menuStore.sliderRight(props.index)" v-if="props.isCurrent"><img src="/assets/images/menu/selection_arrow_right.png"></div>
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
-export default {
-  computed: {
-    ...mapGetters(['lang'])
-  },
-  methods: {
-    ...mapActions(['sliderLeft','sliderRight']),
-     getSufixLabel(slider) {
-      if (!slider.translate) return slider.values[slider.current -1].label 
-      return this.lang(slider.values[slider.current -1].label)
-    },
-  },
-  props: {
-    index: Number,
-    slider: Object,
-    isCurrent: Boolean
+<script setup>
+  import { useLangStore } from '../../../stores/lang';
+  const lang = useLangStore().lang
+  const props = defineProps(['slider','isCurrent'])
+
+  function getSufixLabel() {
+    if (!props.slider.translate) return props.slider.values[props.slider.current -1].label 
+    return lang(props.slider.values[props.slider.current -1].label)
   }
-}
 </script>

@@ -1,121 +1,92 @@
 <template>
-  <li v-if="item" :id="'item-'+id" :class="['item','clicker',{'with-icon':icon,'disabled':item.disabled,'active':active}]" @click="click()">
-    <div :class="[{'bw opacity50':item.disabled},'image', item.iconClass]" v-if="icon">
-      <img :src="getImage(icon)" />
+  <li v-if="props.item" :id="`item-${props.id}`" :class="['item','clicker',{'with-icon':props.icon,'disabled':props.item.disabled,'active':props.active}]" @click="click()">
+    <div :class="[{'bw opacity50':props.item.disabled},'image', props.item.iconClass]" v-if="props.icon">
+      <img :src="`./assets/images/icons/${props.icon}.png`" />
     </div>
-    <div class="current" v-if="isCurrent">
-      <div class="color" v-if="item.colors">
-        <ColorPicture :color="item.colors.values[item.colors.current]" />
-      </div>
+    <div class="current" v-if="props.isCurrent">
       <div class="tick">
-        <img src="@/assets/images/menu/tick.png">
+        <img src="/assets/images/menu/tick.png">
       </div>
     </div>
-    <div class="current" v-if="item.iconRight">
-      <div class="tick" v-if="item.iconRight == 'tick'">
-        <img src="@/assets/images/menu/tick.png">
+    <div class="current" v-if="props.item.iconRight">
+      <div class="tick">
+        <img :src="`./assets/images/icons/${props.item.iconRight}.png`">
       </div>
     </div>
     <h3>
-      <div v-if="item.prefix" :class="['prefix',{'bw opacity50':item.disabled}]">
-        <img :class="item.prefix" :src="getImage(item.prefix)" />
+      <div v-if="props.item.prefix" :class="['prefix',{'bw opacity50':props.item.disabled}]">
+        <img :class="props.item.prefix" :src="`./assets/images/icons/${props.item.prefix}.png`" />
       </div>
-      <span class="title" v-html="getTitle()"></span>
-      <template v-if="!item.disabled">
-        <template v-for="(slider, index) in item.sliders" :key="index">
+      <span class="title" v-html="props.item.title"></span>
+      <template v-if="!props.item.disabled">
+        <template v-for="(slider, index) in props.item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
-            <Switch :slider="slider" :index="index" :isCurrent="item == cItem" />
+            <Switch :slider="slider" :index="index" :isCurrent="props.item.index == menuStore.cItem.index" />
           </template>
         </template>
       </template>
-      <PalettePreview v-if="item.previewPalette && hasPaletteSlider()" :sliders="item.sliders" />
-      <div class="priceRight" v-if="!item.iconRight && !isCurrent">
-        <PriceDisplay :price="(item.priceRight && (cItem == item && isItemBought()))?0:item.priceRight" />
+      <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :sliders="props.item.sliders" />
+      <div class="priceRight" v-if="!props.item.iconRight && !props.isCurrent">
+        <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item))?0:item.priceRight" />
       </div>
-      <div class="textRight" v-if="item.textRight">
-        <template v-if="item.translateTextRight">
-          {{ lang(item.textRight) }}
+      <div class="textRight" v-if="props.item.textRight">
+        <template v-if="props.item.translateTextRight">
+          {{ lang(props.item.textRight) }}
         </template>
         <template v-else>
-          {{ item.textRight }}
+          {{ props.item.textRight }}
         </template>
-      </div>
-      <div class="textRight" v-if="item.colors?.displayRight">
-        <ColorPicture :color="item.colors.values[item.colors.current]" />
       </div>
     </h3>
     <div class="background"></div>
   </li>
 </template>
 
-<script>
-import { mapActions, mapGetters } from 'vuex';
+<script setup>
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
-import ColorPicture from "./ColorPicture.vue"
 import PalettePreview from "./PalettePreview.vue"
+import { useMenuStore } from '../../stores/menus'
+import { useLangStore } from '../../stores/lang'
+import { inject } from 'vue'
+const menuStore = useMenuStore()
+const API = inject('API')
+const lang = useLangStore().lang
 
-export default {
-  components: {
-    PriceDisplay,Switch,ColorPicture,PalettePreview
+const props = defineProps({
+  icon : {
+    default : false,
   },
-  computed: {
-    ...mapGetters(['currentMenu','equipedItems','colors','cItem','displayOutfitId','menu','lang','audios','isItemBought'])
+  isCurrent : {
+    default : false,
   },
-  methods : {
-    ...mapActions(['menuEnter','sliderRight', 'sliderLeft']),
-    getImage(image) {
-      return new URL(`../../assets/images/icons/${image}.png`, import.meta.url).href;
-    },
-    getColorImage() {
-      let color = this.item.colors.values[this.menu.equipedColor].texture.toLowerCase()
-      return new URL(`../../assets/images/tints/${color}.png`, import.meta.url).href;
-    },
-    getTitle() {
-      if (this.displayOutfitId && this.currentMenu == "outfit" && this.item.index != 0) {
-        return this.title + ' ('+this.item.index+')'
-      }
-      return this.title
-    },
-    click() {
-      if (this.menu.currentItem == this.item.id) {
-        this.menuEnter()
-      } else {
-        this.$API.setCurrentItem({offset:this.menu.offset,id:this.item.id})
-      }
-      this.$API.PlayAudio(this.audios.button)
-    },
-    hasPaletteSlider() {
-      let needPreview = false
-      for (let index = 0; index < this.item.sliders.length; index++) {
-        const slider = this.item.sliders[index];
-        if (slider.type == "switch" && slider.values.length > 1)
-          return false
-        if (slider.type == "palette") {
-          needPreview = true
-          break
-        }
-      }
-      return needPreview
-    }
+  item : Object,
+  active: {
+    default : false,
+    type: Boolean
   },
-  props : {
-    title : {
-      default : 'Title',
-      type: String,
-    },
-    icon : {
-      default : false,
-    },
-    isCurrent : {
-      default : false,
-    },
-    item : Object,
-    active: {
-      default : false,
-      type: Boolean
-    },
-    id: Number
+  id: Number
+})
+
+function click() {
+  if (menuStore.cMenu.currentItem == props.item.id) {
+    menuStore.menuEnter()
+  } else {
+    menuStore.setCurrentItem(props.item.id)
   }
+  API.PlayAudio('button')
+}
+function hasPaletteSlider() {
+  let needPreview = false
+  for (let index = 0; index < props.item.sliders.length; index++) {
+    const slider = props.item.sliders[index];
+    if (slider.type == "switch" && slider.values.length > 1)
+      return false
+    if (slider.type == "palette") {
+      needPreview = true
+      break
+    }
+  }
+  return needPreview
 }
 </script>

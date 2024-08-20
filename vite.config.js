@@ -13,13 +13,13 @@ export default defineConfig({
   resolve: {
     alias: {
       util: "util/",
-      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   build: {
     define: {
       'process.env.NODE_ENV': '"production"'
     },
+    outDir: 'menu',
     assetsInlineLimit: 0,
     rollupOptions: {
       output: {

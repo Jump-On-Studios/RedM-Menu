@@ -2,115 +2,97 @@
   <main>
     <div class="article">
       <h2 id="title">
-        {{ getTitle() }}
-        <span v-if="parentTree.length > 0" class="backer clicker" @click="menuBack()">
-          <img src="@/assets/images/menu/selection_arrow_left.png">
+        <span v-html=getTitle()></span>
+        <span v-if="menuStore.parentTree.length > 0" class="backer clicker" @click="menuStore.menuBack()">
+          <img src="/assets/images/menu/selection_arrow_left.png">
         </span>
       </h2>
-      <template v-if="menuItems.length > 0">
-        <Scroller
-          direction = 'top'
-        />
+      <template v-if="menuStore.cMenuItems.length > 0">
         <List />
-        <Scroller
-          direction = 'bottom'
-        />
       </template>
     </div>
-    <template v-if="menuItems.length == 0 & menu.type == 'list'">
+    <template v-if="menuStore.cMenuItems.length == 0 & menuStore.cMenu.type == 'list'">
       <Loading />
     </template>
     <div class="footer">
-      <template v-if="menuItems.length > 0">
+      <template v-if="menuStore.cMenuItems.length > 0">
         <Description />
         <Slider />
-        <Color />
       </template>
       <Price />
     </div>
-    
   </main>
 </template>
 
-<script>
-  import Scroller from './Scroller.vue'
-  import List from './List.vue'
-  import Slider from './Slider.vue'
-  import Color from './Color.vue'
-  import Price from './Price.vue'
-  import Description from './Description.vue'
-  import Loading from './Loading.vue'
+<script setup>
+import List from './List.vue'
+import Slider from './Slider.vue'
+import Price from './Price.vue'
+import Description from './Description.vue'
+import Loading from './Loading.vue'
+import { useDataStore } from '../../stores/datas'
+import { useMenuStore } from '../../stores/menus'
+import { useLangStore } from '../../stores/lang'
+import { inject, onBeforeMount, onBeforeUnmount, onMounted } from 'vue'
+const datas = useDataStore()
+const menuStore = useMenuStore()
+const lang = useLangStore().lang
+const API = inject('API')
+
+const keyPressed = {}
+let focus = false
+let mountedDate = 0
+
+function handleKeyUp(e) {
+  keyPressed[e.key] = false
+}
+function handleKeydown(e) {
+  if (e.code == "KeyQ")
+    datas.defineQwerty(e.key == "q")
+  if (focus) return
+  if (keyPressed[e.key]) return
   
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-  export default {
-    components: {
-      Scroller, List, Slider, Price, Description, Color,Loading
-    },
-    data() {
-      return {
-        keyPressed: {},
-        focus: false,
-        mountedDate: 0
-      }
-    },
-    computed: {
-      ...mapGetters(['menu', 'lang',"menuItems",'parentTree'])
-    },
-    methods: {
-      ...mapActions(['menuEnter','menuBack']),
-      ...mapMutations(['IS_QWERTY']),
-      handleKeyUp(e) {
-        this.keyPressed[e.key] = false
-      },
-      handleKeydown(e) {
-        if (e.code == "KeyQ")
-          this.IS_QWERTY(e.key == "q")
-        if (this.focus) return
-        if (this.keyPressed[e.key]) return
-        
-        this.keyPressed[e.key] = true
-        if (Date.now()-this.mountedDate < 100) return
-        switch(e.key) {
-          case 'Enter':
-            this.menuEnter()
-            return
-          case 'Backspace':
-            this.menuBack()
-            return
-          case 'Escape':
-            this.menuBack()
-            return
-        }
-      },
-      focusIn() {
-        this.focus = true
-      },
-      focusOut() {
-        this.focus = false
-      },
-      getTitle() {
-        if (this.menu.translateTitle) {
-          return this.lang(this.menu.title)
-        }
-        return this.menu.title
-      }
-    },
-    beforeMount () {
-      window.addEventListener('keydown', this.handleKeydown);
-      window.addEventListener('keyup', this.handleKeyUp);
-      document.addEventListener('focusin', this.focusIn);
-      document.addEventListener('focusout', this.focusOut);
-    },
-    mounted () {
-      this.mountedDate = Date.now();
-      this.$API.PlayAudio('menu_open.mp3');
-    },
-    beforeUnmount () {
-      window.removeEventListener('keydown', this.handleKeydown);
-      window.removeEventListener('keyup', this.handleKeyUp);
-      document.removeEventListener('focusin', this.focusIn);
-      document.removeEventListener('focusout', this.focusOut);
-      this.$API.PlayAudio('menu_close.mp3');
-    }
+  keyPressed[e.key] = true
+  if (Date.now()-mountedDate < 100) return
+  switch(e.key) {
+    case 'Enter':
+      menuStore.menuEnter()
+      return
+    case 'Backspace':
+       menuStore.menuBack()
+      return
+    case 'Escape':
+       menuStore.menuBack()
+      return
   }
+}
+function focusIn() {
+  focus = true
+}
+function focusOut() {
+  focus = false
+}
+function getTitle() {
+  if (menuStore.cMenu.translateSubtitle) {
+    return lang(menuStore.cMenu.subtitle)
+  }
+  return menuStore.cMenu.subtitle
+}
+onBeforeMount(() => {
+  window.addEventListener('keydown', handleKeydown);
+  window.addEventListener('keyup', handleKeyUp);
+  document.addEventListener('focusin', focusIn);
+  document.addEventListener('focusout', focusOut);
+})
+onMounted(() => {
+  mountedDate = Date.now();
+  API.PlayAudio('menu_open');
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('keyup', handleKeyUp);
+  document.removeEventListener('focusin', focusIn);
+  document.removeEventListener('focusout', focusOut);
+  API.PlayAudio('menu_close');
+})
 </script>

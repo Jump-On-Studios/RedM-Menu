@@ -1,43 +1,22 @@
 <template>
-  <div class="price" v-if="cItemPrice !== false">
+  <div class="price" v-if="menuStore.cItemPrice !== false">
     <div class="divider"></div>
     <div class="content">
-      <h4 v-if="cItem.priceTitle">{{ lang(cItem.priceTitle) }}</h4>
+      <h4 v-if="menuStore.cItem.priceTitle">{{ lang(menuStore.cItem.priceTitle) }}</h4>
       <h4 v-else>{{ lang('price') }}</h4>
       <div class="amount">
-        <PriceDisplay :price="cItemPrice" />
-      </div>
-    </div>
-    <div class="divider bottom"></div>
-  </div>
-  <div class="price" v-if="globalPrice">
-    <div class="divider"></div>
-    <div class="content">
-      <h4>{{ lang(globalPrice.title) }}</h4>
-      <div class="amount">
-        <PriceDisplay :price="globalPrice.price" />
+        <PriceDisplay :price="menuStore.cItemPrice" />
       </div>
     </div>
     <div class="divider bottom"></div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
+import { useLangStore } from '../../stores/lang';
+import { useMenuStore } from '../../stores/menus';
 import PriceDisplay from './PriceDisplay.vue'
+const menuStore = useMenuStore()
+const lang = useLangStore().lang
 
-export default {
-  components: {
-    PriceDisplay
-  },
-  computed: {
-    ...mapGetters(['cItem','isItemBought','lang','menu','globalPrice','cItemPrice'])
-  },
-  methods: {
-    gold() {
-      if (this.cItem.price.gold%1 == 0) return this.cItem.price.gold.toString()
-      return this.cItem.price.gold.toFixed(2).toString()
-    },
-  }
-}
 </script>

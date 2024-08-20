@@ -1,127 +1,130 @@
 <template>
   <div style="position:relative">
-    <ul id="list-items" class="list" :style="setStyle()">
-      <Item v-for="(item,index) in menuItems" :key=index
+    <Scroller
+      direction = 'top'
+      :parent="listEl"
+      :key = scrollTop
+    />
+    <ul ref="listEl" id="list-items" class="list" :style="setStyle()" @scroll="updateScroller()">
+      <Item v-for="(item,index) in menuStore.cMenuItems" :key="`${menuStore.currentMenuId}-${index}`"
         :title="getTitle(item)"
         :icon="item.icon"
-        :isCurrent="item.index == menu.equipedItem.index"
+        :isCurrent="item.index == menuStore.cMenu.equipedItem.index"
         :item="item"
-        :active="menu.currentItem == index"
+        :active="menuStore.cMenu.currentItem == index"
         :id=index
       />
     </ul>
-    <Selector />
+    <Scroller
+      direction = 'bottom'
+      :parent="listEl"
+      :key = scrollTop
+    />
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from 'vuex'
+<script setup>
 import Item from './Item.vue'
-import Selector from './Selector.vue'
+import Scroller from './Scroller.vue'
 
-export default {
-  components: {
-    Item, Selector
-  },
-  computed: {
-    ...mapGetters(['lang','menu','equipedItems','currentMenu','menuItems'])
-  },
-  methods: {
-    ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight','colorLeft','colorRight']),
-    setStyle() {
-      return {
-        maxHeight: (this.menu.numberOnScreen * 53) - 6 +'px'
-      }
-    },
-    estElementVisible(element) {
-      var container = document.getElementById("list-items"); // Remplace cela par l'ID de ton conteneur avec défilement
-      var elementRect = element.getBoundingClientRect();
-      var containerRect = container.getBoundingClientRect();
+import { useMenuStore } from '../../stores/menus';
+const menuStore = useMenuStore()
+import { useLangStore } from '../../stores/lang';
+import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick} from 'vue';
+const lang = useLangStore().lang
+const API = inject('API')
 
-      return (
-        elementRect.top >= containerRect.top &&
-        elementRect.bottom <= containerRect.bottom
-      );
-    },
-    updateScroll(isUp) {
-      const currentItem = document.getElementById('item-'+this.menu.currentItem)
-      if (!this.estElementVisible(currentItem))
-        currentItem.scrollIntoView(isUp)
-    },
-    getTitle(item) {
-      if (item.title.length > 0) {
-        if (!item.translate) return item.title
-        return this.lang(item.title)
-      }
-      return this.$API.sprintf(this.lang('number'),item.index)
-    },
-    items() {
-      let max = this.menu.numberOnScreen;
-      let itemDisplayed = [];
-      for (let index = this.menu.offset; index < this.menuItems.length; index++) {
-        if (this.menuItems[index].icon) {
-          max -=2
-        } else {
-          max--
-        }
-        itemDisplayed.push(this.menuItems[index])
-        if (max <= 0) break;
-      }
-      return itemDisplayed;
-    },
-    handleKeydown(e) {
-      switch(e.key) {
-        case 'ArrowDown':
-          this.menuDown()
-          this.updateScroll(false)
-          return;
-        case 'ArrowUp':
-          this.menuUp()
-          this.updateScroll(true)
-          return;
-      }
-      return;
-    },
-    handleWheel(e) {
-      if (e.target.closest('.slider.color') != null) {
-        if (e.deltaY < 0) {
-          this.colorLeft()
-        } else {
-          this.colorRight()
-        }
-        return
-      }
-      else if ((e.target.closest('.slider') != null) || (e.target.closest('.colorPicker') != null)) {
-        if (e.deltaY < 0) {
-          this.sliderLeft()
-        } else {
-          this.sliderRight()
-        }
-        return
-      }
-      if (e.deltaY < 0) {
-        this.menuUp()
-        this.updateScroll(false)
-      } else {
-        this.menuDown()
-        this.updateScroll(true)
-      }
-    }
-  },
-  beforeMount () {
-  	window.addEventListener('keydown', this.handleKeydown, null);
-  	window.addEventListener('wheel', this.handleWheel, null);
-  },
-  beforeUnmount () {
-  	window.removeEventListener('keydown', this.handleKeydown);
-  	window.removeEventListener('wheel', this.handleWheel);
-  },
-  watch: {
-    currentMenu: function() {
-      this.$nextTick(() => {
-        this.updateScroll(true)
-      });
-    }
+const listEl = ref({})
+const scrollTop = ref(0)
+
+function updateScroller() {
+  scrollTop.value = listEl.value.scrollTop
+}
+
+function setStyle() {
+  return {
+    maxHeight: (menuStore.cMenu.numberOnScreen * 53) + 6 +'px'
   }
 }
+
+function scrollToElementVertically(scroller, element) {
+    if (scroller == undefined) return
+    if (element == undefined) return
+    const scrollerRect = scroller.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const scrollerScrollTop = scroller.scrollTop;
+    const elementTop = elementRect.top - scrollerRect.top + scrollerScrollTop;
+    const elementBottom = elementRect.bottom - scrollerRect.top + scrollerScrollTop;
+
+    // Scroller vers le haut si l'élément est au-dessus de la zone visible de la div
+    if (elementRect.top < scrollerRect.top) {
+        scroller.scrollTo({
+            top: elementTop,
+            behavior: 'smooth'
+        });
+    }
+    // Scroller vers le bas si l'élément est en dessous de la zone visible de la div
+    else if (elementRect.bottom > scrollerRect.bottom) {
+        scroller.scrollTo({
+            top: elementBottom - scrollerRect.height,
+            behavior: 'smooth'
+        });
+    }
+}
+function updateScroll() {
+  nextTick(() => {
+    const scroller = document.querySelector('#list-items');
+    const currentItem = document.getElementById('item-'+menuStore.cMenu.currentItem)
+    scrollToElementVertically(scroller,currentItem)
+    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+  })
+ 
+}
+function getTitle(item) {
+  if (item.title.length > 0) {
+    if (!item.translate) return item.title
+    return lang(item.title)
+  }
+  return API.sprintf(lang('number'),item.index)
+}
+function handleKeydown(e) {
+  switch(e.key) {
+    case 'ArrowDown':
+      e.preventDefault()
+      menuStore.menuDown()
+      return;
+    case 'ArrowUp':
+      e.preventDefault()
+      menuStore.menuUp()
+      return;
+  }
+  return;
+}
+function handleWheel(e) {
+  if ((e.target.closest('.slider') != null) || (e.target.closest('.colorPicker') != null)) {
+    if (e.deltaY < 0) {
+      menuStore.sliderLeft()
+    } else {
+      menuStore.sliderRight()
+    }
+    return
+  }
+  if (e.deltaY < 0) {
+    menuStore.menuUp()
+  } else {
+    menuStore.menuDown()
+  }
+}
+onBeforeMount(() => {
+  window.addEventListener('keydown', handleKeydown, null);
+  window.addEventListener('wheel', handleWheel, null);
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('wheel', handleWheel);
+})
+
+menuStore.$subscribe(() => {
+  updateScroll()
+})
 </script>

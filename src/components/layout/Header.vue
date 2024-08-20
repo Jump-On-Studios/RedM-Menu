@@ -1,15 +1,19 @@
 <template>
   <header>
-    <h1>{{ lang('headerTitle') }}</h1>
+    <h1>{{ getTitle() }}</h1>
   </header>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
+import { useMenuStore } from '../../stores/menus';
+const menuStore = useMenuStore()
+import { useLangStore } from '../../stores/lang';
+const lang = useLangStore().lang
 
-export default {
-  computed: {
-    ...mapGetters(['lang'])
+function getTitle() {
+  if (menuStore.cMenu.translateTitle) {
+    return lang(menuStore.cMenu.title)
   }
+  return menuStore.cMenu.title
 }
 </script>
