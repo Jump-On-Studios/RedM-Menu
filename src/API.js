@@ -105,7 +105,10 @@ class API {
     // Loop through the properties of the merged object
     for (const key of Object.keys(obj2)) {
       // Check if the property is an object
-      if (typeof obj2[key] === 'object' && obj2[key] !== null) {
+      if (typeof obj1[key] !== typeof obj2[key]) {
+        obj1[key] = obj2[key]
+      }
+      else if (typeof obj2[key] === 'object' && obj2[key] !== null) {
         // If the property is an object, recursively merge the objects
         if (obj1[key] == null) {
           obj1[key] = obj2[key]

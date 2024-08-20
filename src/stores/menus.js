@@ -307,7 +307,6 @@ export const useMenuStore = defineStore('menus', {
     },
     updateMenuData(data) {
       if (!this.menus[data.menu]) return
-      const menu = new Menu(data.data)
       this.menus[data.menu] = API.deepMerge(this.menus[data.menu], data.data)
     },
     updateItem(data) {
