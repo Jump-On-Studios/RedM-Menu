@@ -1,7 +1,7 @@
 <template>
-  <li v-if="props.item" :id="`item-${props.id}`" :class="['item','clicker',{'with-icon':props.icon,'disabled':props.item.disabled,'active':props.active}]" @click="click()">
-    <div :class="[{'bw opacity50':props.item.disabled},'image', props.item.iconClass]" v-if="props.icon">
-      <img :src="`./assets/images/icons/${props.icon}.png`" />
+  <li v-if="props.item" :id="`item-${props.id}`" :class="['item', 'clicker', { 'with-icon': props.icon, 'disabled': props.item.disabled, 'active': props.active }]" @click="click()">
+    <div :class="[{ 'bw opacity50': props.item.disabled }, 'image', props.item.iconClass]" v-if="props.icon">
+      <img :src="getImage(props.item.icon)" />
     </div>
     <div class="current" v-if="props.isCurrent">
       <div class="tick">
@@ -10,12 +10,12 @@
     </div>
     <div class="current" v-if="props.item.iconRight">
       <div class="tick">
-        <img :src="`./assets/images/icons/${props.item.iconRight}.png`">
+        <img :src="getImage(props.item.iconRight)">
       </div>
     </div>
     <h3>
-      <div v-if="props.item.prefix" :class="['prefix',{'bw opacity50':props.item.disabled}]">
-        <img :class="props.item.prefix" :src="`./assets/images/icons/${props.item.prefix}.png`" />
+      <div v-if="props.item.prefix" :class="['prefix', { 'bw opacity50': props.item.disabled }]">
+        <img :class="props.item.prefix" :src="getImage(props.item.prefix)" />
       </div>
       <span class="title" v-html="props.item.title"></span>
       <template v-if="!props.item.disabled">
@@ -27,7 +27,7 @@
       </template>
       <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :sliders="props.item.sliders" />
       <div class="priceRight" v-if="!props.item.iconRight && !props.isCurrent">
-        <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item))?0:item.priceRight" />
+        <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item)) ? 0 : item.priceRight" />
       </div>
       <div class="textRight" v-if="props.item.textRight">
         <template v-if="props.item.translateTextRight">
@@ -54,15 +54,15 @@ const API = inject('API')
 const lang = useLangStore().lang
 
 const props = defineProps({
-  icon : {
-    default : false,
+  icon: {
+    default: false,
   },
-  isCurrent : {
-    default : false,
+  isCurrent: {
+    default: false,
   },
-  item : Object,
+  item: Object,
   active: {
-    default : false,
+    default: false,
     type: Boolean
   },
   id: Number
@@ -88,5 +88,16 @@ function hasPaletteSlider() {
     }
   }
   return needPreview
+}
+
+function isNUIImage(url) {
+  return url.includes('://')
+}
+
+function getImage(url) {
+  console.log(url, isNUIImage(url))
+  if (isNUIImage(url))
+    return url
+  return `./assets/images/icons/${url}.png`
 }
 </script>

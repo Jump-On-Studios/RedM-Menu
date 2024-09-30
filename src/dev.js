@@ -9,12 +9,12 @@ if (import.meta.env.DEV) {
   })
 
   window.postMessage({
-    event:'updateMenu',
+    event: 'updateMenu',
     menu: {
       id: 'home',
       title: 'My title',
       subtitle: 'The subtitle',
-      numberOnScreen : 8,
+      numberOnScreen: 8,
       items: [
         {
           title: 'Classic item',
@@ -25,29 +25,29 @@ if (import.meta.env.DEV) {
               title: 'Sprite',
               current: 1,
               values: [
-                {sprite:'tints/BLONDE'},
-                {sprite:'tints/BROWN'},
-                {sprite:'tints/DARK_BLONDE'},
-                {sprite:'tints/DARKEST_BROWN'},
-                {sprite:'tints/DARK_GINGER'},
-                {sprite:'tints/DARK_GREY'},
-                {sprite:'tints/GINGER'},
-                {sprite:'tints/GREY'},
-                {sprite:'tints/JET_BLACK'},
-                {sprite:'tints/LIGHT_BLONDE'},
-                {sprite:'tints/LIGHT_BROWN'},
-                {sprite:'tints/LIGHT_GINGER'},
-                {sprite:'tints/LIGHT_GREY'},
-                {sprite:'tints/MEDIUM_BROWN'},
-                {sprite:'tints/SALT_PEPPER'},
-                {sprite:'tints/STRAWBERRY_BLONDE'},
-                {sprite:'tints/UNCLE_GREY'}
+                { sprite: 'tints/BLONDE' },
+                { sprite: 'tints/BROWN' },
+                { sprite: 'tints/DARK_BLONDE' },
+                { sprite: 'tints/DARKEST_BROWN' },
+                { sprite: 'tints/DARK_GINGER' },
+                { sprite: 'tints/DARK_GREY' },
+                { sprite: 'tints/GINGER' },
+                { sprite: 'tints/GREY' },
+                { sprite: 'tints/JET_BLACK' },
+                { sprite: 'tints/LIGHT_BLONDE' },
+                { sprite: 'tints/LIGHT_BROWN' },
+                { sprite: 'tints/LIGHT_GINGER' },
+                { sprite: 'tints/LIGHT_GREY' },
+                { sprite: 'tints/MEDIUM_BROWN' },
+                { sprite: 'tints/SALT_PEPPER' },
+                { sprite: 'tints/STRAWBERRY_BLONDE' },
+                { sprite: 'tints/UNCLE_GREY' }
               ]
             },
             {
               type: "grid",
               title: "Opacity",
-              labels: ['left','right'],
+              labels: ['left', 'right'],
               values: [
                 {
                   max: 10,
@@ -56,9 +56,10 @@ if (import.meta.env.DEV) {
                 }
               ]
             }
-          ]
+          ],
+          description: "<div style='overflow-y:scroll;height:100px;'>Test<br>Test<br>Test<br>Test<br>Test<br>Test<br>Test<br></div>"
         },
-        
+
         {
           title: 'Classic item',
           prefix: 'tick'
@@ -77,21 +78,21 @@ if (import.meta.env.DEV) {
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
@@ -103,14 +104,14 @@ if (import.meta.env.DEV) {
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
@@ -119,10 +120,10 @@ if (import.meta.env.DEV) {
         {
           title: 'Switch',
           description: 'The item description',
-          price: {money:5.12, gold:1},
+          price: { money: 5.12, gold: 1 },
           child: 'child',
           // disabled: true,
-          sliders : [
+          sliders: [
             {
               type: 'switch',
               current: 1,
@@ -138,13 +139,13 @@ if (import.meta.env.DEV) {
             {
               type: 'palette',
               title: 'tint',
-              current:0,
+              current: 0,
               tint: 'tint_makeup',
               max: 63
             },
             {
               title: 'Variations',
-              current:2,
+              current: 2,
               values: [
                 {},
                 {},
@@ -158,19 +159,19 @@ if (import.meta.env.DEV) {
         },
         {
           title: 'With Icon',
-          icon: 'makeup'
+          icon: 'https://img.freepik.com/vecteurs-libre/vecteur-degrade-logo-colore-oiseau_343694-1365.jpg'
         }
       ],
     }
   })
 
   window.postMessage({
-    event:'updateMenu',
+    event: 'updateMenu',
     menu: {
       id: 'child',
       title: 'ChildMenu',
       subtitle: 'Subtitle 2',
-      numberOnScreen : 8,
+      numberOnScreen: 8,
       globalColor: true,
       equipedColor: 1,
       disableEscape: true,
@@ -183,15 +184,15 @@ if (import.meta.env.DEV) {
   })
 
   window.postMessage({
-    event:'setCurrentMenu',
+    event: 'setCurrentMenu',
     menu: 'home',
     keepHistoric: true
   })
 
-  setTimeout(function() {
+  setTimeout(function () {
     window.postMessage({
-      event:"updateShow",
-      show:true
+      event: "updateShow",
+      show: true
     })
-  },200)
+  }, 200)
 }
