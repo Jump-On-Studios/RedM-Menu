@@ -95,7 +95,6 @@ function isNUIImage(url) {
 }
 
 function getImage(url) {
-  console.log(url, isNUIImage(url))
   if (isNUIImage(url))
     return url
   return `./assets/images/icons/${url}.png`
