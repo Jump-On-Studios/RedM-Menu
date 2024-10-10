@@ -30,6 +30,7 @@ class MenuItem {
   textRight = false;
   translateTextRight = true;
   previewPalette = true;
+  openingAnimation = true;
 
   constructor(id) {
     this.id = id
@@ -45,17 +46,17 @@ class MenuItem {
   setSliders(sliders) {
     this.sliders = []
 
-    sliders = Array.isArray(sliders)?sliders:[sliders]
+    sliders = Array.isArray(sliders) ? sliders : [sliders]
 
     sliders.forEach(slid => {
-      this.sliders.push({...{current:0,values:[], offset:0, translate: true,type:'slider', looped: true},...slid})
+      this.sliders.push({ ...{ current: 0, values: [], offset: 0, translate: true, type: 'slider', looped: true }, ...slid })
     })
   }
   setChild(value) {
     this.child = value
   }
   setColors(colors) {
-    this.colors = {...{title:'', current:0,offset:0,values:[],displayRight:false,displayTick:true},...colors}
+    this.colors = { ...{ title: '', current: 0, offset: 0, values: [], displayRight: false, displayTick: true }, ...colors }
     if (this.colors.current >= 8) {
       this.colors.offset = this.colors.current - 8
       if (this.colors.offset < 0) this.colors.offset = 0
@@ -96,7 +97,7 @@ class MenuItem {
   }
   setStatistics(value) {
     for (var p in value) {
-      this.statistics.push(Object.assign(new ItemStatistic(),value[p]))
+      this.statistics.push(Object.assign(new ItemStatistic(), value[p]))
     }
   }
   setIconClass(value) {
@@ -132,27 +133,27 @@ class ItemStatistic {
   label = ""
   type = "bar"
   class = ""
-  value = [0,0,10]
+  value = [0, 0, 10]
 }
 
 class globalPrice {
   id = ""
   menus = []
-  price = {money:0,gold:0}
+  price = { money: 0, gold: 0 }
   title = "price"
-  constructor(id,menus,price = {money:0,gold:0},title="price") {
+  constructor(id, menus, price = { money: 0, gold: 0 }, title = "price") {
     this.id = id
     this.menus = menus
     this.price = price
     this.title = title
   }
-  setPrice(price = {money:0,gold:0}) {
+  setPrice(price = { money: 0, gold: 0 }) {
     this.price = price
   }
   setMenus(menus = []) {
     this.menus = menus
   }
-  setTitle(title="price") {
+  setTitle(title = "price") {
     this.title = title
   }
 
@@ -182,9 +183,9 @@ class Menu {
     this.setTitle(data.title);
     if (data.items) {
       data.items.forEach(item => {
-        let newId = this.items.push(new MenuItem(this.items.length)) -1
-        if (item.title)  this.items[newId].setTitle(item.title)
-        if (item.icon)  this.items[newId].setIcon(item.icon)
+        let newId = this.items.push(new MenuItem(this.items.length)) - 1
+        if (item.title) this.items[newId].setTitle(item.title)
+        if (item.icon) this.items[newId].setIcon(item.icon)
         if (item.slider) this.items[newId].setSliders(item.slider)
         if (item.sliders) this.items[newId].setSliders(item.sliders)
         if (item.child) this.items[newId].setChild(item.child)
@@ -194,7 +195,7 @@ class Menu {
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
-        if (item.index != undefined) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
+        if (item.index != undefined) { this.items[newId].setIndex(item.index) } else { this.items[newId].setIndex(this.items.length) }
         if (item.description) this.items[newId].setDescription(item.description)
         if (item.action) this.items[newId].setAction(item.action)
         if (item.data) this.items[newId].setData(item.data)
@@ -236,7 +237,7 @@ class Menu {
     this.helpers = []
     helpers.forEach(helper => {
       this.helpers.push(
-        {keys: helper.keys, title: helper.title})
+        { keys: helper.keys, title: helper.title })
     })
   }
 
@@ -279,13 +280,13 @@ var state = {
   show: false,
   isMale: false,
   parentTree: [],
-  currentMenu : '',
+  currentMenu: '',
   lang: {},
   menus: {},
   globalPrices: [],
   audios: {
-    button:"button.mp3",
-    coin:"coins.mp3",
+    button: "button.mp3",
+    coin: "coins.mp3",
     selected: "selected.mp3"
   },
   boughtItems: [],
@@ -317,24 +318,25 @@ state.menus = {
 
 const getters = {
   show: ({ show }) => show,
+  openingAnimation: ({ openingAnimation }) => openingAnimation,
   isQwerty: ({ isQwerty }) => isQwerty,
   audios: ({ audios }) => audios,
   menuPositionRight: ({ menuPositionRight }) => menuPositionRight,
-  menu: ({ menus, currentMenu}) => menus[currentMenu],
+  menu: ({ menus, currentMenu }) => menus[currentMenu],
   menuItems: (state, getters) => getters.menu.items.filter(item => item.visible),
   cItem: (state, getters) => getters.menuItems[getters.menu.currentItem],
-  lang: ({ lang }) => (index) => lang[index]?lang[index]:('#'+index),
+  lang: ({ lang }) => (index) => lang[index] ? lang[index] : ('#' + index),
   parentTree: ({ parentTree }) => parentTree,
   currentMenu: ({ currentMenu }) => currentMenu,
   audios: ({ audios }) => audios,
-  isItemBought: ({ boughtItems }, getters) => (hash)=> {
+  isItemBought: ({ boughtItems }, getters) => (hash) => {
     if (hash == undefined) {
       let item = getters.cItem
       if (item == undefined) return false
       if (!item.slider) return false
-      hash = item.sliders[0].values[item.sliders[0].current -1]
+      hash = item.sliders[0].values[item.sliders[0].current - 1]
     }
-    return boughtItems.filter(el => {return _.isEqual(el,hash)}).length > 0
+    return boughtItems.filter(el => { return _.isEqual(el, hash) }).length > 0
   },
   displayOutfitId: ({ displayOutfitId }) => displayOutfitId,
   globalPrice: (state) => {
@@ -349,8 +351,8 @@ const getters = {
     if (cItem.sliders) {
       for (let index = 0; index < cItem.sliders.length; index++) {
         const slider = cItem.sliders[index];
-        const current = slider.current -1
-        if (slider.values[current] && typeof(slider.values[current]) == 'object' && (slider.values[current].price !== undefined))
+        const current = slider.current - 1
+        if (slider.values[current] && typeof (slider.values[current]) == 'object' && (slider.values[current].price !== undefined))
           return slider.values[current].price
       }
     }
@@ -382,17 +384,17 @@ const actions = {
     commit('MENU_UP')
     dispatch('updatePreview')
   },
-  sliderLeft({ commit, dispatch,getters },index) {
+  sliderLeft({ commit, dispatch, getters }, index) {
     if (getters.cItem.disabled) return
-    commit('SLIDER_LEFT',index)
+    commit('SLIDER_LEFT', index)
     dispatch('updatePreview', true)
   },
-  sliderRight({ commit, dispatch, getters },index) {
+  sliderRight({ commit, dispatch, getters }, index) {
     if (getters.cItem.disabled) return
-    commit('SLIDER_RIGHT',index)
+    commit('SLIDER_RIGHT', index)
     dispatch('updatePreview', true)
   },
-  setSliderCurrent({ commit, dispatch}, data) {
+  setSliderCurrent({ commit, dispatch }, data) {
     commit('SET_SLIDER_CURRENT', data)
     dispatch('updatePreview', true)
   },
@@ -404,95 +406,94 @@ const actions = {
     commit('COLOR_RIGHT')
     dispatch('updatePreview', true)
   },
-  setColorCurrent({commit,dispatch},value) {
+  setColorCurrent({ commit, dispatch }, value) {
     commit('SET_COLOR_CURRENT', value)
     dispatch('updatePreview', true)
   },
-  saveGridPosition({commit,dispatch, getters}, value) {
+  saveGridPosition({ commit, dispatch, getters }, value) {
     if (!getters.cItem.grid) return
-    commit('SAVE_GRID_POSITION',value)
-    dispatch('updatePreview',true)
+    commit('SAVE_GRID_POSITION', value)
+    dispatch('updatePreview', true)
   },
-  gridLeft({commit,dispatch,getters}) {
+  gridLeft({ commit, dispatch, getters }) {
     if (!getters.cItem.grid) return
     commit('GRID_LEFT')
-    dispatch('updatePreview',true)
+    dispatch('updatePreview', true)
   },
-  gridRight({commit,dispatch, getters}) {
+  gridRight({ commit, dispatch, getters }) {
     if (!getters.cItem.grid) return
     commit('GRID_RIGHT')
-    dispatch('updatePreview',true)
+    dispatch('updatePreview', true)
   },
-  gridUp({commit,dispatch, getters}) {
+  gridUp({ commit, dispatch, getters }) {
     if (!getters.cItem.grid) return
     if (!(getters.cItem.grid.values.length == 2)) return
     commit('GRID_UP')
-    dispatch('updatePreview',true)
+    dispatch('updatePreview', true)
   },
-  gridDown({commit,dispatch, getters}) {
+  gridDown({ commit, dispatch, getters }) {
     if (!getters.cItem.grid) return
     if (!(getters.cItem.grid.values.length == 2)) return
     commit('GRID_DOWN')
-    dispatch('updatePreview',true)
+    dispatch('updatePreview', true)
   },
   updatePreview({ state, getters }, force = false) {
     if (getters.cItem == undefined) return
     if (state.refreshLastID == state.refreshID) return
     state.refreshLastID = state.refreshID
     let item = getters.cItem
-    if (item.preview || force)
-    {
+    if (item.preview || force) {
       if (item.sliders && item.sliders.length == 1) {
         if (item.sliders[0].type == "switch") {
-          API.post('updatePreview',{
+          API.post('updatePreview', {
             menu: state.currentMenu,
             index: item.index,
             variation: item.sliders[0].current,
-            current: {data: item.sliders[0].values[item.sliders[0].current -1],id:getters.menu.currentItem, offset: getters.menu.offset},
+            current: { data: item.sliders[0].values[item.sliders[0].current - 1], id: getters.menu.currentItem, offset: getters.menu.offset },
             data: item.data,
             item: getters.cItem,
             price: getters.cItemPrice
           })
         } else {
-          API.post('updatePreview',{
+          API.post('updatePreview', {
             menu: state.currentMenu,
-            hash: item.sliders[0].values[item.sliders[0].current -1],
+            hash: item.sliders[0].values[item.sliders[0].current - 1],
             index: item.index,
             variation: item.sliders[0].current,
-            current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+            current: { id: getters.menu.currentItem, offset: getters.menu.offset },
             data: item.data,
             item: getters.cItem,
             price: getters.cItemPrice
           })
         }
       } else if (item.colors) {
-        API.post('updatePreview',{
+        API.post('updatePreview', {
           menu: state.currentMenu,
           hash: item.colors.values[item.colors.current].hash,
           index: item.index,
           variation: item.colors.current,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+          current: { id: getters.menu.currentItem, offset: getters.menu.offset },
           data: item.data,
           item: getters.cItem,
           price: getters.cItemPrice
         })
       } else {
         let sliders = {}
-        API.post('updatePreview',{
+        API.post('updatePreview', {
           menu: state.currentMenu,
           hash: 0,
           index: item.index,
           variation: 1,
-          current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+          current: { id: getters.menu.currentItem, offset: getters.menu.offset },
           data: item.data,
           item: getters.cItem,
           price: getters.cItemPrice
         })
       }
     } else {
-      API.post('updatePreview',{
+      API.post('updatePreview', {
         menu: state.currentMenu,
-        current: {id:getters.menu.currentItem, offset: getters.menu.offset},
+        current: { id: getters.menu.currentItem, offset: getters.menu.offset },
         data: item.data,
         item: item,
       })
@@ -501,19 +502,25 @@ const actions = {
 }
 
 const mutations = {
-  DEFINE_SHOW (state, value) {
+  DEFINE_SHOW(state, value) {
     state.show = value
     if (state.show) {
       this.dispatch('updatePreview')
     }
   },
-  UPDATE_SEX (state, value) {
+  DEFINE_OPENING_ANIMATION(state, value) {
+    state.openingAnimation = !value
+    setTimeout(() => {
+      state.openingAnimation = true
+    }, 100)
+  },
+  UPDATE_SEX(state, value) {
     state.isMale = value === 1
   },
-  UPDATE_LANG (state, value) {
-    state.lang = {...state.lang,...value}
+  UPDATE_LANG(state, value) {
+    state.lang = { ...state.lang, ...value }
   },
-  UPDATE_MENU (state,data) {
+  UPDATE_MENU(state, data) {
     let current = -1
     let offset = -1
     if (state.menus[data.menu.id]) {
@@ -525,7 +532,7 @@ const mutations = {
       data.reset = true
     }
     if (current > -1) {
-      state.menus[data.menu.id].offset = offset 
+      state.menus[data.menu.id].offset = offset
       state.menus[data.menu.id].setCurrent(current)
     }
     if (data.reset) {
@@ -536,9 +543,9 @@ const mutations = {
     }
     if (data.switch) {
       window.postMessage({
-        event:"menuSwitch",
-        reset:data.reset||false,
-        menu:data.menu.id
+        event: "menuSwitch",
+        reset: data.reset || false,
+        menu: data.menu.id
       })
     }
   },
@@ -546,34 +553,34 @@ const mutations = {
     if (!state.menus[data.menu]) return
     state.menus[data.menu] = API.deepMerge(state.menus[data.menu], data.data)
   },
-  RESET_MENU (state, menu) {
+  RESET_MENU(state, menu) {
     if (state.menus[menu]) {
       state.menus[menu].reset()
     }
   },
-  RESET_ALL_MENU (state) {
+  RESET_ALL_MENU(state) {
     for (const [key, value] of Object.entries(state.menus)) {
       value.reset()
     }
   },
-  MENU_DOWN (state) {
+  MENU_DOWN(state) {
     let menu = this.getters.menu
     let items = this.getters.menuItems
-    if (menu.currentItem < items.length -1) {
+    if (menu.currentItem < items.length - 1) {
       menu.currentItem++;
     } else {
       menu.currentItem = 0;
     }
     if (menu.items[menu.currentItem].colors) {
-      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
         menu.items[menu.currentItem].colors.current = 0
         menu.items[menu.currentItem].colors.offset = 0
       }
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  MENU_UP (state) {
+  MENU_UP(state) {
     let menu = this.getters.menu
     let items = this.getters.menuItems
     if (menu.currentItem > 0) {
@@ -582,38 +589,38 @@ const mutations = {
       menu.currentItem = items.length - 1
     }
     if (menu.items[menu.currentItem].colors) {
-      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+      if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
         menu.items[menu.currentItem].colors.current = 0
         menu.items[menu.currentItem].colors.offset = 0
       }
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  MENU_ENTER (state) {
+  MENU_ENTER(state) {
     let item = this.getters.cItem
     if (item.child) {
       state.parentTree.push(state.currentMenu)
       state.currentMenu = item.child
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     } else {
       if (this.getters.cItem.action) {
-        API.post('action',{
+        API.post('action', {
           menu: this.getters.currentMenu,
           item: this.getters.cItem
         })
       }
     }
   },
-  MENU_SWITCH (state,data) {
+  MENU_SWITCH(state, data) {
     state.parentTree.push(state.currentMenu)
     if (data.reset) state.menus[data.menu].reset()
     state.currentMenu = data.menu
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  MENU_BACK (state) {
+  MENU_BACK(state) {
     if (state.parentTree.length == 0) {
       if (state.menus[state.currentMenu].disableEscape) return
       //quitter
@@ -624,36 +631,36 @@ const mutations = {
     }
     state.currentMenu = state.parentTree.pop()
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  SLIDER_LEFT (state, index) {
+  SLIDER_LEFT(state, index) {
     let item = this.getters.cItem
     let slider = undefined
     if (index == undefined) {
       index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
-      slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+      slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
     } else {
-      slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+      slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
     }
     if (!slider) return;
 
     if (slider.type == "slider" && slider.current > 1) {
       slider.current--;
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
     if (slider.type == "switch") {
       if (slider.current == 1 && !slider.looped) return
       slider.current--;
       if (slider.current < 1) slider.current = slider.values.length
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
     if (slider.type == "palette") {
       if (slider.current > 0) {
         slider.current--;
         API.PlayAudio(state.audios.button)
-        state.refreshID ++
+        state.refreshID++
       }
     }
     if (slider.type == "grid") {
@@ -662,37 +669,37 @@ const mutations = {
       if (values[0].current < values[0].min)
         values[0].current = values[0].min
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
   },
-  SLIDER_RIGHT (state, index) {
+  SLIDER_RIGHT(state, index) {
     let item = this.getters.cItem
     let slider = undefined
     if (index == undefined) {
       index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
-      slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+      slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
     } else {
-      slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+      slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
     }
     if (!slider) return;
 
     if (slider.type == "slider" && slider.current < slider.values.length) {
       slider.current++;
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
     if (slider.type == "switch") {
       if (slider.current == slider.values.length && !slider.looped) return
       slider.current++;
       if (slider.current > slider.values.length) slider.current = 1
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
     if (slider.type == "palette") {
       if (slider.current < (slider.max)) {
         slider.current++;
         API.PlayAudio(state.audios.button)
-        state.refreshID ++
+        state.refreshID++
       }
     }
     if (slider.type == "grid") {
@@ -701,10 +708,10 @@ const mutations = {
       if (values[0].current > values[0].max)
         values[0].current = values[0].max
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
+      state.refreshID++
     }
   },
-  SET_SLIDER_CURRENT (state,[index,vIndex]) {
+  SET_SLIDER_CURRENT(state, [index, vIndex]) {
     let item = this.getters.cItem
     let slider = item.sliders[index]
     if (!slider) return;
@@ -712,13 +719,13 @@ const mutations = {
       let values = slider.values
       let change = false
       if (slider.values.length == 2) {
-        let current2 = vIndex[1]*(values[1].max - values[1].min) + values[1].min
+        let current2 = vIndex[1] * (values[1].max - values[1].min) + values[1].min
         if (current2 != values[1].current) {
           values[1].current = current2
           change = true
         }
       }
-      let current = vIndex[0]*(values[0].max - values[0].min) + values[0].min
+      let current = vIndex[0] * (values[0].max - values[0].min) + values[0].min
       if (current != values[0].current) {
         values[0].current = current
         change = true
@@ -729,16 +736,16 @@ const mutations = {
       slider.current = vIndex
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  COLOR_LEFT (state) {
+  COLOR_LEFT(state) {
     let item = this.getters.cItem
     if (item.colors.current == 0) return
     item.colors.current--
     if (item.colors.current < item.colors.offset) {
       item.colors.offset--
     }
-    
+
     let menu = this.getters.menu
     if (menu.globalColor) {
       menu.items.forEach(i => {
@@ -749,11 +756,11 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  COLOR_RIGHT (state) {
+  COLOR_RIGHT(state) {
     let item = this.getters.cItem
-    if (item.colors.current >= item.colors.values.length -1) return
+    if (item.colors.current >= item.colors.values.length - 1) return
     item.colors.current++;
     if (item.colors.current >= item.colors.offset + 9) {
       item.colors.offset++
@@ -769,9 +776,9 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  SET_COLOR_CURRENT (state,value) {
+  SET_COLOR_CURRENT(state, value) {
     let item = this.getters.cItem
     item.colors.current = value
     let menu = this.getters.menu
@@ -784,39 +791,39 @@ const mutations = {
       })
     }
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  SET_EQUIPED_ITEM (state, data) {
+  SET_EQUIPED_ITEM(state, data) {
     if (!state.menus[data.id]) return;
     state.menus[data.id].setEquipedItem({
       index: data.index,
       variation: data.variation
     })
   },
-  SET_EQUIPED_COLOR (state, data) {
+  SET_EQUIPED_COLOR(state, data) {
     if (!state.menus[data.id]) return;
-    state.menus[data.id].setEquipedColor(data.index-1)
+    state.menus[data.id].setEquipedColor(data.index - 1)
   },
-  SET_CURRENT_MENU (state, id) {
+  SET_CURRENT_MENU(state, id) {
     state.currentMenu = id
     state.parentTree = []
-    state.refreshID ++
+    state.refreshID++
   },
-  SET_CURRENT_ITEM (state, data) {
+  SET_CURRENT_ITEM(state, data) {
     state.menus[state.currentMenu].offset = data.offset
     state.menus[state.currentMenu].setCurrent(data.id)
-    state.refreshID ++
+    state.refreshID++
   },
-  SET_BOUGHT_ITEM (state, data) {
+  SET_BOUGHT_ITEM(state, data) {
     state.boughtItems.push(data)
   },
-  REMOVE_BOUGHT_ITEM (state, data) {
-    state.boughtItems = state.boughtItems.filter(el => {return !_.isEqual(el,data)})
+  REMOVE_BOUGHT_ITEM(state, data) {
+    state.boughtItems = state.boughtItems.filter(el => { return !_.isEqual(el, data) })
   },
-  UPDATE_BOUGHT_ITEMS (state, list) {
+  UPDATE_BOUGHT_ITEMS(state, list) {
     state.boughtItems = list
   },
-  SET_MENU_VISIBLE (state, data) {
+  SET_MENU_VISIBLE(state, data) {
     for (var category in state.menus) {
       state.menus[category].items.forEach(item => {
         if (item.child == data.menu) {
@@ -828,38 +835,38 @@ const mutations = {
   DISPLAY_OUTFIT_ID(state, value) {
     state.displayOutfitId = value
   },
-  MENU_POSITION_RIGHT(state,value) {
+  MENU_POSITION_RIGHT(state, value) {
     state.menuPositionRight = value
   },
-  UPDATE_HEADER(state,value) {
+  UPDATE_HEADER(state, value) {
     state.lang.headerTitle = value
   },
   UPDATE_STATISTICS(state, data) {
     state.menus[data.menu].items[data.index].setStatistics(data.statistics)
   },
-  UPDATE_ITEM_VISIBILITY(state,data) {
-    if (state.menus[data.menu] == undefined) return 
+  UPDATE_ITEM_VISIBILITY(state, data) {
+    if (state.menus[data.menu] == undefined) return
     let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
     if (Index == -1)
       return
     state.menus[data.menu].items[Index].setVisible(data.visible)
   },
-  UPDATE_ITEM_DISABLED(state,data) {
+  UPDATE_ITEM_DISABLED(state, data) {
     let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
     if (Index == -1)
       return
     state.menus[data.menu].items[Index].setDisabled(data.disabled)
   },
-  UPDATE_ITEM(state,data) {
+  UPDATE_ITEM(state, data) {
     let Index = state.menus[data.menu].items.findIndex((item => item.index == data.index));
     if (Index == -1)
       return
     state.menus[data.menu].items[Index] = API.deepMerge(state.menus[data.menu].items[Index], data.item)
   },
-  NEW_GLOBAL_PRICE(state,data) {
+  NEW_GLOBAL_PRICE(state, data) {
     let Index = state.globalPrices.findIndex((globalPrice => globalPrice.id == data.id))
     if (Index == -1) {
-      state.globalPrices.push(new globalPrice(data.id,data.menus,data.price,data.title))
+      state.globalPrices.push(new globalPrice(data.id, data.menus, data.price, data.title))
     } else {
       if (data.menus)
         state.globalPrices[Index].setMenus(data.menus)
@@ -869,7 +876,7 @@ const mutations = {
         state.globalPrices[Index].setTitle(data.title)
     }
   },
-  UPDATE_GLOBAL_PRICE(state,data) {
+  UPDATE_GLOBAL_PRICE(state, data) {
     let Index = state.globalPrices.findIndex((globalPrice => globalPrice.id == data.id))
     if (Index == -1) {
       return console.log('GLOBAL PRICE NOT SET')
@@ -882,27 +889,27 @@ const mutations = {
         state.globalPrices[Index].setTitle(data.title)
     }
   },
-  SAVE_GRID_POSITION(state,data) {
+  SAVE_GRID_POSITION(state, data) {
     let item = this.getters.cItem
     if (!item.grid) return
     let values = item.grid.values
     let change = false
     if (item.grid.values.length == 2) {
-      let current2 = data[1]*(values[1].max - values[1].min) + values[1].min
+      let current2 = data[1] * (values[1].max - values[1].min) + values[1].min
       if (current2 != values[1].current) {
         values[1].current = current2
         change = true
       }
     }
-    let current = data[0]*(values[0].max - values[0].min) + values[0].min
+    let current = data[0] * (values[0].max - values[0].min) + values[0].min
     if (current != values[0].current) {
       values[0].current = current
       change = true
     }
     if (change) {
       API.PlayAudio(state.audios.button)
-      state.refreshID ++
-    } 
+      state.refreshID++
+    }
   },
   GRID_LEFT() {
     let item = this.getters.cItem
@@ -912,7 +919,7 @@ const mutations = {
     if (values[0].current < values[0].min)
       values[0].current = values[0].min
     API.PlayAudio(state.audios.button)
-      state.refreshID ++
+    state.refreshID++
   },
   GRID_RIGHT() {
     let item = this.getters.cItem
@@ -922,7 +929,7 @@ const mutations = {
     if (values[0].current > values[0].max)
       values[0].current = values[0].max
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
   GRID_UP() {
     let item = this.getters.cItem
@@ -933,7 +940,7 @@ const mutations = {
     if (values[1].current < values[1].min)
       values[1].current = values[1].min
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
   GRID_DOWN() {
     let item = this.getters.cItem
@@ -944,9 +951,9 @@ const mutations = {
     if (values[1].current > values[1].max)
       values[1].current = values[1].max
     API.PlayAudio(state.audios.button)
-    state.refreshID ++
+    state.refreshID++
   },
-  IS_QWERTY(state,value) {
+  IS_QWERTY(state, value) {
     state.isQwerty = value
   },
   FORCE_UPDATE(state) {
@@ -964,12 +971,12 @@ export default createStore({
 
 if (import.meta.env.DEV) {
   window.postMessage({
-    event:'updateMenu',
+    event: 'updateMenu',
     menu: {
       id: 'home',
       title: 'home',
       translateTitle: false,
-      numberOnScreen : 8,
+      numberOnScreen: 8,
       globalColor: true,
       equipedColor: 1,
       disableEscape: true,
@@ -1008,7 +1015,7 @@ if (import.meta.env.DEV) {
         //     },
         //   ],
         // },
-       {
+        {
           title: 'Palette',
           previewPalette: false,
           // description: 'test',
@@ -1040,18 +1047,27 @@ if (import.meta.env.DEV) {
       ],
     }
   })
-  
+
   window.postMessage({
-    event:'setCurrentMenu',
+    event: 'setCurrentMenu',
     id: 'home'
   })
 
-  setTimeout(function() {
+  setTimeout(function () {
     window.postMessage({
-      event:"show",
-      show:true
+      event: "show",
+      show: true,
+      cancelAnimation: true
     })
-  },200)
+  }, 200)
+
+  setTimeout(function () {
+    window.postMessage({
+      event: "show",
+      show: false,
+      cancelAnimation: true
+    })
+  }, 2000)
 
 }
 

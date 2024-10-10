@@ -6,42 +6,44 @@ class API {
 
   audioVolume = 0.5;
 
-  constructor () {
+  constructor() {
     window.addEventListener('message', (event) => {
       const eventType = event.data.event
       if (eventType !== undefined && typeof this[eventType] === 'function') {
         this[eventType](event.data)
       } else if (event.data.show !== undefined) {
         store.commit('DEFINE_SHOW', event.data.show)
+        if (event.data.cancelAnimation)
+          store.commit('DEFINE_OPENING_ANIMATION', event.data.cancelAnimation)
       } else {
         if (!event.data.event) return
-        console.log("Error : this event doesn't exist: "+ event.data.event, event.data)
+        console.log("Error : this event doesn't exist: " + event.data.event, event.data)
         console.log(event)
       }
     })
   }
 
-  async post (method, data) {
-    this.log(method,data)
+  async post(method, data) {
+    this.log(method, data)
     if (import.meta.env.PROD) {
       const ndata = data === undefined ? '{}' : JSON.stringify(data)
       const settings = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: ndata
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: ndata
       };
       try {
-          const fetchResponse = await fetch('https://' + GetParentResourceName() +'/'+ method, settings);
-          const data = await fetchResponse.json();
-          if (data.length == 0 || data === "ok") {
-            return true
-          }
-          return JSON.parse(data);
+        const fetchResponse = await fetch('https://' + GetParentResourceName() + '/' + method, settings);
+        const data = await fetchResponse.json();
+        if (data.length == 0 || data === "ok") {
+          return true
+        }
+        return JSON.parse(data);
       } catch (e) {
-          this.log(e)
-          return e;
+        this.log(e)
+        return e;
       }
     }
     return ''
@@ -86,15 +88,15 @@ class API {
   }
 
   setEquipedItem(data) {
-    store.commit('SET_EQUIPED_ITEM',data.data)
+    store.commit('SET_EQUIPED_ITEM', data.data)
   }
-  
+
   setEquipedColor(data) {
     store.commit('SET_EQUIPED_COLOR', data.data)
   }
 
   setCurrentMenu(data) {
-    store.commit('SET_CURRENT_MENU',data.id)
+    store.commit('SET_CURRENT_MENU', data.id)
     store.dispatch('updatePreview')
   }
 
@@ -128,7 +130,7 @@ class API {
   }
 
   startAudio(data) {
-    this.PlayAudio(data.sound+".mp3")
+    this.PlayAudio(data.sound + ".mp3")
   }
 
   setMenuVisible(data) {
@@ -136,16 +138,16 @@ class API {
     store.dispatch('updatePreview')
   }
 
-  async log (...data) {
+  async log(...data) {
     if (import.meta.env.DEV)
       return console.log(...data)
     return
   }
 
-  sprintf = function(...strings) {
+  sprintf = function (...strings) {
     var result = strings[0];
     for (var i = 1; i < strings.length; i++) {
-      var regexp = new RegExp('%'+i, 'gi');
+      var regexp = new RegExp('%' + i, 'gi');
       result = result.replace(regexp, strings[i]);
     }
     return result;
@@ -160,7 +162,7 @@ class API {
   }
 
   updateMenuPositionRight(data) {
-    store.commit('MENU_POSITION_RIGHT',data.isRight)
+    store.commit('MENU_POSITION_RIGHT', data.isRight)
   }
 
   displayOutfitId(data) {
@@ -168,9 +170,9 @@ class API {
   }
 
   updatestatistics(data) {
-    store.commit('UPDATE_STATISTICS', {menu: data.menu, index: data.index, statistics: data.statistics})
+    store.commit('UPDATE_STATISTICS', { menu: data.menu, index: data.index, statistics: data.statistics })
   }
-  
+
   newGlobalPrice(data) {
     store.commit('NEW_GLOBAL_PRICE', data.data)
   }
@@ -180,7 +182,7 @@ class API {
   }
 
 
-  
+
   PlayAudio = function (name) {
     var link = ""
     if (import.meta.env.DEV) {
@@ -189,7 +191,7 @@ class API {
       link = `./${name}`
     }
     var url = new URL(link, import.meta.url).href;
-    
+
     if (name == "button.mp3" && audio && !audio.paused && audio.src == url) {
       if (audio.currentTime < 0.015) return
     }
@@ -216,7 +218,7 @@ class API {
     return obj1;
   }
 
-  logProxy = function(...v) {
+  logProxy = function (...v) {
     console.log(JSON.parse(JSON.stringify(v)))
   }
 }
