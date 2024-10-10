@@ -17,7 +17,7 @@ if (import.meta.env.DEV) {
       numberOnScreen: 8,
       items: [
         {
-          title: 'Classic item',
+          title: 'Classic item <span>test</span>',
           prefix: 'tick',
           sliders: [
             {
