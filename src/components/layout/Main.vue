@@ -51,18 +51,18 @@ function handleKeydown(e) {
     datas.defineQwerty(e.key == "q")
   if (focus) return
   if (keyPressed[e.key]) return
-  
+
   keyPressed[e.key] = true
-  if (Date.now()-mountedDate < 100) return
-  switch(e.key) {
+  if (Date.now() - mountedDate < 100) return
+  switch (e.key) {
     case 'Enter':
       menuStore.menuEnter()
       return
     case 'Backspace':
-       menuStore.menuBack()
+      menuStore.menuBack()
       return
     case 'Escape':
-       menuStore.menuBack()
+      menuStore.menuBack()
       return
   }
 }
@@ -86,6 +86,7 @@ onBeforeMount(() => {
 })
 onMounted(() => {
   mountedDate = Date.now();
+  if (!datas.openingAnimation) return
   API.PlayAudio('menu_open');
 })
 onBeforeUnmount(() => {
@@ -93,6 +94,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('keyup', handleKeyUp);
   document.removeEventListener('focusin', focusIn);
   document.removeEventListener('focusout', focusOut);
+  if (!datas.openingAnimation) return
   API.PlayAudio('menu_close');
 })
 </script>

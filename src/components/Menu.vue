@@ -1,6 +1,6 @@
 <template>
-  <Transition>
-    <div :class="['menu',{'right':datas.menuPositionRight}]" v-if="datas.showMenu" :style="{zoom: zoom}">
+  <Transition :css="datas.openingAnimation">
+    <div :class="['menu', { 'right': datas.menuPositionRight }]" v-if="datas.showMenu" :style="{ zoom: zoom }">
       <div class="smudge"></div>
       <div class="container">
         <div class="background"></div>
@@ -12,19 +12,19 @@
 </template>
 
 <script setup>
-  import Main from './layout/Main.vue'
-  import Header from './layout/Header.vue'
-  import { onMounted } from 'vue';
-  import { useDataStore } from '../stores/datas';
-  const datas = useDataStore()
+import Main from './layout/Main.vue'
+import Header from './layout/Header.vue'
+import { onMounted } from 'vue';
+import { useDataStore } from '../stores/datas';
+const datas = useDataStore()
 
-  let zoom = window.innerHeight/1080
+let zoom = window.innerHeight / 1080
 
-  function resizeEvent() {
-    zoom = window.innerHeight/1080
-  }
+function resizeEvent() {
+  zoom = window.innerHeight / 1080
+}
 
-  onMounted(() => {
-    window.addEventListener("resize", resizeEvent,null);
-  })
+onMounted(() => {
+  window.addEventListener("resize", resizeEvent, null);
+})
 </script>

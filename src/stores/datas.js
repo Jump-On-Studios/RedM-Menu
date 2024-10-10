@@ -4,11 +4,18 @@ export const useDataStore = defineStore('datas', {
   state: () => ({
     showMenu: false,
     menuPositionRight: false,
-    isQwerty: false
+    isQwerty: false,
+    openingAnimation: true
   }),
   actions: {
     defineShow(value) {
       this.showMenu = value
+    },
+    defineOpeningAnimation(value) {
+      this.openingAnimation = value
+      setTimeout(() => {
+        this.openingAnimation = true
+      })
     },
     definePosition(value) {
       this.menuPositionRight = value == "right"

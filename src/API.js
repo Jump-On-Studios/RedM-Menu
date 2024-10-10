@@ -8,7 +8,7 @@ class API {
 
   audioVolume = 0.5;
 
-  constructor () {
+  constructor() {
     window.addEventListener('message', (event) => {
       const eventType = event.data.event
       if (eventType == undefined) return
@@ -18,41 +18,41 @@ class API {
         const menuStore = useMenuStore()
         if (typeof menuStore[eventType] === 'function') {
           menuStore[eventType](event.data)
-        } else { 
-          console.log("Error : this event doesn't exist: "+ event.data.event, event.data)
+        } else {
+          console.log("Error : this event doesn't exist: " + event.data.event, event.data)
           console.log(event)
         }
       }
     })
   }
 
-  async log (...data) {
+  async log(...data) {
     if (import.meta.env.DEV)
       return console.log(...data)
     return
   }
 
-  async post (method, data) {
-    this.log(method,data)
+  async post(method, data) {
+    this.log(method, data)
     if (import.meta.env.PROD) {
       const ndata = data === undefined ? '{}' : JSON.stringify(data)
       const settings = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: ndata
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: ndata
       };
       try {
-          const fetchResponse = await fetch('https://' + GetParentResourceName() +'/'+ method, settings);
-          const data = await fetchResponse.json();
-          if (data.length == 0 || data === "ok") {
-            return true
-          }
-          return JSON.parse(data);
+        const fetchResponse = await fetch('https://' + GetParentResourceName() + '/' + method, settings);
+        const data = await fetchResponse.json();
+        if (data.length == 0 || data === "ok") {
+          return true
+        }
+        return JSON.parse(data);
       } catch (e) {
-          this.log(e)
-          return e;
+        this.log(e)
+        return e;
       }
     }
     return ''
@@ -61,6 +61,9 @@ class API {
   updateShow(data) {
     const datas = useDataStore()
     datas.defineShow(data.show)
+    if (data.cancelAnimation) {
+      datas.defineOpeningAnimation(false)
+    }
   }
 
   updateMenuPosition(data) {
@@ -77,10 +80,10 @@ class API {
     this.PlayAudio(data.sound)
   }
 
-  sprintf = function(...strings) {
+  sprintf = function (...strings) {
     var result = strings[0];
     for (var i = 1; i < strings.length; i++) {
-      var regexp = new RegExp('%'+i, 'gi');
+      var regexp = new RegExp('%' + i, 'gi');
       result = result.replace(regexp, strings[i]);
     }
     return result;
@@ -92,7 +95,7 @@ class API {
 
   PlayAudio = function (name) {
     var url = `./assets/sounds/${name}.mp3`
-    
+
     if (name == "button" && audio && !audio.paused && audio.src == url) {
       if (audio.currentTime < 0.015) return
     }
@@ -122,7 +125,7 @@ class API {
     return obj1;
   }
 
-  logProxy = function(...v) {
+  logProxy = function (...v) {
     console.log(JSON.parse(JSON.stringify(v)))
   }
 }
