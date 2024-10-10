@@ -60,10 +60,10 @@ class API {
 
   updateShow(data) {
     const datas = useDataStore()
-    datas.defineShow(data.show)
     if (data.cancelAnimation) {
       datas.defineOpeningAnimation(false)
     }
+    datas.defineShow(data.show)
   }
 
   updateMenuPosition(data) {
