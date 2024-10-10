@@ -1,5 +1,4 @@
 <template>
-  {{ openingAnimation }}
   <Transition :css="openingAnimation">
     <div :class="['menu', { 'right': menuPositionRight }]" v-if="show" :style="{ zoom: zoom }">
       <div class="smudge"></div>
