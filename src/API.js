@@ -12,9 +12,9 @@ class API {
       if (eventType !== undefined && typeof this[eventType] === 'function') {
         this[eventType](event.data)
       } else if (event.data.show !== undefined) {
-        store.commit('DEFINE_SHOW', event.data.show)
         if (event.data.cancelAnimation)
           store.commit('DEFINE_OPENING_ANIMATION', event.data.cancelAnimation)
+        store.commit('DEFINE_SHOW', event.data.show)
       } else {
         if (!event.data.event) return
         console.log("Error : this event doesn't exist: " + event.data.event, event.data)
