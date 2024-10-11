@@ -25,7 +25,7 @@
           </template>
         </template>
       </template>
-      <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :sliders="props.item.sliders" />
+      <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :key="getPalette()" :sliders="props.item.sliders" />
       <div class="priceRight" v-if="!props.item.iconRight && !props.isCurrent">
         <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item)) ? 0 : item.priceRight" />
       </div>
@@ -77,17 +77,25 @@ function click() {
   API.PlayAudio('button')
 }
 function hasPaletteSlider() {
-  let needPreview = false
   for (let index = 0; index < props.item.sliders.length; index++) {
     const slider = props.item.sliders[index];
     if (slider.type == "switch" && slider.values.length > 1)
       return false
     if (slider.type == "palette") {
-      needPreview = true
-      break
+      return true
     }
   }
-  return needPreview
+  return false
+}
+
+function getPalette() {
+  for (let index = 0; index < props.item.sliders.length; index++) {
+    const slider = props.item.sliders[index];
+    if (slider.type == "palette") {
+      return slider.tint
+    }
+  }
+  return false
 }
 
 function isNUIImage(url) {
