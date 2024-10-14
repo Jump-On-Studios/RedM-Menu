@@ -1,5 +1,6 @@
 body {
   font-family: "Crock";
+  font-size: 1.5vh;
 }
 
 html,
@@ -10,7 +11,7 @@ body {
 }
 
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 0.46vh;
 }
 
 *::-webkit-scrollbar-track {
@@ -19,14 +20,14 @@ body {
 
 *::-webkit-scrollbar-thumb {
   background-color: rgb(196, 196, 196);
-  border-radius: 10px;
-  border: 1px solid transparent;
+  border-radius: 0.93vh;
+  border: 0.093vh solid transparent;
 }
 
 .hapna {
   font-family: 'Hapna';
   font-weight: 500;
-  word-spacing: -2px;
+  word-spacing: -0.185vh;
 }
 
 .fred {
@@ -64,8 +65,8 @@ body {
 
 .menu {
   position: absolute;
-  width: 540px;
-  height: 990px;
+  width: 50vh;
+  height: 90vh;
 
   &.right {
     right: 0;
@@ -76,8 +77,8 @@ body {
     flex-direction: column;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 110%;
-    -webkit-mask-position-y: 0px;
-    padding: 26px 54px 40px 54px;
+    -webkit-mask-position-y: 0;
+    padding: 2.4vh 5vh 3.7vh;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -107,11 +108,10 @@ body {
 
 header {
   background: url('/assets/images/menu_header.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   width: 100%;
-  height: 108px;
-  min-height: 108px;
+  height: 10vh;
+  min-height: 10vh;
   text-transform: uppercase;
   display: flex;
   justify-content: center;
@@ -119,7 +119,7 @@ header {
 
   h1 {
     font-weight: 100;
-    font-size: 40px;
+    font-size: 2.5em;
     text-align: center;
   }
 }
@@ -131,7 +131,7 @@ main {
   justify-content: space-between;
 
   h2 {
-    margin-top: 15px;
+    margin-top: 1.4vh;
     text-align: center;
     font-size: 1.3em;
     position: relative;
@@ -153,17 +153,17 @@ main {
 
 .scroller {
   display: grid;
-  grid-template-columns: 204px 24px 204px;
+  grid-template-columns: 47.5% 5% 47.5%;
 
   div {
-    background-repeat: no-repeat;
-    height: 24px;
+    background-repeat: 100% 100%;
+    height: 2.2vh;
     background-size: auto;
   }
 
   &.top {
-    margin-bottom: 2px;
-    margin-top: -8px;
+    margin-bottom: 0.185vh;
+    margin-top: -0.75vh;
 
     .left,
     .right {
@@ -180,7 +180,7 @@ main {
   }
 
   &.bottom {
-    margin-top: 2px;
+    margin-top: 0.185vh;
 
     .left,
     .right {
@@ -199,27 +199,23 @@ main {
 
 .list {
   position: relative;
-  //height: 420px;
   overflow-y: hidden;
   display: block;
-  padding-top: 3px;
-  width: calc(100% + 12px);
-  margin-left: -6px;
-  padding-bottom: 3px;
+  padding-top: 0.3vh;
+  width: calc(100% + 1vh);
+  margin-left: -0.5vh;
+  padding-bottom: 0.3vh;
 
   .item {
     display: grid;
     position: relative;
     width: 100%;
-    min-height: 53px;
+    min-height: 4.9vh;
     // grid-template-columns: repeat(auto);
     align-items: center;
-    padding-left: 26px;
-    padding-right: 26px;
-    padding-bottom: 3px;
-    padding-top: 3px;
-    scroll-margin-top: 3px;
-    scroll-margin-bottom: 3px;
+    padding: 0.25vh 2.5vh;
+    scroll-margin-top: 0.25vh;
+    scroll-margin-bottom: 0.25vh;
 
     &.active::after {
       border-color: #d80419;
@@ -227,16 +223,16 @@ main {
       border-image-slice: 10 10 10 10 fill;
       border-image-source: url("/assets/images/menu/hover.png");
       border-style: solid;
-      border-width: 8px;
+      border-width: 0.75vh;
       box-sizing: border-box;
       content: "";
       opacity: 1;
       pointer-events: none;
       position: absolute;
-      right: 0px;
-      top: -3px;
-      bottom: -3px;
-      left: 0px;
+      right: 0;
+      top: -0.3vh;
+      bottom: -0.3vh;
+      left: 0;
       z-index: 10;
     }
 
@@ -247,10 +243,10 @@ main {
 
     .background {
       position: absolute;
-      top: 3px;
-      bottom: 3px;
-      left: 6px;
-      right: 6px;
+      top: 0.3vh;
+      bottom: 0.3vh;
+      left: 0.6vh;
+      right: 0.6vh;
       filter: invert(75%);
       z-index: 5;
       background-image: url('/assets/images/menu/selection_box_bg_1d.png');
@@ -260,11 +256,11 @@ main {
     h3 {
       font-size: 1.4em;
       display: flex;
-      column-gap: 5px;
+      column-gap: 0.5vh;
       align-items: center;
 
       .prefix {
-        width: 20px;
+        width: 1.85vh;
 
         .star {
           filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
@@ -273,12 +269,12 @@ main {
 
       .title {
         flex: 1 1 auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 0.93vh;
+        padding-bottom: 0.93vh;
 
         .under {
           font-size: 0.7em;
-          margin-top: -5px;
+          margin-top: -0.46vh;
           display: block;
         }
       }
@@ -287,7 +283,7 @@ main {
         font-size: 0.65em;
 
         .arrows {
-          column-gap: 10px;
+          column-gap: 0.93vh;
         }
       }
 
@@ -295,18 +291,18 @@ main {
         font-size: 1.5em;
         position: relative;
         display: block;
-        top: 3px;
+        top: 0.3vh;
 
         .gold img {
-          width: 20px;
+          width: 1.85vh;
         }
       }
     }
 
     &.with-icon {
-      grid-template-columns: 60px auto;
-      grid-gap: 20px;
-      height: 100px;
+      grid-template-columns: 5.5vh auto;
+      grid-gap: 1.85vh;
+      height: 9.25vh;
 
       .background {
         background-image: url('/assets/images/menu/background_item.png');
@@ -321,9 +317,9 @@ main {
       position: absolute;
       top: 46%;
       transform: translateY(-50%);
-      right: 28px;
-      width: 32px;
-      height: 32px;
+      right: 2.6vh;
+      width: 3vh;
+      height: 3vh;
       z-index: 20;
 
       &>div {
@@ -343,11 +339,11 @@ main {
       display: flex;
 
       img {
-        height: 30px;
+        height: 2.8vh;
       }
 
       .colorCustom {
-        width: 30px;
+        width: 2.8vh;
       }
     }
 
@@ -366,14 +362,14 @@ main {
   font-weight: 600;
   color: gray;
   text-align: right;
-  margin-top: -22px;
+  margin-top: -2vh;
 }
 
 .selector {
   position: absolute;
   display: block;
   width: 100%;
-  height: 47px;
+  height: 4.35vh;
   z-index: 20;
   pointer-events: none;
 
@@ -383,20 +379,20 @@ main {
     border-image-slice: 10 10 10 10 fill;
     border-image-source: url("/assets/images/menu/hover.png");
     border-style: solid;
-    border-width: 8px;
-    bottom: -4px;
+    border-width: 0.75vh;
+    bottom: -0.37vh;
     content: "";
-    left: -6px;
+    left: -0.55vh;
     opacity: 1;
     pointer-events: none;
     position: absolute;
-    right: -4px;
-    top: -6px;
+    right: -0.37vh;
+    top: -0.55vh;
     z-index: 10;
   }
 
   &.with-icon {
-    height: 100px;
+    height: 9.25vh;
   }
 }
 
@@ -404,14 +400,14 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 15px;
+  column-gap: 1.4vh;
 
   &>div {
     display: grid;
   }
 
   .arrow img {
-    width: 15px;
+    width: 1.4vh;
   }
 
   .text {
@@ -425,7 +421,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 0.93vh;
 
   &.full {
     flex-grow: 1;
@@ -440,22 +436,22 @@ main {
   width: 100%;
 
   h2 {
-    margin-bottom: 8px;
-    margin-top: 0px;
+    margin-bottom: 0.75vh;
+    margin-top: 0;
   }
 
   .boxes {
     display: flex;
     align-items: center;
     justify-content: center;
-    column-gap: 4px;
-    margin-top: 16px;
-    margin-bottom: 10px;
+    column-gap: 0.37vh;
+    margin-top: 1.5vh;
+    margin-bottom: 0.93vh;
 
     .box {
       position: relative;
-      width: 30px;
-      height: 8px;
+      width: 2.8vh;
+      height: 0.75vh;
 
       &::before {
         content: "";
@@ -485,14 +481,14 @@ main {
         content: '';
         display: block;
         position: absolute;
-        top: 2px;
+        top: 0.185vh;
         left: 0;
         background-image: url('/assets/images/menu/tank_meter_marker.png');
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: center;
         filter: brightness(0.5) sepia(1) saturate(10000%);
-        height: calc(100% + 4px);
+        height: calc(100% + 0.37vh);
         width: calc(100%);
       }
     }
@@ -503,18 +499,18 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 16px;
-  width: 432px;
+  margin-top: 1.5vh;
+  width: 40vh;
   position: relative;
   overflow: hidden;
-  height: 55px;
+  height: 5.1vh;
 
   .sprite {
     position: relative;
-    padding: 8px 8px;
-    width: 54px;
-    min-width: 54px;
-    max-width: 54px;
+    padding: 0.75vh;
+    width: 5vh;
+    min-width: 5vh;
+    max-width: 5vh;
 
     img {
       width: 100%;
@@ -535,10 +531,10 @@ main {
       content: '';
       display: block;
       position: absolute;
-      top: 0px;
-      left: 0px;
-      bottom: 1px;
-      right: 0px;
+      top: 0;
+      left: 0;
+      bottom: 0.093vh;
+      right: 0;
       background-image: url('/assets/images/menu/selection_box_square.png');
       background-size: 100%;
       background-repeat: no-repeat;
@@ -549,13 +545,13 @@ main {
 }
 
 .colorCustom {
-  width: 37px;
-  height: 41px;
+  width: 3.426vh;
+  height: 3.8vh;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -3px;
+  margin-top: -0.3vh;
 
   .tint0,
   .tint1,
@@ -575,11 +571,11 @@ main {
     }
 
     .tint1 {
-      width: 22px;
+      width: 2vh;
     }
 
     .tint2 {
-      width: 11px;
+      width: 1vh;
     }
   }
 
@@ -616,19 +612,19 @@ main {
   content: "";
   display: block;
   width: 100%;
-  height: 4px;
+  height: 0.37vh;
   background-image: url('/assets/images/menu/divider_line.png');
 }
 
 .price {
-  height: 52px;
+  height: 4.8vh;
   width: 100%;
 
   .content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 10px 5px 10px;
+    padding: 0.46vh 0.92vh;
 
     h4 {
       font-size: 1.5em;
@@ -647,8 +643,8 @@ main {
   .centime {
     position: relative;
     font-size: 0.6em;
-    margin-left: 2px;
-    margin-top: 2px;
+    margin-left: 0.185vh;
+    margin-top: 0.185vh;
     height: fit-content;
 
     &::after {
@@ -656,7 +652,7 @@ main {
       position: absolute;
       display: block;
       background-image: url('/assets/images/menu/money_line.png');
-      height: 5px;
+      height: 0.46vh;
       width: 100%;
       left: 0;
       bottom: 0;
@@ -664,30 +660,30 @@ main {
   }
 
   .divider.bottom {
-    margin-top: -5px;
+    margin-top: -0.46vh;
   }
 
   .gold {
     img {
-      width: 30px;
-      margin-right: 5px;
+      width: 2.8vh;
+      margin-right: 0.46vh;
     }
   }
 
   .gold.left {
     font-size: 0.6em;
-    margin-top: 10px;
-    margin-right: 10px;
+    margin-top: 0.93vh;
+    margin-right: 0.93vh;
 
     img {
-      width: 20px;
+      width: 1.85vh;
     }
   }
 }
 
 .description {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 0.93vh;
   font-size: 1.3em;
   position: relative;
   flex-grow: 1;
@@ -707,18 +703,18 @@ main {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0.93vh;
 
     .stat-bars {
       display: flex;
-      column-gap: 5px;
+      column-gap: 0.46vh;
       align-items: center;
       justify-content: flex-end;
 
       .stat-bar {
         content: '';
-        width: 20px;
-        height: 10px;
+        width: 1.85vh;
+        height: 0.93vh;
         background-image: url('/assets/images/menu/scoretimer_centre_bg.png');
         background-size: 100% 100%;
         opacity: 0.20;
@@ -740,16 +736,16 @@ main {
 
     .stat-icons {
       display: flex;
-      height: 26px;
-      column-gap: 2px;
+      height: 2.4vh;
+      column-gap: 0.185vh;
 
       .icon {
-        width: 26px;
+        width: 2.4vh;
       }
     }
 
     .weapon-bar {
-      width: 245px;
+      width: 22.7vh;
       position: relative;
 
       .background {
@@ -776,15 +772,15 @@ main {
   display: none;
   position: fixed;
   z-index: 999;
-  right: 20px;
-  bottom: 40px;
-  padding: 2px;
+  right: 1.85vh;
+  bottom: 3.7vh;
+  padding: 0.185vh;
   color: white;
-  font-size: 20px;
+  font-size: 1.85vh;
   text-align: right;
 
   .helper {
-    margin-bottom: 10px;
+    margin-bottom: 0.93vh;
     display: flex;
     align-items: center;
     justify-content: right;
@@ -793,17 +789,17 @@ main {
   h2 {
     padding: 0;
     margin: 0;
-    padding-right: 10px;
+    padding-right: 0.93vh;
   }
 
   .image {
     position: relative;
     display: flex;
-    padding: 3px;
+    padding: 0.3vh;
     justify-content: center;
     align-items: center;
-    padding: 2px;
-    height: 32px;
+    padding: 0.185vh;
+    height: 3vh;
 
     &.pressed {
       background-color: white;
@@ -818,49 +814,49 @@ main {
     .progress {
       content: '';
       position: absolute;
-      top: -4px;
-      left: -4px;
-      width: 40px;
-      height: 40px;
+      top: -0.37vh;
+      left: -0.37vh;
+      width: 3.7vh;
+      height: 3.7vh;
       box-sizing: border-box;
-      border-radius: 3px;
+      border-radius: 0.3vh;
     }
 
     .canProgress {
-      border: 3px #d8d8d8bd solid;
-      border-radius: 3px;
+      border: 0.3vh #d8d8d8bd solid;
+      border-radius: 0.3vh;
       z-index: 5;
     }
 
     .progress {
       background: linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent), linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent);
-      background-size: 40px 3px, 3px 40px, 40px 3px, 3px 40px;
+      background-size: 3.7vh 0.3vh, 0.3vh 3.7vh, 3.7vh 0.3vh, 0.3vh 3.7vh;
       background-repeat: no-repeat;
       animation: progress 2s linear forwards;
-      background-position: -40px 0px, 37px -40px, 40px 37px, 0px 40px;
+      background-position: -3.7vh 0, 3.426vh -3.7vh, 3.7vh 3.426vh, 0 3.7vh;
       z-index: 10;
     }
   }
 
   @keyframes progress {
     0% {
-      background-position: -40px 0px, 37px -40px, 40px 37px, 0px 40px;
+      background-position: -3.7vh 0, 3.426vh -3.7vh, 3.7vh 3.426vh, 0 3.7vh;
     }
 
     25% {
-      background-position: 0px 0px, 37px -40px, 40px 37px, 0px 40px;
+      background-position: 0 0, 3.426vh -3.7vh, 3.7vh 3.426vh, 0 3.7vh;
     }
 
     50% {
-      background-position: 0px 0px, 37px 0px, 40px 37px, 0px 40px;
+      background-position: 0 0, 3.426vh 0, 3.7vh 3.426vh, 0 3.7vh;
     }
 
     75% {
-      background-position: 0px 0px, 37px 0px, 0px 37px, 0px 40px;
+      background-position: 0 0, 3.426vh 0, 0 3.426vh, 0 3.7vh;
     }
 
     100% {
-      background-position: 0px 0px, 37px 0px, 0px 37px, 0px 0px;
+      background-position: 0 0, 3.426vh 0, 0 3.426vh, 0 0;
     }
   }
 }
@@ -884,7 +880,7 @@ main {
 
 .v-enter-from .container,
 .v-leave-to .container {
-  -webkit-mask-position-y: -1400px;
+  -webkit-mask-position-y: -130vh;
 }
 
 .v-enter-active .container {
@@ -893,7 +889,7 @@ main {
 
 .v-leave-active .container {
   transition: -webkit-mask-position-y var(--transition-speed2) cubic-bezier(.5, 0, 1, .5) var(--delay-leave);
-  -webkit-mask-position-y: -1400px;
+  -webkit-mask-position-y: -130vh;
 }
 
 .smudge {
@@ -910,7 +906,7 @@ main {
   -webkit-mask-image: linear-gradient(180deg, black 75%, transparent);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 120%;
-  -webkit-mask-position-y: 200px;
+  -webkit-mask-position-y: 18.5vh;
   transition: all var(--transition-speed2) cubic-bezier(.9, .01, 1, .5) var(--delay-leave);
 }
 
@@ -919,7 +915,7 @@ main {
 }
 
 .v-leave-to .smudge {
-  -webkit-mask-position-y: -1400px;
+  -webkit-mask-position-y: -130vh;
 }
 
 /* ANIMATION MAIN MENU */
@@ -938,13 +934,13 @@ main {
 
 .loading {
   display: flex;
-  height: calc(100% - 108px);
+  height: calc(100% - 10vh);
   width: 100%;
   justify-content: center;
   align-items: center;
 
   img {
-    width: 64px;
+    width: 5.926vh;
   }
 }
 
@@ -955,17 +951,17 @@ main {
 .backer {
   position: absolute;
   left: 0;
-  top: 1px;
-  width: 20px;
+  top: 0.093vh;
+  width: 1.85vh;
 }
 
 .grid-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 121px 170px 121px;
+  grid-template-columns: 30% 40% 30%;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 0.93vh;
   flex-grow: 1;
 
   &.slider {
@@ -976,13 +972,13 @@ main {
 
   .center {
     display: grid;
-    gap: 10px;
+    gap: 0.93vh;
     justify-items: center;
   }
 
   .grid {
     width: 100%;
-    height: 38px;
+    height: 3.5vh;
     background-image: url('/assets/images/menu/grid.png');
     background-size: cover;
     position: relative;
@@ -992,10 +988,10 @@ main {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
+      width: 1.85vh;
+      height: 1.85vh;
       background-image: url('/assets/images/menu/marker.png');
-      background-size: 25px;
+      background-size: 2.315vh;
       background-repeat: no-repeat;
       background-position: center;
       cursor: pointer;
@@ -1004,7 +1000,7 @@ main {
 
   &.dimension-2 {
     .grid {
-      height: 170px;
+      height: 15.75vh;
     }
   }
 

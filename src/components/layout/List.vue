@@ -28,7 +28,7 @@ function updateScroller() {
 
 function setStyle() {
   return {
-    maxHeight: (menuStore.cMenu.numberOnScreen * 53) + 6 + 'px'
+    maxHeight: (menuStore.cMenu.numberOnScreen * 4.9) + 0.3 + 'vh'
   }
 }
 
@@ -96,11 +96,9 @@ function handleWheel(e) {
   }
   if (e.deltaY < 0) {
     menuStore.menuUp()
-    e.preventDefault()
     return false
   } else {
     menuStore.menuDown()
-    e.preventDefault()
     return false
   }
 }

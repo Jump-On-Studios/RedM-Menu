@@ -52,7 +52,7 @@ function getStyleTint(index) {
   let percent = (slider.current / max.value) * 100
   return {
     backgroundImage: "url(" + url + ")",
-    backgroundPosition: percent + "% 0px"
+    backgroundPosition: percent + "% 0"
   }
 }
 </script>

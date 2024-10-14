@@ -20,18 +20,232 @@ if (import.meta.env.DEV) {
           title: 'test',
           sliders: [
             {
-              type: "grid", labels: ['left', 'right', 'up', 'down'], values: [
+              type: "grid", labels: ['left', 'right'], values: [
                 { current: 0.5, max: 1.0, min: -1.0 },
-                { current: 0.5, max: 10.0, min: 0.0 },
               ]
             },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
             {
               type: "grid", labels: ['left', 'right'], values: [
                 { current: 0.5, max: 1.0, min: -1.0 },
               ]
             },
           ]
-        }
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
       ],
     }
   })
