@@ -93,7 +93,10 @@ class API {
     this.audioVolume = data.volume
   }
 
+  lastAudio = ""
   PlayAudio = function (name) {
+    if (this.lastAudio == name) return
+    this.lastAudio = name
     var url = `./assets/sounds/${name}.mp3`
 
     if (name == "button" && audio && !audio.paused && audio.src == url) {
@@ -102,6 +105,9 @@ class API {
     audio = new Audio(url); // path to file
     audio.volume = this.audioVolume
     audio.play();
+    setTimeout(() => {
+      this.lastAudio = ""
+    }, 50);
   }
 
   deepMerge = function (obj1, obj2) {
