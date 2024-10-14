@@ -42,10 +42,10 @@ class MenuItem {
   setSliders(sliders) {
     this.sliders = []
 
-    sliders = Array.isArray(sliders)?sliders:[sliders]
+    sliders = Array.isArray(sliders) ? sliders : [sliders]
 
     sliders.forEach(slid => {
-      this.sliders.push({...{current:0,values:[], offset:0, translate: false,type:'slider', looped: true},...slid})
+      this.sliders.push({ ...{ current: 0, values: [], offset: 0, translate: false, type: 'slider', looped: true }, ...slid })
     })
   }
   setChild(value) {
@@ -87,7 +87,7 @@ class MenuItem {
   setStatistics(values) {
     const stat = new ItemStatistic()
     for (var p in values) {
-      this.statistics.push({...stat,...values[p]})
+      this.statistics.push({ ...stat, ...values[p] })
     }
   }
   setIconClass(value) {
@@ -123,7 +123,7 @@ class ItemStatistic {
   label = ""
   type = "bar"
   class = ""
-  value = [0,0,10]
+  value = [0, 0, 10]
   translateLabel = false
   translateValue = false
 }
@@ -150,9 +150,9 @@ class Menu {
     this.setTitle(data.title);
     if (data.items) {
       data.items.forEach(item => {
-        let newId = this.items.push(new MenuItem(this.items.length)) -1
-        if (item.title)  this.items[newId].setTitle(item.title)
-        if (item.icon)  this.items[newId].setIcon(item.icon)
+        let newId = this.items.push(new MenuItem(this.items.length)) - 1
+        if (item.title) this.items[newId].setTitle(item.title)
+        if (item.icon) this.items[newId].setIcon(item.icon)
         if (item.slider) this.items[newId].setSliders(item.slider)
         if (item.sliders) this.items[newId].setSliders(item.sliders)
         if (item.child) this.items[newId].setChild(item.child)
@@ -161,7 +161,7 @@ class Menu {
         if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
         if (item.data) this.items[newId].setData(item.data)
         if (item.preview) this.items[newId].setPreview(item.preview)
-        if (item.index != undefined) {this.items[newId].setIndex(item.index)}else{this.items[newId].setIndex(this.items.length)}
+        if (item.index != undefined) { this.items[newId].setIndex(item.index) } else { this.items[newId].setIndex(this.items.length) }
         if (item.description) this.items[newId].setDescription(item.description)
         if (item.action) this.items[newId].setAction(item.action)
         if (item.data) this.items[newId].setData(item.data)
@@ -245,20 +245,20 @@ class Menu {
 export const useMenuStore = defineStore('menus', {
   state: () => ({
     parentTree: ["test"],
-    currentMenuId : '',
+    currentMenuId: '',
     menus: {},
   }),
   getters: {
     cMenu: (state) => state.menus[state.currentMenuId] || new Menu({}),
     cMenuItems() { return this.cMenu.items.filter(item => item.visible) },
-    cItem() { return this.cMenuItems[this.cMenu.currentItem] || {}},
+    cItem() { return this.cMenuItems[this.cMenu.currentItem] || {} },
     cItemPrice() {
       const cItem = this.cItem
       if (cItem.sliders) {
         for (let index = 0; index < cItem.sliders.length; index++) {
           const slider = cItem.sliders[index];
-          const current = slider.current -1
-          if (slider.values[current] && typeof(slider.values[current]) == 'object' && (slider.values[current].price !== undefined))
+          const current = slider.current - 1
+          if (slider.values[current] && typeof (slider.values[current]) == 'object' && (slider.values[current].price !== undefined))
             return slider.values[current].price
         }
       }
@@ -287,7 +287,7 @@ export const useMenuStore = defineStore('menus', {
         data.reset = true
       }
       if (current > -1) {
-        this.menus[data.menu.id].offset = offset 
+        this.menus[data.menu.id].offset = offset
         this.menus[data.menu.id].setCurrent(current)
       }
       if (data.reset) {
@@ -295,9 +295,9 @@ export const useMenuStore = defineStore('menus', {
       }
       if (data.switch) {
         window.postMessage({
-          event:"menuSwitch",
-          reset:data.reset||false,
-          menu:data.menu.id
+          event: "menuSwitch",
+          reset: data.reset || false,
+          menu: data.menu.id
         })
       }
     },
@@ -329,7 +329,7 @@ export const useMenuStore = defineStore('menus', {
       this.updatePreview()
     },
     setCurrentMenu(data) {
-      if (this.menus[data.menu] == undefined) return console.log("ERROR ! No menu : "+data.menu)
+      if (this.menus[data.menu] == undefined) return console.log("ERROR ! No menu : " + data.menu)
       if (data.reset) this.menus[data.menu].reset()
       if (data.keepHistoric) {
         if (this.parentTree.at(-1) != this.currentMenuId && this.currentMenuId.length > 0)
@@ -350,14 +350,14 @@ export const useMenuStore = defineStore('menus', {
         this.currentMenuId = item.child
         this.updatePreview()
       } else {
-        API.post('click',{
+        API.post('click', {
           menu: this.currentMenuId,
           item: this.cItem
         })
       }
     },
     menuBack() {
-      API.post('backMenu',{
+      API.post('backMenu', {
         menu: this.currentMenuId,
         item: this.cItem
       })
@@ -370,13 +370,13 @@ export const useMenuStore = defineStore('menus', {
     menuDown() {
       let menu = this.cMenu
       let items = this.cMenuItems
-      if (menu.currentItem < items.length -1) {
+      if (menu.currentItem < items.length - 1) {
         menu.currentItem++;
       } else {
         menu.currentItem = 0;
       }
       if (menu.items[menu.currentItem].colors) {
-        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
           menu.items[menu.currentItem].colors.current = 0
           menu.items[menu.currentItem].colors.offset = 0
         }
@@ -393,7 +393,7 @@ export const useMenuStore = defineStore('menus', {
         menu.currentItem = items.length - 1
       }
       if (menu.items[menu.currentItem].colors) {
-        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length -1) {
+        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
           menu.items[menu.currentItem].colors.current = 0
           menu.items[menu.currentItem].colors.offset = 0
         }
@@ -407,12 +407,12 @@ export const useMenuStore = defineStore('menus', {
       let slider = undefined
       if (index == undefined) {
         index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
-        slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+        slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
       } else {
-        slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+        slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
       }
       if (!slider) return;
-  
+
       if (slider.type == "palette") {
         if (slider.current <= 0) return
         slider.current--;
@@ -436,12 +436,12 @@ export const useMenuStore = defineStore('menus', {
       let slider = undefined
       if (index == undefined) {
         index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
-        slider = item.sliders[index]?item.sliders[index]:item.sliders[0]
+        slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
       } else {
-        slider = item.sliders[index]?item.sliders[index]:item.sliders[item.sliders.length-1]
+        slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
       }
       if (!slider) return;
-  
+
       if (slider.type == "palette") {
         if (slider.current == slider.max) return
         slider.current++;
@@ -467,13 +467,13 @@ export const useMenuStore = defineStore('menus', {
         let values = slider.values
         let change = false
         if (slider.values.length == 2) {
-          let current2 = data.value[1]*(values[1].max - values[1].min) + values[1].min
+          let current2 = data.value[1] * (values[1].max - values[1].min) + values[1].min
           if (current2 != values[1].current) {
             values[1].current = current2
             change = true
           }
         }
-        let current = data.value[0]*(values[0].max - values[0].min) + values[0].min
+        let current = data.value[0] * (values[0].max - values[0].min) + values[0].min
         if (current != values[0].current) {
           values[0].current = current
           change = true
@@ -492,13 +492,13 @@ export const useMenuStore = defineStore('menus', {
       let values = item.grid.values
       let change = false
       if (item.grid.values.length == 2) {
-        let current2 = data[1]*(values[1].max - values[1].min) + values[1].min
+        let current2 = data[1] * (values[1].max - values[1].min) + values[1].min
         if (current2 != values[1].current) {
           values[1].current = current2
           change = true
         }
       }
-      let current = data[0]*(values[0].max - values[0].min) + values[0].min
+      let current = data[0] * (values[0].max - values[0].min) + values[0].min
       if (current != values[0].current) {
         values[0].current = current
         change = true
@@ -506,7 +506,7 @@ export const useMenuStore = defineStore('menus', {
       if (change) {
         API.PlayAudio('button')
         this.updatePreview()
-      } 
+      }
     },
     gridLeft() {
       let item = this.cItem
@@ -555,7 +555,7 @@ export const useMenuStore = defineStore('menus', {
     updatePreview() {
       if (this.cItem == undefined) return
       let item = this.cItem
-      API.post('updatePreview',{
+      API.post('updatePreview', {
         menu: this.currentMenuId,
         index: this.cMenu.currentItem + 1,
         item: item,

@@ -1,18 +1,18 @@
 <template>
   <div class="slider">
-    <h2 v-if="props.slider.title">{{ title() }}</h2>
-    <div :class="['grid-container','dimension-'+props.slider.values.length]">
+    <h2 v-if="slider.title">{{ title() }}</h2>
+    <div :class="['grid-container', 'dimension-' + slider.values.length]">
       <div class="left">
         {{ label(0) }}
       </div>
       <div class="center">
-        <div v-if="props.slider.values.length == 2">
+        <div v-if="slider.values.length == 2">
           {{ label(2) }}
         </div>
         <div class="grid" id="box" @mousedown="startMoveMarker">
-          <div id="marker" :style="markerPosition()"></div>
+          <div class="marker" :id="'marker-' + index" :style="markerPosition()"></div>
         </div>
-        <div v-if="props.slider.values.length == 2">
+        <div v-if="slider.values.length == 2">
           {{ label(3) }}
         </div>
       </div>
@@ -29,30 +29,30 @@ const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
 const menuStore = useMenuStore()
 
-const props = defineProps(['index','slider'])
+const { index, slider } = defineProps(['index', 'slider'])
 
-let boxTop= 0
-let boxLeft= 0
-let boxBottom= 0
-let boxRight= 0
-let marker= false
+let boxTop = 0
+let boxLeft = 0
+let boxBottom = 0
+let boxRight = 0
+let marker = false
 
 function title() {
-  if (props.slider.translate)
-    return lang(props.slider.title)
-  return props.slider.title
+  if (slider.translate)
+    return lang(slider.title)
+  return slider.title
 }
 
 function label(index) {
-  if (!props.slider.labels) return ''
-  if (props.slider.translate)
-    return lang(props.slider.labels[index])
-  return props.slider.labels[index]
+  if (!slider.labels) return ''
+  if (slider.translate)
+    return lang(slider.labels[index])
+  return slider.labels[index]
 }
 
 function startMoveMarker(e) {
   e = e || window.event;
-  marker = document.getElementById('marker');
+  marker = document.getElementById('marker-' + index);
   const box = document.getElementById('box').getBoundingClientRect();
   boxTop = box.top;
   boxLeft = box.left;
@@ -65,8 +65,10 @@ function startMoveMarker(e) {
 function endMoveMarker(e) {
   document.onmouseup = null;
   document.onmousemove = null;
+  marker = false
 }
 function MoveMarker(e) {
+  if (!marker) return
   e = e || window.event;
   e.preventDefault();
   let values = []
@@ -77,9 +79,9 @@ function MoveMarker(e) {
   else
     marker.style.left = e.clientX - boxLeft + "px";
 
-  values.push(parseFloat(marker.style.left)/(boxRight-boxLeft))
-  
-  if (props.slider.values.length == 2) {
+  values.push(parseFloat(marker.style.left) / (boxRight - boxLeft))
+
+  if (slider.values.length == 2) {
     if (e.clientY < boxTop)
       marker.style.top = "0px";
     else if (e.clientY > boxBottom)
@@ -87,20 +89,20 @@ function MoveMarker(e) {
     else
       marker.style.top = e.clientY - boxTop + "px";
 
-    values.push(parseFloat(marker.style.top).toFixed(2)/(boxBottom-boxTop).toFixed(2))
+    values.push(parseFloat(marker.style.top).toFixed(2) / (boxBottom - boxTop).toFixed(2))
   }
-   menuStore.setSliderCurrent({index: props.index,value:values})
+  menuStore.setSliderCurrent({ index: index, value: values })
 }
 function markerPosition() {
   let position = {
     left: "50%",
     top: "50%"
   }
-  let data = props.slider.values
-  if (props.slider.values.length == 2) {
-    position.top = ((data[1].current - data[1].min)/(data[1].max - data[1].min)*100).toFixed(2) + '%'
+  let data = slider.values
+  if (slider.values.length == 2) {
+    position.top = ((data[1].current - data[1].min) / (data[1].max - data[1].min) * 100).toFixed(2) + '%'
   }
-  position.left = ((data[0].current - data[0].min)/(data[0].max - data[0].min)*100).toFixed(2) + '%'
+  position.left = ((data[0].current - data[0].min) / (data[0].max - data[0].min) * 100).toFixed(2) + '%'
   return position
 }
 </script>
