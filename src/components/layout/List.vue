@@ -1,16 +1,9 @@
 <template>
   <div style="position:relative">
     <ul id="list-items" class="list" :style="setStyle()">
-      <Item v-for="(item,index) in menuItems" :key=index
-        :title="getTitle(item)"
-        :icon="item.icon"
-        :isCurrent="item.index == menu.equipedItem.index"
-        :item="item"
-        :active="menu.currentItem == index"
-        :id=index
-      />
+      <Item v-for="(item, index) in menuItems" :key=index :title="getTitle(item)" :icon="item.icon" :isCurrent="item.index == menu.equipedItem.index" :item="item" :active="menu.currentItem == index" :id=index />
     </ul>
-    <Selector />
+    <!-- <Selector /> -->
   </div>
 </template>
 
@@ -24,13 +17,13 @@ export default {
     Item, Selector
   },
   computed: {
-    ...mapGetters(['lang','menu','equipedItems','currentMenu','menuItems'])
+    ...mapGetters(['lang', 'menu', 'equipedItems', 'currentMenu', 'menuItems'])
   },
   methods: {
-    ...mapActions(['menuDown','menuUp','sliderLeft','sliderRight','colorLeft','colorRight']),
+    ...mapActions(['menuDown', 'menuUp', 'sliderLeft', 'sliderRight', 'colorLeft', 'colorRight']),
     setStyle() {
       return {
-        maxHeight: (this.menu.numberOnScreen * 53) - 6 +'px'
+        maxHeight: (this.menu.numberOnScreen * 53) + 6 + 'px'
       }
     },
     estElementVisible(element) {
@@ -44,7 +37,7 @@ export default {
       );
     },
     updateScroll(isUp) {
-      const currentItem = document.getElementById('item-'+this.menu.currentItem)
+      const currentItem = document.getElementById('item-' + this.menu.currentItem)
       if (!this.estElementVisible(currentItem))
         currentItem.scrollIntoView(isUp)
     },
@@ -53,14 +46,14 @@ export default {
         if (!item.translate) return item.title
         return this.lang(item.title)
       }
-      return this.$API.sprintf(this.lang('number'),item.index)
+      return this.$API.sprintf(this.lang('number'), item.index)
     },
     items() {
       let max = this.menu.numberOnScreen;
       let itemDisplayed = [];
       for (let index = this.menu.offset; index < this.menuItems.length; index++) {
         if (this.menuItems[index].icon) {
-          max -=2
+          max -= 2
         } else {
           max--
         }
@@ -70,7 +63,7 @@ export default {
       return itemDisplayed;
     },
     handleKeydown(e) {
-      switch(e.key) {
+      switch (e.key) {
         case 'ArrowDown':
           this.menuDown()
           this.updateScroll(false)
@@ -108,16 +101,16 @@ export default {
       }
     }
   },
-  beforeMount () {
-  	window.addEventListener('keydown', this.handleKeydown, null);
-  	window.addEventListener('wheel', this.handleWheel, null);
+  beforeMount() {
+    window.addEventListener('keydown', this.handleKeydown, null);
+    window.addEventListener('wheel', this.handleWheel, null);
   },
-  beforeUnmount () {
-  	window.removeEventListener('keydown', this.handleKeydown);
-  	window.removeEventListener('wheel', this.handleWheel);
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleKeydown);
+    window.removeEventListener('wheel', this.handleWheel);
   },
   watch: {
-    currentMenu: function() {
+    currentMenu: function () {
       this.$nextTick(() => {
         this.updateScroll(true)
       });

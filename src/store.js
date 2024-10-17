@@ -1043,6 +1043,68 @@ if (import.meta.env.DEV) {
           //     max: 63
           //   },
           // ],
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+          // description: 'test',
+          // price: 5,
+          // sliders : [
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          //   {
+          //     type: 'palette',
+          //     title: 'tint',
+          //     current:0,
+          //     tint: 'tint_makeup',
+          //     max: 63
+          //   },
+          // ],
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        },
+        {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
+        }, {
+          title: 'Palette',
+          previewPalette: false,
         },
       ],
     }
@@ -1067,6 +1129,13 @@ if (import.meta.env.DEV) {
       show: false,
       cancelAnimation: true
     })
+    setTimeout(function () {
+      window.postMessage({
+        event: "show",
+        show: true,
+        cancelAnimation: true
+      })
+    }, 2000)
   }, 2000)
 
 }

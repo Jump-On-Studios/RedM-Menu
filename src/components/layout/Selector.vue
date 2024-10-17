@@ -1,5 +1,5 @@
 <template>
-  <div :class="['selector',{'with-icon' : haveIcon()}]" :style="getTop()">
+  <div :class="['selector', { 'with-icon': haveIcon() }]" :style="getTop()">
   </div>
 </template>
 
@@ -8,7 +8,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['menuItems','cItem','menu','currentMenu'])
+    ...mapGetters(['menuItems', 'cItem', 'menu', 'currentMenu'])
   },
   methods: {
     haveIcon() {
@@ -17,18 +17,19 @@ export default {
     getTop() {
       let top = 0;
       const active = document.getElementsByClassName('item active')[0];
+      console.log(active)
       if (active) {
         const container = document.getElementById('list-items')
-        top = active.getBoundingClientRect().top - container.getBoundingClientRect().top 
+        top = active.getBoundingClientRect().top - container.getBoundingClientRect().top
       } else {
       }
       return {
-         top: top + "px"
+        top: top + "px"
       }
     }
   },
   watch: {
-    currentMenu: function() {
+    currentMenu: function () {
       this.$nextTick(() => {
         this.$forceUpdate();
       })
