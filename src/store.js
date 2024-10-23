@@ -981,40 +981,40 @@ if (import.meta.env.DEV) {
       equipedColor: 1,
       disableEscape: true,
       items: [
-        // {
-        //   title: 'Palette',
-        //   // description: 'test',
-        //   price: 5,
-        //   // disabled: true,
-        //   sliders : [
-        //     {
-        //       type: 'switch',
-        //       current: 1,
-        //       values: [
-        //         {
-        //           label: 'test',price:10,
-        //         },
-        //         {
-        //           label: 'test2'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       type: 'palette',
-        //       title: 'tint',
-        //       current:0,
-        //       tint: 'tint_makeup',
-        //       max: 63
-        //     },
-        //     {
-        //       type: 'palette',
-        //       title: 'tint',
-        //       current:0,
-        //       tint: 'tint_makeup',
-        //       max: 63
-        //     },
-        //   ],
-        // },
+        {
+          title: 'Palette',
+          // description: 'test',
+          price: 5,
+          // disabled: true,
+          sliders: [
+            {
+              type: 'switch',
+              current: 1,
+              values: [
+                {
+                  label: 'test', price: 10,
+                },
+                {
+                  label: 'test2'
+                }
+              ]
+            },
+            {
+              type: 'palette',
+              title: false,
+              current: 0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+            {
+              type: 'palette',
+              title: false,
+              current: 0,
+              tint: 'tint_makeup',
+              max: 63
+            },
+          ],
+        },
         {
           title: 'Palette',
           previewPalette: false,
@@ -1122,21 +1122,6 @@ if (import.meta.env.DEV) {
       cancelAnimation: true
     })
   }, 200)
-
-  setTimeout(function () {
-    window.postMessage({
-      event: "show",
-      show: false,
-      cancelAnimation: true
-    })
-    setTimeout(function () {
-      window.postMessage({
-        event: "show",
-        show: true,
-        cancelAnimation: true
-      })
-    }, 2000)
-  }, 2000)
 
 }
 
