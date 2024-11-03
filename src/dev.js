@@ -1,3 +1,5 @@
+import Description from "./components/layout/Description.vue"
+
 export default {}
 
 if (import.meta.env.DEV) {
@@ -12,12 +14,18 @@ if (import.meta.env.DEV) {
     event: 'updateMenu',
     menu: {
       id: 'home',
-      title: 'My title',
-      subtitle: 'The subtitle',
+      title: 'Main title',
+      subtitle: 'The menu title',
       numberOnScreen: 8,
       items: [
         {
-          title: 'test',
+          title: 'This is the title',
+          description: '<img src="/assets/images/icons/accessories.png" />'
+        },
+        {
+          title: 'This is the title',
+          subtitle: 'This is the subtitle',
+          footer: 'This is the footer',
           sliders: [
             {
               type: "switch",
@@ -31,7 +39,11 @@ if (import.meta.env.DEV) {
               ]
             },
           ]
-        }
+        },
+
+        {
+          title: 'This is the title',
+        },
       ],
     }
   })

@@ -3,6 +3,8 @@ import API from '../API'
 
 class MenuItem {
   title = '';
+  subtitle = '';
+  footer = '';
   icon = false;
   iconRight = false;
   iconClass = '';
@@ -117,6 +119,12 @@ class MenuItem {
   setPreviewPalette(value) {
     this.previewPalette = value
   }
+  setSubtitle(value) {
+    this.subtitle = value
+  }
+  setFooter(value) {
+    this.footer = value
+  }
 }
 
 class ItemStatistic {
@@ -152,6 +160,8 @@ class Menu {
       data.items.forEach(item => {
         let newId = this.items.push(new MenuItem(this.items.length)) - 1
         if (item.title) this.items[newId].setTitle(item.title)
+        if (item.subtitle) this.items[newId].setSubtitle(item.subtitle)
+        if (item.footer) this.items[newId].setFooter(item.footer)
         if (item.icon) this.items[newId].setIcon(item.icon)
         if (item.slider) this.items[newId].setSliders(item.slider)
         if (item.sliders) this.items[newId].setSliders(item.sliders)
@@ -264,6 +274,7 @@ export const useMenuStore = defineStore('menus', {
       }
       return cItem.price || false
     },
+    refreshId: (state) => state.currentMenuId + state.menus[state.currentMenuId].currentItem
   },
   actions: {
     resetMenu(data) {
