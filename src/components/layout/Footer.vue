@@ -1,6 +1,6 @@
 <template>
-  <div class="footer hapna" v-if="cItem.footer.length > 0">
-    <div class="divider"></div>
+  <div class="footer-text hapna" v-if="cItem.footer.length > 0">
+    <div class="divider" v-if="!cItem.price"></div>
     <div class="content" v-html="cItem.footer">
     </div>
   </div>
@@ -15,10 +15,11 @@ console.log(cItem)
 </script>
 
 <style scoped>
-.footer {
+.footer-text {
   display: flex;
   align-items: center;
   font-size: 1rem;
+  flex-direction: column;
 
   .content {
     margin-top: 1vh;

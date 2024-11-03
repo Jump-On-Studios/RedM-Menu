@@ -5,9 +5,6 @@ export default {}
 if (import.meta.env.DEV) {
   window.postMessage({
     event: 'updateLang',
-    lang: {
-      price: "New"
-    }
   })
 
   window.postMessage({
@@ -20,12 +17,14 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'This is the title',
-          description: '<img src="/assets/images/icons/accessories.png" />'
+          description: '<img src="/assets/images/icons/accessories.png" />',
+          footer: 'Footer'
         },
         {
           title: 'This is the title',
           subtitle: 'This is the subtitle',
           footer: 'This is the footer',
+          price: 5,
           sliders: [
             {
               type: "switch",
@@ -43,6 +42,7 @@ if (import.meta.env.DEV) {
 
         {
           title: 'This is the title',
+          price: 4
         },
       ],
     }
