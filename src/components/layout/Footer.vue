@@ -10,11 +10,9 @@
 import { useMenuStore } from '../../stores/menus';
 const { cItem } = useMenuStore()
 
-console.log(cItem)
-
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .footer-text {
   display: flex;
   align-items: center;
