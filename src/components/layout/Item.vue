@@ -32,13 +32,11 @@
       <div class="priceRight" v-if="!item.iconRight && !isCurrent">
         <PriceDisplay :price="(item.priceRight && (menuStore.cMenu.cItem == item)) ? 0 : item.priceRight" />
       </div>
-      <div class="textRight" v-if="item.textRight">
-        <template v-if="item.translateTextRight">
-          {{ lang(item.textRight) }}
-        </template>
-        <template v-else>
-          {{ item.textRight }}
-        </template>
+      <div :class="['textRight', item.textRightClass]" v-if="item.textRight">
+        <span v-if="item.translateTextRight" v-html="lang(item.textRight)">
+        </span>
+        <span v-else v-html="item.textRight">
+        </span>
       </div>
     </h3>
     <div class="background"></div>
@@ -112,11 +110,19 @@ function getImage(url) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+}
+
+.textRight {
+  &.tiny {
+    font-size: 0.715em;
+    font-family: 'Hapna';
+    font-weight: 500;
+  }
 }
 </style>

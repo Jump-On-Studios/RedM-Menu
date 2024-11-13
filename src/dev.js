@@ -18,7 +18,8 @@ if (import.meta.env.DEV) {
         {
           title: 'This is the title',
           description: '<img src="/assets/images/icons/accessories.png" />',
-          footer: 'Footer'
+          footer: 'Footer',
+          textRight: "<span style='color:red'>test</span>"
         },
         {
           title: 'This is the title',

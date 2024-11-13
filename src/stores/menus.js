@@ -27,6 +27,7 @@ class MenuItem {
   grid = false;
   id = 0;
   textRight = false;
+  textRightClass = '';
   translateTextRight = false;
   previewPalette = true;
 
@@ -113,6 +114,9 @@ class MenuItem {
   setTextRight(value) {
     this.textRight = value
   }
+  setTextRightClass(value) {
+    this.textRightClass = value
+  }
   setTranslateTextRight(value) {
     this.translateTextRight = value
   }
@@ -185,6 +189,7 @@ class Menu {
         if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
         if (item.grid) this.items[newId].setGrid(item.grid)
         if (item.textRight) this.items[newId].setTextRight(item.textRight)
+        if (item.textRightClass) this.items[newId].setTextRightClass(item.textRightClass)
         if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
         if (item.previewPalette != undefined) this.items[newId].setPreviewPalette(item.previewPalette)
       });
