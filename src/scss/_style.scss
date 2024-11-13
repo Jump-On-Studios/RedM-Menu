@@ -503,11 +503,16 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 16px;
+  margin-top: 6px;
   width: 432px;
   position: relative;
   overflow: hidden;
   height: 55px;
+
+  &.center {
+    justify-content: center;
+
+  }
 
   .sprite {
     position: relative;
