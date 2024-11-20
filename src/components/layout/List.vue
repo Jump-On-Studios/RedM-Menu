@@ -11,11 +11,10 @@
 <script setup>
 import Item from './Item.vue'
 import Scroller from './Scroller.vue'
-
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick } from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick, onMounted } from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -56,15 +55,20 @@ function scrollToElementVertically(scroller, element) {
     });
   }
 }
+
+
+let previousMenu = ''
 function updateScroll() {
   nextTick(() => {
-    const scroller = document.querySelector('#list-items');
     const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
-    scrollToElementVertically(scroller, currentItem)
-    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
+    let firstScroll = previousMenu != menuStore.currentMenuId
+    previousMenu = menuStore.currentMenuId
+    // const scroller = document.querySelector('#list-items');
+    // scrollToElementVertically(scroller, currentItem)
+    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
   })
-
 }
+
 function getTitle(item) {
   if (item.title.length > 0) {
     if (!item.translate) return item.title
@@ -96,11 +100,11 @@ function handleWheel(e) {
   }
   if (e.deltaY < 0) {
     menuStore.menuUp()
-    e.preventDefault()
+    // e.preventDefault()
     return false
   } else {
     menuStore.menuDown()
-    e.preventDefault()
+    // e.preventDefault()
     return false
   }
 }
@@ -113,6 +117,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
 })
 
+onMounted(() => {
+  updateScroll()
+})
 menuStore.$subscribe(() => {
   updateScroll()
 })

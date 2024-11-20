@@ -23,7 +23,7 @@ if (import.meta.env.DEV) {
           sliders: [
             {
               type: "sprite",
-              current: 1,
+              current: 13,
               values: [
                 { sprite: "tints/skin_tone_1", value: 1 },
                 { sprite: "tints/skin_tone_4", value: 4 },
@@ -31,9 +31,23 @@ if (import.meta.env.DEV) {
                 { sprite: "tints/skin_tone_5", value: 5 },
                 { sprite: "tints/skin_tone_2", value: 2 },
                 { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
+                { sprite: "tints/skin_tone_6", value: 6 },
               ]
             },
           ]
+        },
+
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
         },
       ],
     }

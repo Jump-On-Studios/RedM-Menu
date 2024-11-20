@@ -55,22 +55,25 @@ function scrollToElementHOrizontal(scroller, element) {
   if (elementRect.left < scrollerRect.left) {
     scroller.scrollTo({
       left: elementLeft,
-      behavior: 'smooth'
+      behavior: firstScroll ? 'instant' : 'smooth'
     });
   }
   else if (elementRect.right > scrollerRect.right) {
     scroller.scrollTo({
-      left: elementRight - scrollerRect.width,
-      behavior: 'smooth'
+      left: elementRight - elementRect.width,
+      behavior: firstScroll ? 'instant' : 'smooth'
     });
   }
 }
 
+let firstScroll = true
 function updateScroll() {
   nextTick(() => {
-    const scroller = document.querySelector('#scroller');
     const currentItem = document.querySelector('#scroller #sprite-' + slider.current)
-    scrollToElementHOrizontal(scroller, currentItem)
+    // const scroller = document.querySelector('#scroller');
+    // scrollToElementHOrizontal(scroller, currentItem)
+    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
+    firstScroll = false
   })
 }
 menuStore.$subscribe(() => {
