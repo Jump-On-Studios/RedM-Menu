@@ -21,6 +21,8 @@ const { cItem } = useMenuStore()
 
   .content {
     margin-top: 1vh;
+    line-height: 1em;
+    min-height: 1em;
   }
 }
 </style>
