@@ -16,7 +16,7 @@ const hasPalette = ref(false)
 
 for (const slider of item.sliders) {
   if (slider.type == "switch" && slider.values.length > 1) {
-    sprite.value = false
+    hasSprite.value = false
     hasPalette.value = false
     break
   }
