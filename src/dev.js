@@ -1,4 +1,5 @@
 import Description from "./components/layout/Description.vue"
+import PreviewSliders from "./components/layout/PreviewSlider.vue"
 
 export default {}
 
@@ -17,33 +18,22 @@ if (import.meta.env.DEV) {
       items: [
         {
           title: 'This is the title',
-          description: '<img src="/assets/images/icons/accessories.png" />',
-          footer: 'Footer',
-          textRight: "<span style='color:red'>test</span>"
-        },
-        {
-          title: 'This is the title',
-          subtitle: 'This is the subtitle',
-          footer: 'This is the footer',
-          price: 5,
+          price: 4,
+          previewSlider: true,
           sliders: [
             {
-              type: "switch",
+              type: "sprite",
               current: 1,
               values: [
-                { label: '1' },
-                { label: '2' },
-                { label: '3' },
-                { label: '4' },
-                { label: '5' },
+                { sprite: "tints/skin_tone_1", value: 1 },
+                { sprite: "tints/skin_tone_4", value: 4 },
+                { sprite: "tints/skin_tone_3", value: 3 },
+                { sprite: "tints/skin_tone_5", value: 5 },
+                { sprite: "tints/skin_tone_2", value: 2 },
+                { sprite: "tints/skin_tone_6", value: 6 },
               ]
             },
           ]
-        },
-
-        {
-          title: 'This is the title',
-          price: 4
         },
       ],
     }

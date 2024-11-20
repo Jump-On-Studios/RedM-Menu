@@ -28,7 +28,7 @@
           </template>
         </template>
       </template>
-      <PalettePreview v-if="item.previewPalette && hasPaletteSlider()" :key="getPalette()" :sliders="item.sliders" />
+      <PreviewSlider :item="item" />
       <div class="priceRight" v-if="!item.iconRight && !isCurrent">
         <PriceDisplay :price="(item.priceRight && (menuStore.cMenu.cItem == item)) ? 0 : item.priceRight" />
       </div>
@@ -46,7 +46,7 @@
 <script setup>
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
-import PalettePreview from "./PalettePreview.vue"
+import PreviewSlider from './PreviewSlider.vue'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
 import { inject } from 'vue'
@@ -77,27 +77,9 @@ function click() {
   }
   API.PlayAudio('button')
 }
-function hasPaletteSlider() {
-  for (let index = 0; index < item.sliders.length; index++) {
-    const slider = item.sliders[index];
-    if (slider.type == "switch" && slider.values.length > 1)
-      return false
-    if (slider.type == "palette") {
-      return true
-    }
-  }
-  return false
-}
 
-function getPalette() {
-  for (let index = 0; index < item.sliders.length; index++) {
-    const slider = item.sliders[index];
-    if (slider.type == "palette") {
-      return slider.tint
-    }
-  }
-  return false
-}
+
+
 
 function isNUIImage(url) {
   return url.includes('://')
