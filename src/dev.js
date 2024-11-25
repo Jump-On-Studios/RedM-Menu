@@ -20,30 +20,37 @@ if (import.meta.env.DEV) {
           title: 'This is the title',
           price: 4,
           previewSlider: true,
-          sliders: [
-            {
-              type: "sprite",
-              current: 13,
-              values: [
-                { sprite: "tints/skin_tone_1", value: 1 },
-                { sprite: "tints/skin_tone_4", value: 4 },
-                { sprite: "tints/skin_tone_3", value: 3 },
-                { sprite: "tints/skin_tone_5", value: 5 },
-                { sprite: "tints/skin_tone_2", value: 2 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-                { sprite: "tints/skin_tone_6", value: 6 },
-              ]
-            },
-          ]
+          description: `Contrairement à une opinion répandue, le Lorem Ipsum n'est pas simplement du texte aléatoire. Il trouve ses racines dans une oeuvre de la littérature latine classique datant de 45 av. J.-C., le rendant vieux de 2000 ans. Un professeur du Hampden-Sydney College, en Virginie, s'est intéressé à un des mots latins les plus obscurs, consectetur, extrait d'un passage du Lorem Ipsum, et en étudiant tous les usages de ce mot dans la littérature classique, découvrit la source incontestable du Lorem Ipsum. Il provient en fait des sections 1.10.32 et 1.10.33 du "De Finibus Bonorum et Malorum" (Des Suprêmes Biens et des Suprêmes Maux) de Cicéron. Cet ouvrage, très populaire pendant la Renaissance, est un traité sur la théorie de l'éthique. Les premières lignes du Lorem Ipsum, "Lorem ipsum dolor sit amet...", proviennent de la section 1.10.32.`
         },
-
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        },
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        },
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        }, {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        },
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        },
+        {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+        },
         {
           title: 'This is the title',
           price: 4,
