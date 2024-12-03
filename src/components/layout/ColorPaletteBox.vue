@@ -1,37 +1,48 @@
 <template>
-    <div :class="['colorCustom color-' + numberColor]" ref="boxParent">
-        <div v-if="tint0 !== false" class="tint0" :style="getStyleTint(tint0)"></div>
-        <div v-if="tint1 !== false" class="tint1" :style="getStyleTint(tint1)"></div>
-        <div v-if="tint2 !== false" class="tint2" :style="getStyleTint(tint2)"></div>
+    <div :class="['colorCustom color-' + numberColor]" :key="keyUpdate" ref="boxParent">
+        <div v-for="index in numberColor" :key="index" :class="'tint' + (index - 1)" :style="getStyleTint(index - 1)"></div>
         <div class="border"></div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const { palette, tint0, tint1, tint2 } = defineProps(['palette', 'tint0', 'tint1', 'tint2'])
-const numberColor = ref(1)
+import { computed, onBeforeMount, ref, toRefs } from 'vue';
+const props = defineProps(['palette', 'tint0', 'tint1', 'tint2'])
+
+const numberColor = computed(() => {
+    if (props.tint2 !== false && props.tint2 !== undefined)
+        return 3
+    if (props.tint1 !== false && props.tint1 !== undefined)
+        return 2
+    return 1
+})
 const max = ref(1)
-if (tint1 != false)
-    numberColor.value = 2
-if (tint2 != false)
-    numberColor.value = 3
-console.log(tint0, tint1, tint2)
-let url = `./assets/images/menu/${palette}.png`;
 
-const img = new Image();
-img.src = url;
+const url = computed(() => { return `/assets/images/menu/${props.palette}.png` })
 
-img.onload = function () {
-    max.value = img.naturalWidth - 1; // Largeur originale de l'image
-};
+onBeforeMount(() => {
+    const img = new Image();
+    img.src = url.value;
 
-function getStyleTint(value) {
-    let slider
+    img.onload = function () {
+        max.value = img.naturalWidth - 1; // Largeur originale de l'image
+    };
+})
+
+const keyUpdate = computed(() => {
+    return props.palette + props.tint0 + (props.tint1 || 0) + (props.tint2 || 0)
+})
+
+function getStyleTint(index) {
+    let value = props.tint0
+    if (index == 1)
+        value = props.tint1
+    if (index == 2)
+        value = props.tint2
 
     let percent = (value / max.value) * 100
     return {
-        backgroundImage: "url(" + url + ")",
+        backgroundImage: "url(" + url.value + ")",
         backgroundPosition: percent + "% 0px"
     }
 }

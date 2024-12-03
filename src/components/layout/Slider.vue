@@ -3,7 +3,7 @@
     <div :class="['sliders', { full: fullHeight() }]" v-if="menuStore.cItem.sliders && (menuStore.cItem.sliders.length > 0)">
       <template v-for="(slider, index) in menuStore.cItem.sliders" :key="index">
         <template v-if="slider.type == 'palette'">
-          <ColorPalette :index="index" :slider="slider" />
+          <Palette :index="index" :slider="slider" />
         </template>
         <template v-else-if="slider.type == 'switch'" />
         <template v-else-if="slider.type == 'grid'">
@@ -26,7 +26,7 @@
 <script setup>
 import { onBeforeMount, onBeforeUnmount } from 'vue';
 import { useMenuStore } from '../../stores/menus';
-import ColorPalette from './sliders/ColorPalette.vue'
+import Palette from './sliders/Palette.vue'
 import Default from './sliders/Default.vue'
 import Grid from './sliders/Grid.vue'
 import Sprite from './sliders/Sprite.vue'

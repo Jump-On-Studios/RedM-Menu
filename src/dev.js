@@ -19,6 +19,21 @@ if (import.meta.env.DEV) {
           previewSlider: true,
           sliders: [
             {
+              type: "color",
+              current: 1,
+              values: [
+                { palette: 'tint_hair', tint0: 0, tint1: 5, tint2: 30 },
+                { palette: 'tint_hair', tint0: 10, tint1: 5 },
+                { palette: 'tint_hair', tint0: 10 },
+              ]
+            },
+          ]
+        }, {
+          title: 'This is the title',
+          price: 4,
+          previewSlider: true,
+          sliders: [
+            {
               type: "palette",
               current: 1,
               tint: "tint_makeup"
