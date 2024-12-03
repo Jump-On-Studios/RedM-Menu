@@ -9,7 +9,8 @@
       </div>
       <div :class="['sprites', { 'center': slider.values.length <= 8 }]" id="scroller">
         <div v-for="(value, vIndex) in slider.values" :key="vIndex + 1" :class="['sprite clicker', { 'current': (vIndex + 1) == slider.current }]" :id="'sprite-' + (vIndex + 1)" @click="click(vIndex + 1)">
-          <img :src="`./assets/images/${value.sprite}.png`" />
+          <ColorPaletteBox v-if="slider.type == 'color'" :palette="value.palette" :tint0="value.tint0" :tint1="value.tint1" :tint2="value.tint2" />
+          <img v-else :src="`./assets/images/${value.sprite}.png`" />
           <div class="tick" v-if="slider.displayTick && slider.tickIndex == vIndex">
             <img src="/assets/images/menu/tick.png">
           </div>
@@ -20,10 +21,11 @@
 </template>
 
 <script setup>
+import ColorPaletteBox from '../ColorPaletteBox.vue';
 import { inject, onMounted, nextTick } from 'vue';
 import { useLangStore } from '../../../stores/lang';
-const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
+const lang = useLangStore().lang
 const menuStore = useMenuStore()
 
 const props = defineProps(['slider', 'index'])

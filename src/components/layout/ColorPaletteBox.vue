@@ -34,7 +34,7 @@ onBeforeMount(() => {
 })
 watch(url, () => {
     calculMax()
-}, { deep: true })
+})
 
 const keyUpdate = computed(() => {
     return props.palette + props.tint0 + (props.tint1 || 0) + (props.tint2 || 0)

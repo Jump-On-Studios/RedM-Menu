@@ -9,11 +9,8 @@
         <template v-else-if="slider.type == 'grid'">
           <Grid :index="index" :slider="slider" />
         </template>
-        <template v-else-if="slider.type == 'sprite'">
+        <template v-else-if="slider.type == 'sprite' || slider.type == 'color'">
           <Sprite :index="index" :slider="slider" />
-        </template>
-        <template v-else-if="slider.type == 'color'">
-          <Color :index="index" :slider="slider" />
         </template>
         <template v-else>
           <Default :index="index" :slider="slider" />
@@ -30,7 +27,6 @@ import Palette from './sliders/Palette.vue'
 import Default from './sliders/Default.vue'
 import Grid from './sliders/Grid.vue'
 import Sprite from './sliders/Sprite.vue'
-import Color from './sliders/Color.vue';
 
 const menuStore = useMenuStore()
 

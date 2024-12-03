@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, inject, ref } from 'vue';
+import { onBeforeUnmount, onMounted, inject, ref, computed, onBeforeMount, watch } from 'vue';
 import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
@@ -34,17 +34,27 @@ const props = defineProps(['index', 'slider'])
 const max = ref(1)
 let mounted = false
 
-let url = `./assets/images/menu/${props.slider.tint}.png`;
+const url = computed(() => { return `/assets/images/menu/${props.slider.tint}.png` })
 
-const img = new Image();
-img.src = url;
+function CalculMaxValue() {
+  const img = new Image();
+  img.src = url.value;
 
-img.onload = function () {
-  max.value = img.naturalWidth - 1; // Largeur originale de l'image
-};
+  img.onload = function () {
+    max.value = img.naturalWidth - 1; // Largeur originale de l'image
+  };
+}
+
+onBeforeMount(() => {
+  CalculMaxValue()
+  mounted = true
+})
+watch(url, () => {
+  CalculMaxValue()
+})
 
 function background() {
-  return { backgroundImage: `url(${url}` }
+  return { backgroundImage: `url(${url.value}` }
 }
 function numItem() {
   return API.sprintf(lang('of'), props.slider.current + 1, max.value + 1)
@@ -77,9 +87,6 @@ function rightKey() {
   if (props.index == 1) return "E"
   if (props.index == 2) return "6"
 }
-onMounted(() => {
-  mounted = true
-})
 onBeforeUnmount(() => {
   mounted = false
 })
