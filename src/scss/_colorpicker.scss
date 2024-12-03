@@ -1,24 +1,21 @@
 .colorPicker {
   input {
     -webkit-appearance: none;
-    width: 100%;
+    flex: 1;
     height: 20px;
     background-color: transparent;
-    background-size: 404px 100%;
-    background-position-x: 14px;
+    background-size: calc(100% - 26px) 100%;
+    background-position-x: 13px;
     background-repeat: no-repeat;
     background-color: transparent;
     color: white;
     margin-top: 6px;
     margin-bottom: 10px;
-    image-rendering : pixelated;
-    &.max-63 {
-      background-size: 408px 100%;
-      background-position-x: 13px;
-    }
+    image-rendering: pixelated;
   }
+
   .palette::-webkit-slider-thumb {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
     box-shadow: none;
     border-color: transparent;
     background-image: url('/assets/images/menu/circle.png');
@@ -30,13 +27,18 @@
     position: relative;
     margin-top: -1px;
   }
+
   .colorSlider {
     position: relative;
+    display: flex;
+    gap: 0.25em;
+    align-items: center;
+
     .keyHelpers {
       &>div {
-        position: absolute;
         height: 20px;
         min-width: 20px;
+        width: fit-content;
         text-align: center;
         line-height: 20px;
         font-size: 18px;
@@ -49,21 +51,17 @@
         opacity: 0.25;
         text-transform: uppercase;
       }
+
       &.index-0>div {
         line-height: 16px;
         font-family: fantasy;
         padding: 0 3px;
       }
+
       .left {
-        left: 0px;
-        transform: translateX(-100%);
         &.qwerty {
           line-height: 17px;
         }
-      }
-      .right {
-        right : 0px;
-        transform: translateX(100%);
       }
     }
   }

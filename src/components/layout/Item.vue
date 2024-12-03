@@ -54,7 +54,7 @@ const menuStore = useMenuStore()
 const API = inject('API')
 const lang = useLangStore().lang
 
-const { icon, isCurrent, item, active, id } = defineProps({
+const props = defineProps({
   icon: {
     default: false,
   },
@@ -70,16 +70,13 @@ const { icon, isCurrent, item, active, id } = defineProps({
 })
 
 function click() {
-  if (menuStore.cMenu.currentItem == item.id) {
+  if (menuStore.cMenu.currentItem == props.item.id) {
     menuStore.menuEnter()
   } else {
-    menuStore.setCurrentItem(item.id)
+    menuStore.setCurrentItem(props.item.id)
   }
   API.PlayAudio('button')
 }
-
-
-
 
 function isNUIImage(url) {
   return url.includes('://')
