@@ -22,9 +22,9 @@ if (import.meta.env.DEV) {
               type: "color",
               current: 1,
               values: [
-                { palette: 'tint_makeup', tint0: 0, tint1: 5, tint2: 30 },
-                { palette: 'tint_makeup', tint0: 10, tint1: 5 },
-                { palette: 'tint_makeup', tint0: 10 },
+                { palette: 'tint_makeup', tint0: 0, tint1: 5, tint2: 30, style: 'vertical-lines' },
+                { palette: 'tint_makeup', tint0: 10, tint1: 5, style: 'vertical-lines' },
+                { palette: 'tint_makeup', tint0: 10, style: 'vertical-lines' },
               ]
             },
           ]

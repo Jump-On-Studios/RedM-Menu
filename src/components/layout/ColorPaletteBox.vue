@@ -1,5 +1,5 @@
 <template>
-    <div :class="['colorCustom color-' + numberColor, props.style]" :key="keyUpdate" ref="boxParent">
+    <div :class="['color-custom color-' + numberColor, props.color.style]" :key="keyUpdate" ref="boxParent">
         <div v-for="index in numberColor" :key="index" :class="'tint' + (index - 1)" :style="getStyleTint(index - 1)"></div>
         <div class="border"></div>
     </div>
@@ -52,3 +52,92 @@ function getStyleTint(index) {
 }
 
 </script>
+
+<style lang="scss" scoped>
+.color-custom {
+    width: 37px;
+    height: 41px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -3px;
+
+    .tint0,
+    .tint1,
+    .tint2,
+    .border {
+        position: absolute;
+        aspect-ratio: 1 / 1;
+        background-size: cover;
+        image-rendering: pixelated;
+        background-repeat: no-repeat;
+    }
+
+    &.color-1,
+    &.color-3 {
+        .tint0 {
+            width: 100%;
+        }
+
+        .tint1 {
+            width: 22px;
+        }
+
+        .tint2 {
+            width: 11px;
+        }
+    }
+
+    &.color-2 {
+
+        .tint0,
+        .tint1 {
+            width: 100%;
+            mask-image: linear-gradient(-45deg, transparent 50%, white 50%);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            mask-size: 100%;
+        }
+
+        .tint1 {
+            transform: rotate(180deg);
+        }
+    }
+
+    .border {
+        width: 100%;
+        background-image: url('/assets/images/tints/swatch_box.png');
+        background-position: center;
+    }
+
+    &.vertical-lines {
+        display: flex;
+        flex-direction: column;
+
+        .tint0,
+        .tint1,
+        .tint2 {
+            width: 100%;
+            flex: 1;
+            mask-size: 100%;
+        }
+
+        &.color-2 {
+            .tint1 {
+                mask-image: linear-gradient(transparent 50%, white 50%);
+            }
+        }
+
+        &.color-3 {
+            .tint1 {
+                mask-image: linear-gradient(transparent 33%, white 33%, white 66%, transparent 66%);
+            }
+
+            .tint2 {
+                mask-image: linear-gradient(transparent 66%, white 66%);
+            }
+        }
+    }
+}
+</style>

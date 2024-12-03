@@ -555,66 +555,6 @@ main {
   }
 }
 
-.colorCustom {
-  width: 37px;
-  height: 41px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: -3px;
-
-  .tint0,
-  .tint1,
-  .tint2,
-  .border {
-    position: absolute;
-    aspect-ratio: 1 / 1;
-    background-size: cover;
-    image-rendering: pixelated;
-    background-repeat: no-repeat;
-  }
-
-  &.color-1,
-  &.color-3 {
-    .tint0 {
-      width: 100%;
-    }
-
-    .tint1 {
-      width: 22px;
-    }
-
-    .tint2 {
-      width: 11px;
-    }
-  }
-
-  &.color-2 {
-
-    .tint0,
-    .tint1 {
-      width: 100%;
-      -webkit-mask-image: url('/assets/images/tints/mask.png');
-      mask-image: url('/assets/images/tints/mask.png');
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      -webkit-mask-size: 100%;
-      mask-size: 100%;
-    }
-
-    .tint1 {
-      transform: rotate(180deg);
-    }
-  }
-
-  .border {
-    width: 100%;
-    background-image: url('/assets/images/tints/swatch_box.png');
-    background-position: center;
-  }
-}
-
 .item.disabled .colorCustom {
   opacity: 0.2;
 }
