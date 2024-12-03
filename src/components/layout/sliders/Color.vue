@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+import PalettePreview from '../PalettePreview.vue';
 import { inject, onMounted, nextTick } from 'vue';
 import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang

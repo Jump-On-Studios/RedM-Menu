@@ -1,6 +1,3 @@
-import Description from "./components/layout/Description.vue"
-import PreviewSliders from "./components/layout/PreviewSlider.vue"
-
 export default {}
 
 if (import.meta.env.DEV) {
@@ -22,14 +19,18 @@ if (import.meta.env.DEV) {
           previewSlider: true,
           sliders: [
             {
-              type: "color",
+              type: "palette",
               current: 1,
-              values: [
-                { palette: "tint_classic", tint0: 1, tint1: 10, tint2: 20 },
-                { palette: "tint_classic", tint0: 1, tint1: 10, tint2: 20 },
-                { palette: "tint_classic", tint0: 1, tint1: 10, tint2: 20 },
-              ]
-            }
+              tint: "tint_makeup"
+            }, {
+              type: "palette",
+              current: 10,
+              tint: "tint_makeup"
+            }, {
+              type: "palette",
+              current: 30,
+              tint: "tint_makeup"
+            },
           ]
         },
       ],

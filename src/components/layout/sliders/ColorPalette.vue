@@ -11,11 +11,13 @@
         <div :class="['left', { 'qwerty': menuStore.isQwerty && props.index == 1 }]" ref="keyLeft">
           {{ leftKey() }}
         </div>
+      </div>
+      <input type="range" min=0 :max="max" :class="['palette', 'max-' + max]" :style="background()" :value="props.slider.current" @input="change" />
+      <div :class="['keyHelpers', 'index-' + props.index]" v-if="menuStore.cItem.sliders.length > 1">
         <div class="right" ref="keyRight">
           {{ rightKey() }}
         </div>
       </div>
-      <input type="range" min=0 :max="max" :class="['palette', 'max-' + max]" :style="background()" :value="props.slider.current" @input="change" />
     </div>
   </div>
 </template>
