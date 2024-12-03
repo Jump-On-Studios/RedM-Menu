@@ -29,7 +29,7 @@ const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
 const menuStore = useMenuStore()
 
-const { index, slider } = defineProps(['index', 'slider'])
+const props = defineProps(['index', 'slider'])
 
 let boxTop = 0
 let boxLeft = 0
@@ -38,21 +38,21 @@ let boxRight = 0
 let marker = false
 
 function title() {
-  if (slider.translate)
-    return lang(slider.title)
-  return slider.title
+  if (props.slider.translate)
+    return lang(props.slider.title)
+  return props.slider.title
 }
 
 function label(index) {
-  if (!slider.labels) return ''
-  if (slider.translate)
-    return lang(slider.labels[index])
-  return slider.labels[index]
+  if (!props.slider.labels) return ''
+  if (props.slider.translate)
+    return lang(props.slider.labels[index])
+  return props.slider.labels[index]
 }
 
 function startMoveMarker(e) {
   e = e || window.event;
-  marker = document.getElementById('marker-' + index);
+  marker = document.getElementById('marker-' + props.index);
   const box = document.getElementById('box').getBoundingClientRect();
   boxTop = box.top;
   boxLeft = box.left;
@@ -81,7 +81,7 @@ function MoveMarker(e) {
 
   values.push(parseFloat(marker.style.left) / (boxRight - boxLeft))
 
-  if (slider.values.length == 2) {
+  if (props.slider.values.length == 2) {
     if (e.clientY < boxTop)
       marker.style.top = "0px";
     else if (e.clientY > boxBottom)
@@ -91,15 +91,15 @@ function MoveMarker(e) {
 
     values.push(parseFloat(marker.style.top).toFixed(2) / (boxBottom - boxTop).toFixed(2))
   }
-  menuStore.setSliderCurrent({ index: index, value: values })
+  menuStore.setSliderCurrent({ index: props.index, value: values })
 }
 function markerPosition() {
   let position = {
     left: "50%",
     top: "50%"
   }
-  let data = slider.values
-  if (slider.values.length == 2) {
+  let data = props.slider.values
+  if (props.slider.values.length == 2) {
     position.top = ((data[1].current - data[1].min) / (data[1].max - data[1].min) * 100).toFixed(2) + '%'
   }
   position.left = ((data[0].current - data[0].min) / (data[0].max - data[0].min) * 100).toFixed(2) + '%'

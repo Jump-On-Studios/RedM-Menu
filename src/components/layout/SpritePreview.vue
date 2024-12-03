@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-const { sliders } = defineProps(['sliders'])
+const props = defineProps(['sliders'])
 
 function getSprite() {
-  for (const slider of sliders) {
+  for (const slider of props.sliders) {
     if (slider.type == "sprite" && slider.values.length > 0) {
       return slider.values[slider.current - 1]?.sprite
     }

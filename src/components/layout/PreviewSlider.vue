@@ -7,14 +7,14 @@
 
 <script setup>
 import { ref } from "vue";
-const { item } = defineProps(['item'])
+const props = defineProps(['item'])
 import PalettePreview from "./PalettePreview.vue"
 import SpritePreview from "./SpritePreview.vue";
 
 const hasSprite = ref('')
 const hasPalette = ref(false)
 
-for (const slider of item.sliders) {
+for (const slider of props.item.sliders) {
   if (slider.type == "switch" && slider.values.length > 1) {
     hasSprite.value = false
     hasPalette.value = false
@@ -28,8 +28,8 @@ for (const slider of item.sliders) {
   }
 }
 function getPalette() {
-  for (let index = 0; index < item.sliders.length; index++) {
-    const slider = item.sliders[index];
+  for (let index = 0; index < props.item.sliders.length; index++) {
+    const slider = props.item.sliders[index];
     if (slider.type == "palette") {
       return slider.tint
     }

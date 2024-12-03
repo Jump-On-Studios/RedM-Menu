@@ -26,52 +26,28 @@ const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
 const menuStore = useMenuStore()
 
-const { slider, index } = defineProps(['slider', 'index'])
+const props = defineProps(['slider', 'index'])
 
 const API = inject('API')
 
 function title() {
-  if (slider.translate)
-    return lang(slider.title)
-  return slider.title
+  if (props.slider.translate)
+    return lang(props.slider.title)
+  return props.slider.title
 }
 
 function numItem() {
-  return API.sprintf(lang('of'), slider.current, slider.values.length)
+  return API.sprintf(lang('of'), props.slider.current, props.slider.values.length)
 }
 function click(vIndex) {
-  if (vIndex == slider.current) return
-  menuStore.setSliderCurrent({ index: index, value: parseInt(vIndex) })
-}
-
-function scrollToElementHOrizontal(scroller, element) {
-  if (scroller == undefined) return
-  if (element == undefined) return
-  const scrollerRect = scroller.getBoundingClientRect();
-  const elementRect = element.getBoundingClientRect();
-  const scrollerScrollLeft = scroller.scrollLeft;
-  const elementLeft = elementRect.left - scrollerRect.left + scrollerScrollLeft;
-  const elementRight = elementRect.right - scrollerRect.left + scrollerScrollLeft;
-  if (elementRect.left < scrollerRect.left) {
-    scroller.scrollTo({
-      left: elementLeft,
-      behavior: firstScroll ? 'instant' : 'smooth'
-    });
-  }
-  else if (elementRect.right > scrollerRect.right) {
-    scroller.scrollTo({
-      left: elementRight - elementRect.width,
-      behavior: firstScroll ? 'instant' : 'smooth'
-    });
-  }
+  if (vIndex == props.slider.current) return
+  menuStore.setSliderCurrent({ index: props.index, value: parseInt(vIndex) })
 }
 
 let firstScroll = true
 function updateScroll() {
   nextTick(() => {
-    const currentItem = document.querySelector('#scroller #sprite-' + slider.current)
-    // const scroller = document.querySelector('#scroller');
-    // scrollToElementHOrizontal(scroller, currentItem)
+    const currentItem = document.querySelector('#scroller #sprite-' + props.slider.current)
     currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
     firstScroll = false
   })
