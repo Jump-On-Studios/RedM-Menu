@@ -1,6 +1,6 @@
 <template>
     <div :class="['color-custom color-' + numberColor, props.color.style]" :key="keyUpdate" ref="boxParent">
-        <div v-for="index in numberColor" :key="index" :class="'tint' + (index - 1)" :style="getStyleTint(index - 1)"></div>
+        <div v-for="index in numberColor" :key="index" :class="'tint tint' + (index - 1)" :style="getStyleTint(index - 1)"></div>
         <div class="border"></div>
     </div>
 </template>
@@ -63,9 +63,7 @@ function getStyleTint(index) {
     align-items: center;
     margin-top: -3px;
 
-    .tint0,
-    .tint1,
-    .tint2,
+    .tint,
     .border {
         position: absolute;
         aspect-ratio: 1 / 1;
@@ -90,18 +88,12 @@ function getStyleTint(index) {
     }
 
     &.color-2 {
-
-        .tint0,
-        .tint1 {
+        .tint {
             width: 100%;
-            mask-image: linear-gradient(-45deg, transparent 50%, white 50%);
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            mask-size: 100%;
         }
 
         .tint1 {
-            transform: rotate(180deg);
+            mask-image: linear-gradient(-45deg, white 50%, transparent 50%);
         }
     }
 
@@ -115,9 +107,7 @@ function getStyleTint(index) {
         display: flex;
         flex-direction: column;
 
-        .tint0,
-        .tint1,
-        .tint2 {
+        .tint {
             width: 100%;
             flex: 1;
             mask-size: 100%;

@@ -24,7 +24,7 @@ if (import.meta.env.DEV) {
               values: [
                 { palette: 'tint_makeup', tint0: 0, tint1: 5, tint2: 30, style: 'vertical-lines' },
                 { palette: 'tint_makeup', tint0: 10, tint1: 5, style: 'vertical-lines' },
-                { palette: 'tint_makeup', tint0: 10, style: 'vertical-lines' },
+                { palette: 'tint_makeup', tint0: 10, tint1: 5 },
               ]
             },
           ]
@@ -41,11 +41,12 @@ if (import.meta.env.DEV) {
               type: "palette",
               current: 10,
               tint: "tint_makeup"
-            }, {
-              type: "palette",
-              current: 30,
-              tint: "tint_makeup"
             },
+            // {
+            //   type: "palette",
+            //   current: 30,
+            //   tint: "tint_makeup"
+            // },
           ]
         },
       ],
