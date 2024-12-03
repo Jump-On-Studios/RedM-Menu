@@ -1,5 +1,5 @@
 <template>
-  <ColorPaletteBox :palette="getPalette()" :tint0="getTint(0)" :tint1="getTint(1)" :tint2="getTint(2)" />
+  <ColorPaletteBox :color="{ palette: getPalette(), tint0: getTint(0), tint1: getTint(1), tint2: getTint(2) }" />
 </template>
 
 <script setup>

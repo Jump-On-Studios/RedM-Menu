@@ -9,7 +9,7 @@
       </div>
       <div :class="['sprites', { 'center': slider.values.length <= 8 }]" id="scroller">
         <div v-for="(value, vIndex) in slider.values" :key="vIndex + 1" :class="['sprite clicker', { 'current': (vIndex + 1) == slider.current }]" :id="'sprite-' + (vIndex + 1)" @click="click(vIndex + 1)">
-          <ColorPaletteBox v-if="slider.type == 'color'" :palette="value.palette" :tint0="value.tint0" :tint1="value.tint1" :tint2="value.tint2" />
+          <ColorPaletteBox v-if="slider.type == 'color'" :color="value" />
           <img v-else :src="`./assets/images/${value.sprite}.png`" />
           <div class="tick" v-if="slider.displayTick && slider.tickIndex == vIndex">
             <img src="/assets/images/menu/tick.png">
