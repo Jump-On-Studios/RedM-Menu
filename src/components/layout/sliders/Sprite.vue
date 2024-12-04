@@ -48,11 +48,12 @@ function click(vIndex) {
 
 let firstScroll = true
 function updateScroll() {
-  nextTick(() => {
+  setTimeout(() => {
     const currentItem = document.querySelector('#scroller #sprite-' + props.slider.current)
+    if (!currentItem) return
     currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
     firstScroll = false
-  })
+  }, 50);
 }
 menuStore.$subscribe(() => {
   updateScroll()

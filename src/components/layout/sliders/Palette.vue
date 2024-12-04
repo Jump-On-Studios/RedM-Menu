@@ -34,7 +34,7 @@ const props = defineProps(['index', 'slider'])
 const max = ref(1)
 let mounted = false
 
-const url = computed(() => { return `/assets/images/menu/${props.slider.tint}.png` })
+const url = computed(() => { return `./assets/images/menu/${props.slider.tint}.png` })
 
 function CalculMaxValue() {
   const img = new Image();

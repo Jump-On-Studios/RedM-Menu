@@ -33,12 +33,13 @@ function setStyle() {
 
 let previousMenu = ''
 function updateScroll() {
-  nextTick(() => {
+  setTimeout(() => {
     const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
+    if (!currentItem) return
     let firstScroll = previousMenu != menuStore.currentMenuId
     previousMenu = menuStore.currentMenuId
     currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
-  })
+  }, 50);
 }
 
 function getTitle(item) {

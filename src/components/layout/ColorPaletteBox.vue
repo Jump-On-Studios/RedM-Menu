@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 const props = defineProps(['color'])
 const tint = computed(() => {
     const tints = [props.color.tint0]
@@ -21,7 +21,7 @@ const tint = computed(() => {
 })
 
 const numberColor = computed(() => { return tint.value.tints.length })
-const url = computed(() => { return `/assets/images/menu/${props.color.palette}.png` })
+const url = computed(() => { return `./assets/images/menu/${props.color.palette}.png` })
 
 const max = ref(1)
 function calculMax() {
@@ -32,7 +32,7 @@ function calculMax() {
     };
 }
 
-onBeforeMount(() => {
+onMounted(() => {
     calculMax()
 })
 watch(url, () => {
@@ -93,7 +93,7 @@ function getStyleTint(index) {
         }
 
         .tint1 {
-            mask-image: linear-gradient(-45deg, white 50%, transparent 50%);
+            -webkit-mask-image: linear-gradient(-45deg, white 50%, transparent 50%);
         }
     }
 
@@ -110,22 +110,22 @@ function getStyleTint(index) {
         .tint {
             width: 100%;
             flex: 1;
-            mask-size: 100%;
+            -webkit-mask-size: 100%;
         }
 
         &.color-2 {
             .tint1 {
-                mask-image: linear-gradient(transparent 50%, white 50%);
+                -webkit-mask-image: linear-gradient(transparent 50%, white 50%);
             }
         }
 
         &.color-3 {
             .tint1 {
-                mask-image: linear-gradient(transparent 33%, white 33%, white 66%, transparent 66%);
+                -webkit-mask-image: linear-gradient(transparent 33%, white 33%, white 66%, transparent 66%);
             }
 
             .tint2 {
-                mask-image: linear-gradient(transparent 66%, white 66%);
+                -webkit-mask-image: linear-gradient(transparent 66%, white 66%);
             }
         }
     }
