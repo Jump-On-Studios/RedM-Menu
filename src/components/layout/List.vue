@@ -14,7 +14,7 @@ import Scroller from './Scroller.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick, onMounted } from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick, onMounted, onUpdated } from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -32,15 +32,18 @@ function setStyle() {
 }
 
 let previousMenu = ''
-function updateScroll() {
-  setTimeout(() => {
-    const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
-    if (!currentItem) return
-    let firstScroll = previousMenu != menuStore.currentMenuId
-    previousMenu = menuStore.currentMenuId
-    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
-  }, 50);
-}
+let previousItem = ''
+onUpdated(() => {
+  if (previousItem == menuStore.cMenu.currentItem && previousMenu == menuStore.currentMenuId)
+    return
+  const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
+  if (!currentItem) return
+  let firstScroll = previousMenu != menuStore.currentMenuId
+  previousMenu = menuStore.currentMenuId
+  previousItem = menuStore.cMenu.currentItem
+  console.log("Scroll", previousMenu, previousItem)
+  currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest" })
+})
 
 function getTitle(item) {
   if (item.title.length > 0) {
@@ -90,10 +93,4 @@ onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
 })
 
-onMounted(() => {
-  updateScroll()
-})
-menuStore.$subscribe(() => {
-  updateScroll()
-})
 </script>
