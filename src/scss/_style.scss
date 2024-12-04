@@ -129,7 +129,6 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100% - 108px);
 
   h2 {
     margin-top: 1.4vh;
@@ -500,8 +499,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 6px;
-  width: 432px;
+  margin-top: 0.5vh;
   position: relative;
   overflow: hidden;
   height: 5.1vh;
@@ -515,6 +513,7 @@ main {
     position: relative;
     padding: 0.75vh;
     width: 5vh;
+    height: 5vh;
     min-width: 5vh;
     max-width: 5vh;
 
@@ -566,7 +565,6 @@ main {
 
 .price {
   width: 100%;
-  margin-bottom: 4px;
 
   .content {
     display: flex;

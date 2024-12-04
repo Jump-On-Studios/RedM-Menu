@@ -1,3 +1,5 @@
+import PreviewSlider from "./components/layout/PreviewSlider.vue"
+
 export default {}
 
 if (import.meta.env.DEV) {
@@ -16,11 +18,27 @@ if (import.meta.env.DEV) {
         {
           title: 'This is the title',
           price: 4,
+          previewSlider: true,
           sliders: [
             {
-              type: "grid", labels: ['left', 'right', 'top', 'bottom'], values: [
-                { current: 0.5, max: 1.0, min: -1.0 },
-                { current: 0.5, max: 1.0, min: -1.0 },
+              type: "color",
+              current: 1,
+              values: [
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
               ]
             },
           ]
