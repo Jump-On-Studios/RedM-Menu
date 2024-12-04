@@ -55,20 +55,19 @@ function getStyleTint(index) {
 
 <style lang="scss" scoped>
 .color-custom {
-    width: 37px;
-    height: 41px;
+    width: 100%;
+    height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -3px;
+    margin-top: -0.1vh;
 
     .tint,
     .border {
         position: absolute;
         aspect-ratio: 1 / 1;
         background-size: cover;
-        image-rendering: pixelated;
         background-repeat: no-repeat;
     }
 
@@ -79,11 +78,11 @@ function getStyleTint(index) {
         }
 
         .tint1 {
-            width: 22px;
+            width: 66%;
         }
 
         .tint2 {
-            width: 11px;
+            width: 33%;
         }
     }
 

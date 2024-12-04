@@ -1,3 +1,5 @@
+import PreviewSlider from "./components/layout/PreviewSlider.vue"
+
 export default {}
 
 if (import.meta.env.DEV) {
@@ -16,21 +18,53 @@ if (import.meta.env.DEV) {
         {
           title: 'This is the title',
           price: 4,
+          previewSlider: true,
           sliders: [
             {
               type: "color",
               current: 1,
               values: [
-                { palette: 'tint_makeup', tint0: 0, tint1: 5, tint2: 30, style: 'vertical-lines' },
-                { palette: 'tint_makeup', tint0: 10, tint1: 5, style: 'vertical-lines' },
-                { palette: 'tint_makeup', tint0: 10, tint1: 5 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
               ]
             },
           ]
-        }, {
-          title: 'This is the title',
-          price: 4,
-          previewSlider: true,
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
           sliders: [
             {
               type: "palette",
@@ -49,50 +83,211 @@ if (import.meta.env.DEV) {
           ]
         },
         {
-          title: 'test'
+
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
         {
-          title: 'test'
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
         },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+        {
+          title: 'test',
+          sliders: [
+            {
+              type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
+              ]
+            },
+          ]
+        },
+      ],
+    }
+  })
+
+  window.postMessage({
+    event: 'updateMenu',
+    menu: {
+      id: 'child',
+      title: 'ChildMenu',
+      subtitle: 'Subtitle 2',
+      numberOnScreen: 8,
+      globalColor: true,
+      equipedColor: 1,
+      disableEscape: true,
+      items: [
         {
           title: 'test'
         },

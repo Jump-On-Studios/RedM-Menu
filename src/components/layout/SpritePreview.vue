@@ -38,6 +38,7 @@ function getColor() {
 
 <style scoped>
 .preview-slider {
-  margin-top: 0.2rem;
+  width: 3vh;
+  height: 3vh;
 }
 </style>

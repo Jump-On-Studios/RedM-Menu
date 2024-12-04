@@ -51,7 +51,7 @@ function updateScroll() {
   setTimeout(() => {
     const currentItem = document.querySelector('#scroller #sprite-' + props.slider.current)
     if (!currentItem) return
-    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
+    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest", inline: "nearest" })
     firstScroll = false
   }, 50);
 }
