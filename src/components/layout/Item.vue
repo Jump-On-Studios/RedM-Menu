@@ -1,41 +1,42 @@
 <template>
-  <li v-if="props.item" :id="`item-${props.id}`" :class="['item', 'clicker', { 'with-icon': props.icon, 'disabled': props.item.disabled, 'active': props.active }]" @click="click()">
-    <div :class="[{ 'bw opacity50': props.item.disabled }, 'image', props.item.iconClass]" v-if="props.icon">
-      <img :src="getImage(props.item.icon)" />
+  <li v-if="item" :id="`item-${id}`" :class="['item', 'clicker', { 'with-icon': icon, 'disabled': item.disabled, 'active': active }]" @click="click()">
+    <div :class="[{ 'bw opacity50': item.disabled }, 'image', item.iconClass]" v-if="icon">
+      <img :src="getImage(item.icon)" />
     </div>
-    <div class="current" v-if="props.isCurrent">
+    <div class="current" v-if="isCurrent">
       <div class="tick">
         <img src="/assets/images/menu/tick.png">
       </div>
     </div>
-    <div class="current" v-if="props.item.iconRight">
+    <div class="current" v-if="item.iconRight">
       <div class="tick">
-        <img :src="getImage(props.item.iconRight)">
+        <img :src="getImage(item.iconRight)">
       </div>
     </div>
     <h3>
-      <div v-if="props.item.prefix" :class="['prefix', { 'bw opacity50': props.item.disabled }]">
-        <img :class="props.item.prefix" :src="getImage(props.item.prefix)" />
+      <div v-if="item.prefix" :class="['prefix', { 'bw opacity50': item.disabled }]">
+        <img :class="item.prefix" :src="getImage(item.prefix)" />
       </div>
-      <span class="title" v-html="props.item.title"></span>
-      <template v-if="!props.item.disabled">
-        <template v-for="(slider, index) in props.item.sliders" :key="index">
+      <div class="title">
+        <span class="main" v-html="item.title"></span>
+        <span class="subtitle hapna" v-if="item.subtitle.length > 0" v-html="item.subtitle"></span>
+      </div>
+      <template v-if="!item.disabled">
+        <template v-for="(slider, index) in item.sliders" :key="index">
           <template v-if="slider.type == 'switch' && slider.values.length > 1">
-            <Switch :slider="slider" :index="index" :isCurrent="props.item.index == menuStore.cItem.index" />
+            <Switch :slider="slider" :index="index" :isCurrent="item.index == menuStore.cItem.index" />
           </template>
         </template>
       </template>
-      <PalettePreview v-if="props.item.previewPalette && hasPaletteSlider()" :key="getPalette()" :sliders="props.item.sliders" />
-      <div class="priceRight" v-if="!props.item.iconRight && !props.isCurrent">
-        <PriceDisplay :price="(props.item.priceRight && (menuStore.cMenu.cItem == props.item)) ? 0 : item.priceRight" />
+      <PreviewSlider :item="item" />
+      <div class="priceRight" v-if="!item.iconRight && !isCurrent">
+        <PriceDisplay :price="(item.priceRight && (menuStore.cMenu.cItem == item)) ? 0 : item.priceRight" />
       </div>
-      <div class="textRight" v-if="props.item.textRight">
-        <template v-if="props.item.translateTextRight">
-          {{ lang(props.item.textRight) }}
-        </template>
-        <template v-else>
-          {{ props.item.textRight }}
-        </template>
+      <div :class="['textRight', item.textRightClass]" v-if="item.textRight">
+        <span v-if="item.translateTextRight" v-html="lang(item.textRight)">
+        </span>
+        <span v-else v-html="item.textRight">
+        </span>
       </div>
     </h3>
     <div class="background"></div>
@@ -45,7 +46,7 @@
 <script setup>
 import PriceDisplay from './PriceDisplay.vue'
 import Switch from './sliders/Switch.vue'
-import PalettePreview from "./PalettePreview.vue"
+import PreviewSlider from './PreviewSlider.vue'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'
 import { inject } from 'vue'
@@ -76,27 +77,6 @@ function click() {
   }
   API.PlayAudio('button')
 }
-function hasPaletteSlider() {
-  for (let index = 0; index < props.item.sliders.length; index++) {
-    const slider = props.item.sliders[index];
-    if (slider.type == "switch" && slider.values.length > 1)
-      return false
-    if (slider.type == "palette") {
-      return true
-    }
-  }
-  return false
-}
-
-function getPalette() {
-  for (let index = 0; index < props.item.sliders.length; index++) {
-    const slider = props.item.sliders[index];
-    if (slider.type == "palette") {
-      return slider.tint
-    }
-  }
-  return false
-}
 
 function isNUIImage(url) {
   return url.includes('://')
@@ -108,3 +88,24 @@ function getImage(url) {
   return `./assets/images/icons/${url}.png`
 }
 </script>
+
+<style scoped lang="scss">
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  .main {
+    width: 100%;
+  }
+}
+
+.textRight {
+  &.tiny {
+    font-size: 0.715em;
+    font-family: 'Hapna';
+    font-weight: 500;
+  }
+}
+</style>

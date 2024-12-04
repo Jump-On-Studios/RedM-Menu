@@ -14,12 +14,13 @@
     <template v-if="menuStore.cMenuItems.length == 0 & menuStore.cMenu.type == 'list'">
       <Loading />
     </template>
-    <div class="footer">
+    <div class="footer" :key="menuStore.refreshId">
       <template v-if="menuStore.cMenuItems.length > 0">
         <Description />
         <Slider />
       </template>
       <Price />
+      <Footer />
     </div>
   </main>
 </template>
@@ -30,6 +31,7 @@ import Slider from './Slider.vue'
 import Price from './Price.vue'
 import Description from './Description.vue'
 import Loading from './Loading.vue'
+import Footer from './Footer.vue'
 import { useDataStore } from '../../stores/datas'
 import { useMenuStore } from '../../stores/menus'
 import { useLangStore } from '../../stores/lang'

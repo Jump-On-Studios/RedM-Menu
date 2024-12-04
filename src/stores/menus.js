@@ -3,6 +3,8 @@ import API from '../API'
 
 class MenuItem {
   title = '';
+  subtitle = '';
+  footer = '';
   icon = false;
   iconRight = false;
   iconClass = '';
@@ -25,8 +27,9 @@ class MenuItem {
   grid = false;
   id = 0;
   textRight = false;
+  textRightClass = '';
   translateTextRight = false;
-  previewPalette = true;
+  previewSlider = false;
 
   constructor(id) {
     this.id = id
@@ -111,11 +114,20 @@ class MenuItem {
   setTextRight(value) {
     this.textRight = value
   }
+  setTextRightClass(value) {
+    this.textRightClass = value
+  }
   setTranslateTextRight(value) {
     this.translateTextRight = value
   }
-  setPreviewPalette(value) {
-    this.previewPalette = value
+  setSubtitle(value) {
+    this.subtitle = value
+  }
+  setFooter(value) {
+    this.footer = value
+  }
+  setPreviewSlider(value) {
+    this.previewSlider = value
   }
 }
 
@@ -152,6 +164,8 @@ class Menu {
       data.items.forEach(item => {
         let newId = this.items.push(new MenuItem(this.items.length)) - 1
         if (item.title) this.items[newId].setTitle(item.title)
+        if (item.subtitle) this.items[newId].setSubtitle(item.subtitle)
+        if (item.footer) this.items[newId].setFooter(item.footer)
         if (item.icon) this.items[newId].setIcon(item.icon)
         if (item.slider) this.items[newId].setSliders(item.slider)
         if (item.sliders) this.items[newId].setSliders(item.sliders)
@@ -175,8 +189,10 @@ class Menu {
         if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
         if (item.grid) this.items[newId].setGrid(item.grid)
         if (item.textRight) this.items[newId].setTextRight(item.textRight)
+        if (item.textRightClass) this.items[newId].setTextRightClass(item.textRightClass)
         if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
-        if (item.previewPalette != undefined) this.items[newId].setPreviewPalette(item.previewPalette)
+        if (item.previewSlider != undefined) this.items[newId].setPreviewSlider(item.previewSlider)
+        if (item.previewPalette != undefined) this.items[newId].setPreviewSlider(item.previewPalette)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -264,6 +280,7 @@ export const useMenuStore = defineStore('menus', {
       }
       return cItem.price || false
     },
+    refreshId: (state) => state.currentMenuId + state.menus[state.currentMenuId].currentItem
   },
   actions: {
     resetMenu(data) {

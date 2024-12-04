@@ -1,7 +1,7 @@
 <template>
   <template v-if="props.price !== undefined && props.price !== false">
     <div class="priceDisplay">
-      <template v-if="(typeof(props.price) == 'object') && props.price.gold && props.price.money">
+      <template v-if="(typeof (props.price) == 'object') && props.price.gold && props.price.money">
         <span class="gold left">
           <span class="icon">
             <img src="/assets/images/gold.png">
@@ -32,11 +32,11 @@ const props = defineProps(['price'])
 const lang = useLangStore().lang
 
 function gold() {
-  if (props.price.gold%1 == 0) return props.price.gold.toString()
+  if (props.price.gold % 1 == 0) return props.price.gold.toString()
   return props.price.gold.toFixed(2).toString()
 }
 function getPrice() {
-  if (typeof(props.price) == 'object')
+  if (typeof (props.price) == 'object')
     return props.price.money
   return props.price
 }
@@ -50,7 +50,7 @@ function centimes() {
   let price = getPrice()
   if (price == 0)
     return ''
-  return (price%1).toFixed(2).toString().substring(2);
+  return (price % 1).toFixed(2).toString().substring(2);
 }
 function devise() {
   if (getPrice() == 0)

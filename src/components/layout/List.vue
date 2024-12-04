@@ -11,11 +11,10 @@
 <script setup>
 import Item from './Item.vue'
 import Scroller from './Scroller.vue'
-
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick } from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick, onMounted } from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -32,39 +31,17 @@ function setStyle() {
   }
 }
 
-function scrollToElementVertically(scroller, element) {
-  if (scroller == undefined) return
-  if (element == undefined) return
-  const scrollerRect = scroller.getBoundingClientRect();
-  const elementRect = element.getBoundingClientRect();
-  const scrollerScrollTop = scroller.scrollTop;
-  const elementTop = elementRect.top - scrollerRect.top + scrollerScrollTop;
-  const elementBottom = elementRect.bottom - scrollerRect.top + scrollerScrollTop;
-
-  // Scroller vers le haut si l'élément est au-dessus de la zone visible de la div
-  if (elementRect.top < scrollerRect.top) {
-    scroller.scrollTo({
-      top: elementTop,
-      behavior: 'smooth'
-    });
-  }
-  // Scroller vers le bas si l'élément est en dessous de la zone visible de la div
-  else if (elementRect.bottom > scrollerRect.bottom) {
-    scroller.scrollTo({
-      top: elementBottom - scrollerRect.height,
-      behavior: 'smooth'
-    });
-  }
-}
+let previousMenu = ''
 function updateScroll() {
-  nextTick(() => {
-    const scroller = document.querySelector('#list-items');
+  setTimeout(() => {
     const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
-    scrollToElementVertically(scroller, currentItem)
-    currentItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" })
-  })
-
+    if (!currentItem) return
+    let firstScroll = previousMenu != menuStore.currentMenuId
+    previousMenu = menuStore.currentMenuId
+    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'smooth', block: "nearest", inline: "nearest" })
+  }, 50);
 }
+
 function getTitle(item) {
   if (item.title.length > 0) {
     if (!item.translate) return item.title
@@ -96,9 +73,11 @@ function handleWheel(e) {
   }
   if (e.deltaY < 0) {
     menuStore.menuUp()
+    // e.preventDefault()
     return false
   } else {
     menuStore.menuDown()
+    // e.preventDefault()
     return false
   }
 }
@@ -111,6 +90,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('wheel', handleWheel);
 })
 
+onMounted(() => {
+  updateScroll()
+})
 menuStore.$subscribe(() => {
   updateScroll()
 })

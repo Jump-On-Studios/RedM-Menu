@@ -3,21 +3,19 @@ export default {}
 if (import.meta.env.DEV) {
   window.postMessage({
     event: 'updateLang',
-    lang: {
-      price: "New"
-    }
   })
 
   window.postMessage({
     event: 'updateMenu',
     menu: {
       id: 'home',
-      title: 'My title',
-      subtitle: 'The subtitle',
+      title: 'Main title',
+      subtitle: 'The menu title',
       numberOnScreen: 8,
       items: [
         {
-          title: 'test',
+          title: 'This is the title',
+          price: 4,
           sliders: [
             {
               type: "grid", labels: ['left', 'right'], values: [
@@ -50,13 +48,23 @@ if (import.meta.env.DEV) {
           title: 'test',
           sliders: [
             {
-              type: "grid", labels: ['left', 'right'], values: [
-                { current: 0.5, max: 1.0, min: -1.0 },
-              ]
+              type: "palette",
+              current: 1,
+              tint: "tint_makeup"
+            }, {
+              type: "palette",
+              current: 10,
+              tint: "tint_makeup"
             },
+            // {
+            //   type: "palette",
+            //   current: 30,
+            //   tint: "tint_makeup"
+            // },
           ]
         },
         {
+
           title: 'test',
           sliders: [
             {
@@ -262,7 +270,7 @@ if (import.meta.env.DEV) {
       disableEscape: true,
       items: [
         {
-          title: 'Child',
+          title: 'test'
         },
       ],
     }

@@ -117,6 +117,9 @@ class API {
       if (typeof obj1[key] !== typeof obj2[key]) {
         obj1[key] = obj2[key]
       }
+      else if (key == "values") {
+        obj1[key] = obj2[key]
+      }
       else if (typeof obj2[key] === 'object' && obj2[key] !== null) {
         // If the property is an object, recursively merge the objects
         if (obj1[key] == null) {
