@@ -18,7 +18,8 @@ if (import.meta.env.DEV) {
           price: 4,
           sliders: [
             {
-              type: "grid", labels: ['left', 'right'], values: [
+              type: "grid", labels: ['left', 'right', 'top', 'bottom'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
                 { current: 0.5, max: 1.0, min: -1.0 },
               ]
             },
