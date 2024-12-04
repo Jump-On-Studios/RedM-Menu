@@ -20,12 +20,12 @@
     border-color: transparent;
     background-image: url('/assets/images/menu/circle.png');
     background-size: 100%;
-    background-position: 0px 0px;
+    background-position: 0 0;
     background-repeat: no-repeat;
-    height: 30px;
-    width: 30px;
+    height: 2.8vh;
+    width: 2.8vh;
     position: relative;
-    margin-top: -1px;
+    margin-top: -0.1vh;
   }
 
   .colorSlider {
@@ -40,27 +40,27 @@
         min-width: 20px;
         width: fit-content;
         text-align: center;
-        line-height: 20px;
-        font-size: 18px;
+        line-height: 1.85vh;
+        font-size: 1.7vh;
         font-family: monospace;
         font-weight: 700;
-        top: 6px;
+        top: 0.55vh;
         background-color: white;
         color: black;
-        border-radius: 1px;
+        border-radius: 0.1vh;
         opacity: 0.25;
         text-transform: uppercase;
       }
 
       &.index-0>div {
-        line-height: 16px;
+        line-height: 1.5vh;
         font-family: fantasy;
-        padding: 0 3px;
+        padding: 0 0.3vh;
       }
 
       .left {
         &.qwerty {
-          line-height: 17px;
+          line-height: 1.575vh;
         }
       }
     }
