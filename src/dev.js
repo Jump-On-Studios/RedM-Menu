@@ -16,7 +16,6 @@ if (import.meta.env.DEV) {
         {
           title: 'This is the title',
           price: 4,
-          previewSlider: true,
           sliders: [
             {
               type: "color",

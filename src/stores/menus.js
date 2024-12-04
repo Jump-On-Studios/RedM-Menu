@@ -29,7 +29,7 @@ class MenuItem {
   textRight = false;
   textRightClass = '';
   translateTextRight = false;
-  previewPalette = true;
+  previewSlider = false;
 
   constructor(id) {
     this.id = id
@@ -120,14 +120,14 @@ class MenuItem {
   setTranslateTextRight(value) {
     this.translateTextRight = value
   }
-  setPreviewPalette(value) {
-    this.previewPalette = value
-  }
   setSubtitle(value) {
     this.subtitle = value
   }
   setFooter(value) {
     this.footer = value
+  }
+  setPreviewSlider(value) {
+    this.previewSlider = value
   }
 }
 
@@ -191,7 +191,8 @@ class Menu {
         if (item.textRight) this.items[newId].setTextRight(item.textRight)
         if (item.textRightClass) this.items[newId].setTextRightClass(item.textRightClass)
         if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
-        if (item.previewPalette != undefined) this.items[newId].setPreviewPalette(item.previewPalette)
+        if (item.previewSlider != undefined) this.items[newId].setPreviewSlider(item.previewSlider)
+        if (item.previewPalette != undefined) this.items[newId].setPreviewSlider(item.previewPalette)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)

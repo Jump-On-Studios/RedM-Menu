@@ -1,5 +1,5 @@
 <template>
-  <template v-if="item.previewPalette || item.previewSlider">
+  <template v-if="item.previewSlider">
     <PalettePreview v-if="hasPalette" :sliders="item.sliders" />
     <SpritePreview v-else-if="hasSprite" :sliders="item.sliders" />
   </template>
