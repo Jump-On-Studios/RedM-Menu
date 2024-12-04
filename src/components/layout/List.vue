@@ -14,7 +14,7 @@ import Scroller from './Scroller.vue'
 import { useMenuStore } from '../../stores/menus';
 const menuStore = useMenuStore()
 import { useLangStore } from '../../stores/lang';
-import { onBeforeMount, onBeforeUnmount, inject, ref, nextTick, onMounted, onUpdated } from 'vue';
+import { onBeforeMount, onBeforeUnmount, inject, ref, onUpdated } from 'vue';
 const lang = useLangStore().lang
 const API = inject('API')
 
@@ -41,7 +41,6 @@ onUpdated(() => {
   let firstScroll = previousMenu != menuStore.currentMenuId
   previousMenu = menuStore.currentMenuId
   previousItem = menuStore.cMenu.currentItem
-  console.log("Scroll", previousMenu, previousItem)
   currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest" })
 })
 
