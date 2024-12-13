@@ -1,6 +1,6 @@
 <template>
   <div class="description hapna" v-if="needDescription()">
-    <div v-if="menuStore.cItem.description" v-html="getDescription(menuStore.cItem)">
+    <div class="text" v-if="menuStore.cItem.description" v-html="getDescription(menuStore.cItem)">
     </div>
     <div class="statistics" v-if="menuStore.cItem.statistics.length > 0">
       <template v-for="(stat, index) in menuStore.cItem.statistics" :key="index">
@@ -32,3 +32,11 @@ function needDescription() {
   return false
 }
 </script>
+
+<style scoped lang="scss">
+.description {
+  .text {
+    overflow-wrap: break-word;
+  }
+}
+</style>
