@@ -55,8 +55,8 @@ function getStyleTint(index) {
 
 <style lang="scss" scoped>
 .color-custom {
-    width: 100%;
-    height: 100%;
+    width: 3vh;
+    height: 3vh;
     position: relative;
     display: flex;
     justify-content: center;
