@@ -485,12 +485,16 @@ export const useMenuStore = defineStore('menus', {
         let change = false
         if (slider.values.length == 2) {
           let current2 = data.value[1] * (values[1].max - values[1].min) + values[1].min
+          current2 = Math.round(current2 / values[1].gap) * values[1].gap
+          current2 = Math.min(Math.max(current2, values[1].min), values[1].max)
           if (current2 != values[1].current) {
             values[1].current = current2
             change = true
           }
         }
         let current = data.value[0] * (values[0].max - values[0].min) + values[0].min
+        current = Math.round(current / values[0].gap) * values[0].gap
+        current = Math.min(Math.max(current, values[0].min), values[0].max)
         if (current != values[0].current) {
           values[0].current = current
           change = true

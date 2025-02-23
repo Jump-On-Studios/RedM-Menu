@@ -943,6 +943,16 @@ main {
       background-position: center;
       cursor: pointer;
     }
+
+    .helper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 1.85vh;
+      height: 1.85vh;
+      cursor: pointer;
+    }
   }
 
   &.dimension-2 {

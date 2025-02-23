@@ -11,6 +11,7 @@
         </div>
         <div class="grid" id="box" @mousedown="startMoveMarker">
           <div class="marker" :id="'marker-' + index" :style="markerPosition()"></div>
+          <div class="helper" :id="'helper-grid-' + index" :style="markerPosition()"></div>
         </div>
         <div v-if="slider.values.length == 2">
           {{ label(3) }}
@@ -52,7 +53,7 @@ function label(index) {
 
 function startMoveMarker(e) {
   e = e || window.event;
-  marker = document.getElementById('marker-' + props.index);
+  marker = document.getElementById('helper-grid-' + props.index);
   const box = document.getElementById('box').getBoundingClientRect();
   boxTop = box.top;
   boxLeft = box.left;
@@ -91,6 +92,7 @@ function MoveMarker(e) {
 
     values.push(parseFloat(marker.style.top).toFixed(2) / (boxBottom - boxTop).toFixed(2))
   }
+
   menuStore.setSliderCurrent({ index: props.index, value: values })
 }
 function markerPosition() {
