@@ -21,24 +21,11 @@ if (import.meta.env.DEV) {
           previewSlider: true,
           sliders: [
             {
-              type: "color",
-              current: 1,
+              type: "grid",
+              labels: ['left', 'right'],
               values: [
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
-                { palette: 'tint_makeup', tint0: 1, tint1: 10, tint2: 20 },
+                { max: 95, min: 1, gap: 20, current: 1 },
+                { max: 95, min: 1, gap: 20, current: 1 },
               ]
             },
           ]
@@ -58,6 +45,7 @@ if (import.meta.env.DEV) {
           sliders: [
             {
               type: "grid", labels: ['left', 'right'], values: [
+                { current: 0.5, max: 1.0, min: -1.0 },
                 { current: 0.5, max: 1.0, min: -1.0 },
               ]
             },
