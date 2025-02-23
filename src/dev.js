@@ -20,14 +20,14 @@ if (import.meta.env.DEV) {
           price: 4,
           previewSlider: true,
           sliders: [
+            { title: "menuvariation", current: 1, values: [1, 2, 3, 4] },
             {
               type: "grid",
-              labels: ['left', 'right'],
+              labels: ['min', 'max', 'up', 'down'],
               values: [
-                { max: 95, min: 1, gap: 20, current: 1 },
-                { max: 95, min: 1, gap: 20, current: 1 },
+                { current: 10, min: 1, max: 10 },
               ]
-            },
+            }
           ]
         },
         {
