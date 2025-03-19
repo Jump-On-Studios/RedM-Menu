@@ -14,7 +14,7 @@
     <template v-if="menuStore.cMenuItems.length == 0 & menuStore.cMenu.type == 'list'">
       <Loading />
     </template>
-    <div class="footer" :key="menuStore.refreshId">
+    <div class="footer" :key="menuStore.cMenu.refreshKey">
       <template v-if="menuStore.cMenuItems.length > 0">
         <Description />
         <Slider />

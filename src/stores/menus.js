@@ -30,9 +30,12 @@ class MenuItem {
   textRightClass = '';
   translateTextRight = false;
   previewSlider = false;
+  refreshKey = 0;
 
   constructor(id) {
     this.id = id
+
+    this.refreshKey = Math.random()
   }
 
   setTitle(title) {
@@ -157,9 +160,11 @@ class Menu {
   globalColor = false;
   equipedColor = 0;
   disableEscape = true;
+  refreshKey = 0;
 
   constructor(data) {
     this.setTitle(data.title);
+    this.refreshKey = Math.random();
     if (data.items) {
       data.items.forEach(item => {
         let newId = this.items.push(new MenuItem(this.items.length)) - 1
@@ -280,7 +285,6 @@ export const useMenuStore = defineStore('menus', {
       }
       return cItem.price || false
     },
-    refreshId: (state) => state.currentMenuId + state.menus[state.currentMenuId].currentItem
   },
   actions: {
     resetMenu(data) {
