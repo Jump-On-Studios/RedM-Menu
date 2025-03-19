@@ -2,7 +2,6 @@
   <div style="position:relative">
     <Scroller direction='top' :parent="listEl" :key=scrollTop />
     <ul ref="listEl" id="list-items" class="list" :style="setStyle()" @scroll="updateScroller()">
-      {{ Math.random() }}
       <Item v-for="(item, index) in menuStore.cMenuItems" :key="`${item.refreshKey}`" :title="getTitle(item)" :icon="item.icon" :isCurrent="item.index == menuStore.cMenu.equipedItem.index" :item="item" :active="menuStore.cMenu.currentItem == index" :id=index />
     </ul>
     <Scroller direction='bottom' :parent="listEl" :key=scrollTop />
