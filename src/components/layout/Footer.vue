@@ -1,5 +1,5 @@
 <template>
-  <div class="footer-text hapna" v-if="cItem.footer.length > 0">
+  <div class="footer-text hapna" v-if="cItem.footer !== undefined && cItem.footer.length > 0">
     <div class="divider" v-if="!cItem.price"></div>
     <div class="content" v-html="cItem.footer">
     </div>

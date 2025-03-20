@@ -164,7 +164,6 @@ class Menu {
 
   constructor(data) {
     this.setTitle(data.title);
-    this.refreshKey = Math.random();
     if (data.items) {
       data.items.forEach(item => {
         let newId = this.items.push(new MenuItem(this.items.length)) - 1
@@ -208,6 +207,7 @@ class Menu {
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape != undefined) this.setDisableEscape(data.disableEscape)
+    this.refreshKey = Math.random();
   }
 
   setTitle(title) {
