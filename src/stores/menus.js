@@ -265,7 +265,7 @@ class Menu {
 
 export const useMenuStore = defineStore('menus', {
   state: () => ({
-    parentTree: ["test"],
+    parentTree: [""],
     currentMenuId: '',
     menus: {},
   }),
