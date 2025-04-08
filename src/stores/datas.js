@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useMenuStore } from './menus'
 
 export const useDataStore = defineStore('datas', {
   state: () => ({
@@ -10,6 +11,10 @@ export const useDataStore = defineStore('datas', {
   actions: {
     defineShow(value) {
       this.showMenu = value
+      if (this.showMenu) {
+        const menu = useMenuStore()
+        menu.updatePreview()
+      }
     },
     defineOpeningAnimation(value) {
       this.openingAnimation = value

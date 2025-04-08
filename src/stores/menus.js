@@ -30,9 +30,12 @@ class MenuItem {
   textRightClass = '';
   translateTextRight = false;
   previewSlider = false;
+  refreshKey = 0;
 
   constructor(id) {
     this.id = id
+
+    this.refreshKey = Math.random()
   }
 
   setTitle(title) {
@@ -157,6 +160,7 @@ class Menu {
   globalColor = false;
   equipedColor = 0;
   disableEscape = true;
+  refreshKey = 0;
 
   constructor(data) {
     this.setTitle(data.title);
@@ -203,6 +207,7 @@ class Menu {
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape != undefined) this.setDisableEscape(data.disableEscape)
+    this.refreshKey = Math.random();
   }
 
   setTitle(title) {
@@ -260,7 +265,7 @@ class Menu {
 
 export const useMenuStore = defineStore('menus', {
   state: () => ({
-    parentTree: ["test"],
+    parentTree: [""],
     currentMenuId: '',
     menus: {},
   }),
@@ -280,7 +285,6 @@ export const useMenuStore = defineStore('menus', {
       }
       return cItem.price || false
     },
-    refreshId: (state) => state.currentMenuId + state.menus[state.currentMenuId].currentItem
   },
   actions: {
     resetMenu(data) {
