@@ -440,7 +440,7 @@ export const useMenuStore = defineStore('menus', {
       } else if (slider.type == "grid") {
         let values = slider.values
         if (values[0].current == values[0].min) return
-        values[0].current -= values[0].gap
+        values[0].current -= (values[0].gap || 1)
         if (values[0].current < values[0].min)
           values[0].current = values[0].min
       } else {
@@ -469,7 +469,7 @@ export const useMenuStore = defineStore('menus', {
       } else if (slider.type == "grid") {
         let values = slider.values
         if (values[0].current == values[0].max) return
-        values[0].current += values[0].gap
+        values[0].current += (values[0].gap || 1)
         if (values[0].current > values[0].max)
           values[0].current = values[0].max
       } else {
@@ -489,7 +489,7 @@ export const useMenuStore = defineStore('menus', {
         let change = false
         if (slider.values.length == 2) {
           let current2 = data.value[1] * (values[1].max - values[1].min) + values[1].min
-          current2 = Math.round(current2 / values[1].gap) * values[1].gap
+          current2 = Math.round(current2 / (values[1].gap || 1)) * (values[1].gap || 1)
           current2 = Math.min(Math.max(current2, values[1].min), values[1].max)
           if (current2 != values[1].current) {
             values[1].current = current2
@@ -497,7 +497,7 @@ export const useMenuStore = defineStore('menus', {
           }
         }
         let current = data.value[0] * (values[0].max - values[0].min) + values[0].min
-        current = Math.round(current / values[0].gap) * values[0].gap
+        current = Math.round(current / (values[0].gap || 1)) * (values[0].gap || 1)
         current = Math.min(Math.max(current, values[0].min), values[0].max)
         if (current != values[0].current) {
           values[0].current = current
@@ -537,7 +537,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       if (!item.grid) return
       let values = item.grid.values
-      values[0].current -= values[0].gap
+      values[0].current -= (values[0].gap || 1)
       if (values[0].current < values[0].min)
         values[0].current = values[0].min
       API.PlayAudio('button')
@@ -547,7 +547,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       if (!item.grid) return
       let values = item.grid.values
-      values[0].current += values[0].gap
+      values[0].current += (values[0].gap || 1)
       if (values[0].current > values[0].max)
         values[0].current = values[0].max
       API.PlayAudio('button')
@@ -560,7 +560,7 @@ export const useMenuStore = defineStore('menus', {
       if (!item.grid) return
       if (!(item.grid.values.length == 2)) return
       let values = item.grid.values
-      values[1].current -= values[1].gap
+      values[1].current -= (values[1].gap || 1)
       if (values[1].current < values[1].min)
         values[1].current = values[1].min
       API.PlayAudio('button')
@@ -571,7 +571,7 @@ export const useMenuStore = defineStore('menus', {
       if (!item.grid) return
       if (!(item.grid.values.length == 2)) return
       let values = item.grid.values
-      values[1].current += values[1].gap
+      values[1].current += (values[1].gap || 1)
       if (values[1].current > values[1].max)
         values[1].current = values[1].max
       API.PlayAudio('button')
