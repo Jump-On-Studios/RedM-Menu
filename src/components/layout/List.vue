@@ -2,7 +2,7 @@
   <div style="position:relative">
     <Scroller direction='top' :parent="listEl" :key=scrollTop />
     <ul ref="listEl" id="list-items" class="list" :style="setStyle()" @scroll="updateScroller()">
-      <Item v-for="(item, index) in menuStore.cMenuItems" :key="`${item.refreshKey}`" :title="getTitle(item)" :icon="item.icon" :isCurrent="item.index == menuStore.cMenu.equipedItem.index" :item="item" :active="menuStore.cMenu.currentItem == index" :id=index />
+      <Item v-for="(item, index) in menuStore.cMenuItems" :key="`${item.refreshKey}`" :title="getTitle(item)" :icon="item.icon" :isCurrent="item.index == menuStore.cMenu.equipedItem.index" :item="item" :active="menuStore.cMenu.currentIndex == index" :id=index />
     </ul>
     <Scroller direction='bottom' :parent="listEl" :key=scrollTop />
   </div>
@@ -34,14 +34,14 @@ function setStyle() {
 let previousMenu = ''
 let previousItem = ''
 onUpdated(() => {
-  if (previousItem == menuStore.cMenu.currentItem && previousMenu == menuStore.currentMenuId)
+  if (previousItem == menuStore.cMenu.currentIndex && previousMenu == menuStore.currentMenuId)
     return
-  const currentItem = document.getElementById('item-' + menuStore.cMenu.currentItem)
-  if (!currentItem) return
+  const currentIndex = document.getElementById('item-' + menuStore.cMenu.currentIndex)
+  if (!currentIndex) return
   let firstScroll = previousMenu != menuStore.currentMenuId
   previousMenu = menuStore.currentMenuId
-  previousItem = menuStore.cMenu.currentItem
-  currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest" })
+  previousItem = menuStore.cMenu.currentIndex
+  currentIndex.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest" })
 })
 
 function getTitle(item) {

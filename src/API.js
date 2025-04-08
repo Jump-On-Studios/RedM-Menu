@@ -58,6 +58,11 @@ class API {
     return ''
   }
 
+  setCurrentIndex(data) {
+    const menuStore = useMenuStore()
+    menuStore.setCurrentIndex(data.menu, data.index - 1)
+  }
+
   updateShow(data) {
     const datas = useDataStore()
     if (data.cancelAnimation) {

@@ -145,11 +145,12 @@ class ItemStatistic {
 
 class Menu {
   title = "Menu";
+  id = 'id'
   translateTitle = false;
   subtitle = "Elements";
   translateSubtitle = false;
   type = "list";
-  currentItem = 0;
+  currentIndex = 0;
   equipedItem = {
     index: -1,
     variation: -1
@@ -164,6 +165,7 @@ class Menu {
 
   constructor(data) {
     this.setTitle(data.title);
+    this.id = data.id
     if (data.items) {
       data.items.forEach(item => {
         let newId = this.items.push(new MenuItem(this.items.length)) - 1
@@ -207,6 +209,7 @@ class Menu {
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape != undefined) this.setDisableEscape(data.disableEscape)
+    if (data.currentIndex != undefined) this.setCurrent(data.currentIndex - 1)
     this.refreshKey = Math.random();
   }
 
@@ -223,7 +226,7 @@ class Menu {
   }
 
   setCurrent(value) {
-    this.currentItem = value
+    this.currentIndex = value
   }
 
   setEquipedItem(value) {
@@ -246,7 +249,7 @@ class Menu {
   }
 
   reset() {
-    this.currentItem = 0
+    this.currentIndex = 0
     this.currentColor = 0
   }
 
@@ -272,7 +275,7 @@ export const useMenuStore = defineStore('menus', {
   getters: {
     cMenu: (state) => state.menus[state.currentMenuId] || new Menu({}),
     cMenuItems() { return this.cMenu.items.filter(item => item.visible) },
-    cItem() { return this.cMenuItems[this.cMenu.currentItem] || {} },
+    cItem() { return this.cMenuItems[this.cMenu.currentIndex] || {} },
     cItemPrice() {
       const cItem = this.cItem
       if (cItem.sliders) {
@@ -297,18 +300,15 @@ export const useMenuStore = defineStore('menus', {
       }
     },
     updateMenu(data) {
-      let current = -1
-      let offset = -1
-      if (this.menus[data.menu.id]) {
-        current = this.menus[data.menu.id].currentItem
-        offset = this.menus[data.menu.id].offset
+      let current = data.menu.currentIndex ? (data.menu.currentIndex - 1) : -1
+      if (this.menus[data.menu.id] && data.menu.currentIndex == undefined) {
+        current = this.menus[data.menu.id].currentIndex
       }
       this.menus[data.menu.id] = new Menu(data.menu)
       if (current >= this.menus[data.menu.id].items.length) {
         data.reset = true
       }
       if (current > -1) {
-        this.menus[data.menu.id].offset = offset
         this.menus[data.menu.id].setCurrent(current)
       }
       if (data.reset) {
@@ -345,9 +345,11 @@ export const useMenuStore = defineStore('menus', {
         })
       }
     },
-    setCurrentItem(index) {
-      this.menus[this.currentMenuId].setCurrent(index)
-      this.updatePreview()
+    setCurrentIndex(menu, index) {
+      if (this.menus[menu] == undefined) return
+      this.menus[menu].setCurrent(index)
+      if (menu == this.currentMenuId)
+        this.updatePreview()
     },
     setCurrentMenu(data) {
       if (this.menus[data.menu] == undefined) return console.log("ERROR ! No menu : " + data.menu)
@@ -391,15 +393,14 @@ export const useMenuStore = defineStore('menus', {
     menuDown() {
       let menu = this.cMenu
       let items = this.cMenuItems
-      if (menu.currentItem < items.length - 1) {
-        menu.currentItem++;
+      if (menu.currentIndex < items.length - 1) {
+        menu.currentIndex++;
       } else {
-        menu.currentItem = 0;
+        menu.currentIndex = 0;
       }
-      if (menu.items[menu.currentItem].colors) {
-        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
-          menu.items[menu.currentItem].colors.current = 0
-          menu.items[menu.currentItem].colors.offset = 0
+      if (menu.items[menu.currentIndex].colors) {
+        if (menu.items[menu.currentIndex].colors.current > menu.items[menu.currentIndex].colors.values.length - 1) {
+          menu.items[menu.currentIndex].colors.current = 0
         }
       }
       API.PlayAudio('button')
@@ -408,15 +409,14 @@ export const useMenuStore = defineStore('menus', {
     menuUp() {
       let menu = this.cMenu
       let items = this.cMenuItems
-      if (menu.currentItem > 0) {
-        menu.currentItem--;
+      if (menu.currentIndex > 0) {
+        menu.currentIndex--;
       } else {
-        menu.currentItem = items.length - 1
+        menu.currentIndex = items.length - 1
       }
-      if (menu.items[menu.currentItem].colors) {
-        if (menu.items[menu.currentItem].colors.current > menu.items[menu.currentItem].colors.values.length - 1) {
-          menu.items[menu.currentItem].colors.current = 0
-          menu.items[menu.currentItem].colors.offset = 0
+      if (menu.items[menu.currentIndex].colors) {
+        if (menu.items[menu.currentIndex].colors.current > menu.items[menu.currentIndex].colors.values.length - 1) {
+          menu.items[menu.currentIndex].colors.current = 0
         }
       }
       API.PlayAudio('button')
@@ -582,7 +582,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       API.post('updatePreview', {
         menu: this.currentMenuId,
-        index: this.cMenu.currentItem + 1,
+        index: this.cMenu.currentIndex + 1,
         item: item,
       })
     },

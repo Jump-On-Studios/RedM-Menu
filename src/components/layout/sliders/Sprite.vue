@@ -49,9 +49,9 @@ function click(vIndex) {
 let firstScroll = true
 function updateScroll() {
   setTimeout(() => {
-    const currentItem = document.querySelector('#scroller #sprite-' + props.slider.current)
-    if (!currentItem) return
-    currentItem.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest", inline: "nearest" })
+    const currentIndex = document.querySelector('#scroller #sprite-' + props.slider.current)
+    if (!currentIndex) return
+    currentIndex.scrollIntoView({ behavior: firstScroll ? 'instant' : 'instant', block: "nearest", inline: "nearest" })
     firstScroll = false
   }, 50);
 }

@@ -1,10 +1,10 @@
 <template>
-  <div :class="['scroller',props.direction]">
+  <div :class="['scroller', props.direction]">
     <div class="left"></div>
-    <div :class="['center', {'active clicker':getActive()}]" @click="click()"></div>
+    <div :class="['center', { 'active clicker': getActive() }]" @click="click()"></div>
     <div class="right"></div>
   </div>
-  <div class="scounter hapna" v-if="props.direction=='bottom'">{{ numItem() }}</div>
+  <div class="scounter hapna" v-if="props.direction == 'bottom'">{{ numItem() }}</div>
 </template>
 
 <script setup>
@@ -12,7 +12,7 @@ import { inject } from 'vue';
 import { useLangStore } from '../../stores/lang';
 import { useMenuStore } from '../../stores/menus';
 
-const props = defineProps(['direction','parent'])
+const props = defineProps(['direction', 'parent'])
 
 const lang = useLangStore().lang
 const menuStore = useMenuStore()
@@ -36,6 +36,6 @@ function click() {
   }
 }
 function numItem() {
-  return API.sprintf(lang('of'),menuStore.cMenu.currentItem+1, menuStore.cMenuItems.length)
+  return API.sprintf(lang('of'), menuStore.cMenu.currentIndex + 1, menuStore.cMenuItems.length)
 }
 </script>
