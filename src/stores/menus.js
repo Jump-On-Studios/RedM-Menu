@@ -31,6 +31,10 @@ class MenuItem {
   translateTextRight = false;
   previewSlider = false;
   refreshKey = 0;
+  quantity = false;
+  quantityCircleClass = '';
+  quality = false;
+  qualityClass = "";
 
   constructor(id) {
     this.id = id
@@ -132,6 +136,24 @@ class MenuItem {
   setPreviewSlider(value) {
     this.previewSlider = value
   }
+  setQuantity(value) {
+    this.quantity = value
+  }
+  setQuantityCircleClass(value) {
+    this.quantityCircleClass = value
+  }
+  setQuality(value) {
+    this.quality = value * 1.0
+  }
+  setQualityClass(value) {
+    this.qualityClass = value
+  }
+  setStars(value) {
+    this.stars = value
+  }
+  setStarsClass(value) {
+    this.starsClass = value
+  }
 }
 
 class ItemStatistic {
@@ -158,6 +180,8 @@ class Menu {
   items = [];
   currentColor = 0;
   numberOnScreen = 8;
+  numberOnLine = 4;
+  numberLineOnScreen = 6;
   globalColor = false;
   equipedColor = 0;
   disableEscape = true;
@@ -168,37 +192,44 @@ class Menu {
     this.id = data.id
     if (data.items) {
       data.items.forEach(item => {
-        let newId = this.items.push(new MenuItem(this.items.length)) - 1
-        if (item.title) this.items[newId].setTitle(item.title)
-        if (item.subtitle) this.items[newId].setSubtitle(item.subtitle)
-        if (item.footer) this.items[newId].setFooter(item.footer)
-        if (item.icon) this.items[newId].setIcon(item.icon)
-        if (item.slider) this.items[newId].setSliders(item.slider)
-        if (item.sliders) this.items[newId].setSliders(item.sliders)
-        if (item.child) this.items[newId].setChild(item.child)
-        if (item.price !== false) this.items[newId].setPrice(item.price)
-        if (item.priceRight !== false) this.items[newId].setPriceRight(item.priceRight)
-        if (item.priceTitle) this.items[newId].setPriceTitle(item.priceTitle)
-        if (item.data) this.items[newId].setData(item.data)
-        if (item.preview) this.items[newId].setPreview(item.preview)
-        if (item.index != undefined) { this.items[newId].setIndex(item.index) } else { this.items[newId].setIndex(this.items.length) }
-        if (item.description) this.items[newId].setDescription(item.description)
-        if (item.action) this.items[newId].setAction(item.action)
-        if (item.data) this.items[newId].setData(item.data)
-        if (item.prefix) this.items[newId].setPrefix(item.prefix)
-        if (item.statistics) this.items[newId].setStatistics(item.statistics)
-        if (item.translate != undefined) this.items[newId].setTranslate(item.translate)
-        if (item.translateDescription != undefined) this.items[newId].setTranslateDescription(item.translateDescription)
-        if (item.disabled != undefined) this.items[newId].setDisabled(item.disabled)
-        if (item.visible != undefined) this.items[newId].setVisible(item.visible)
-        if (item.iconClass) this.items[newId].setIconClass(item.iconClass)
-        if (item.iconRight) this.items[newId].setIconRight(item.iconRight)
-        if (item.grid) this.items[newId].setGrid(item.grid)
-        if (item.textRight) this.items[newId].setTextRight(item.textRight)
-        if (item.textRightClass) this.items[newId].setTextRightClass(item.textRightClass)
-        if (item.translateTextRight != undefined) this.items[newId].setTranslateTextRight(item.translateTextRight)
-        if (item.previewSlider != undefined) this.items[newId].setPreviewSlider(item.previewSlider)
-        if (item.previewPalette != undefined) this.items[newId].setPreviewSlider(item.previewPalette)
+        const newItem = new MenuItem(this.items.length)
+        if (item.title) newItem.setTitle(item.title)
+        if (item.subtitle) newItem.setSubtitle(item.subtitle)
+        if (item.footer) newItem.setFooter(item.footer)
+        if (item.icon) newItem.setIcon(item.icon)
+        if (item.slider) newItem.setSliders(item.slider)
+        if (item.sliders) newItem.setSliders(item.sliders)
+        if (item.child) newItem.setChild(item.child)
+        if (item.price !== false) newItem.setPrice(item.price)
+        if (item.priceRight !== false) newItem.setPriceRight(item.priceRight)
+        if (item.priceTitle) newItem.setPriceTitle(item.priceTitle)
+        if (item.data) newItem.setData(item.data)
+        if (item.preview) newItem.setPreview(item.preview)
+        if (item.index != undefined) { newItem.setIndex(item.index) } else { newItem.setIndex(this.items.length) }
+        if (item.description) newItem.setDescription(item.description)
+        if (item.action) newItem.setAction(item.action)
+        if (item.data) newItem.setData(item.data)
+        if (item.prefix) newItem.setPrefix(item.prefix)
+        if (item.statistics) newItem.setStatistics(item.statistics)
+        if (item.translate != undefined) newItem.setTranslate(item.translate)
+        if (item.translateDescription != undefined) newItem.setTranslateDescription(item.translateDescription)
+        if (item.disabled != undefined) newItem.setDisabled(item.disabled)
+        if (item.visible != undefined) newItem.setVisible(item.visible)
+        if (item.iconClass) newItem.setIconClass(item.iconClass)
+        if (item.iconRight) newItem.setIconRight(item.iconRight)
+        if (item.grid) newItem.setGrid(item.grid)
+        if (item.textRight) newItem.setTextRight(item.textRight)
+        if (item.textRightClass) newItem.setTextRightClass(item.textRightClass)
+        if (item.translateTextRight != undefined) newItem.setTranslateTextRight(item.translateTextRight)
+        if (item.previewSlider != undefined) newItem.setPreviewSlider(item.previewSlider)
+        if (item.previewPalette != undefined) newItem.setPreviewSlider(item.previewPalette)
+        if (item.quantity != undefined) newItem.setQuantity(item.quantity)
+        if (item.quantityCircleClass != undefined) newItem.setQuantityCircleClass(item.quantityCircleClass)
+        if (item.quality != undefined) newItem.setQuality(item.quality)
+        if (item.qualityClass != undefined) newItem.setQualityClass(item.qualityClass)
+        if (item.stars != undefined) newItem.setStars(item.stars)
+        if (item.starsClass != undefined) newItem.setStarsClass(item.starsClass)
+        this.items.push(newItem)
       });
     }
     if (data.numberOnScreen) this.setNumberOnScreen(data.numberOnScreen)
@@ -209,7 +240,9 @@ class Menu {
     if (data.translateSubtitle != undefined) this.setTranslateSubtitle(data.translateSubtitle)
     if (data.type) this.setType(data.type)
     if (data.disableEscape != undefined) this.setDisableEscape(data.disableEscape)
-    if (data.currentIndex != undefined) this.setCurrent(data.currentIndex - 1)
+    if (data.currentIndex != undefined) this.setCurrentIndex(data.currentIndex - 1)
+    if (data.numberLineOnScreen != undefined) this.setNumberLineOnScreen(data.numberLineOnScreen)
+    if (data.numberOnLine != undefined) this.setNumberOnLine(data.numberOnLine)
     this.refreshKey = Math.random();
   }
 
@@ -222,10 +255,13 @@ class Menu {
   }
 
   setType(value) {
-    this.type = value
+    if (value == "list" || value == "tile")
+      this.type = value
+    else
+      this.type = "list"
   }
 
-  setCurrent(value) {
+  setCurrentIndex(value) {
     this.currentIndex = value
   }
 
@@ -238,6 +274,14 @@ class Menu {
 
   setNumberOnScreen(value) {
     this.numberOnScreen = value
+  }
+
+  setNumberLineOnScreen(value) {
+    this.numberLineOnScreen = value
+  }
+
+  setNumberOnLine(value) {
+    this.numberOnLine = value
   }
 
   setGlobalColor(value) {
@@ -309,7 +353,7 @@ export const useMenuStore = defineStore('menus', {
         data.reset = true
       }
       if (current > -1) {
-        this.menus[data.menu.id].setCurrent(current)
+        this.menus[data.menu.id].setCurrentIndex(current)
       }
       if (data.reset) {
         this.menus[data.menu.id].reset()
@@ -347,7 +391,7 @@ export const useMenuStore = defineStore('menus', {
     },
     setCurrentIndex(menu, index) {
       if (this.menus[menu] == undefined) return
-      this.menus[menu].setCurrent(index)
+      this.menus[menu].setCurrentIndex(index)
       if (menu == this.currentMenuId)
         this.updatePreview()
     },
@@ -390,17 +434,46 @@ export const useMenuStore = defineStore('menus', {
         this.updatePreview()
       }
     },
-    menuDown() {
+    menuRight() {
       let menu = this.cMenu
       let items = this.cMenuItems
+      if (menu.type == "list") return
+
       if (menu.currentIndex < items.length - 1) {
         menu.currentIndex++;
       } else {
         menu.currentIndex = 0;
       }
-      if (menu.items[menu.currentIndex].colors) {
-        if (menu.items[menu.currentIndex].colors.current > menu.items[menu.currentIndex].colors.values.length - 1) {
-          menu.items[menu.currentIndex].colors.current = 0
+      API.PlayAudio('button')
+      this.updatePreview()
+    },
+    menuLeft() {
+      let menu = this.cMenu
+      let items = this.cMenuItems
+      if (menu.type == "list") return
+
+      if (menu.currentIndex > 0) {
+        menu.currentIndex--;
+      } else {
+        menu.currentIndex = items.length - 1
+      }
+      API.PlayAudio('button')
+      this.updatePreview()
+    },
+    menuDown() {
+      let menu = this.cMenu
+      let items = this.cMenuItems
+      if (menu.type == "tile") {
+        if (menu.currentIndex == items.length - 1) {
+          menu.currentIndex = 0
+        } else {
+          menu.currentIndex = Math.min(menu.currentIndex + menu.numberOnLine, items.length - 1)
+        }
+      } else {
+        if (menu.currentIndex < items.length - 1) {
+          menu.currentIndex++;
+        } else {
+          menu.currentIndex = 0;
         }
       }
       API.PlayAudio('button')
@@ -409,14 +482,17 @@ export const useMenuStore = defineStore('menus', {
     menuUp() {
       let menu = this.cMenu
       let items = this.cMenuItems
-      if (menu.currentIndex > 0) {
-        menu.currentIndex--;
+      if (menu.type == "tile") {
+        if (menu.currentIndex > 0) {
+          menu.currentIndex = Math.max(menu.currentIndex - menu.numberOnLine, 0)
+        } else {
+          menu.currentIndex = items.length - 1
+        }
       } else {
-        menu.currentIndex = items.length - 1
-      }
-      if (menu.items[menu.currentIndex].colors) {
-        if (menu.items[menu.currentIndex].colors.current > menu.items[menu.currentIndex].colors.values.length - 1) {
-          menu.items[menu.currentIndex].colors.current = 0
+        if (menu.currentIndex > 0) {
+          menu.currentIndex--;
+        } else {
+          menu.currentIndex = items.length - 1
         }
       }
       API.PlayAudio('button')
