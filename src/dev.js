@@ -18,6 +18,12 @@ let menu = {
       quantity: 5,
       quantityCircleClass: 'fgold',
       iconClass: 'fgold',
+      sliders: [
+        {
+          type: 'palette',
+          tint: 'metaped_tint_generic_clean'
+        }
+      ]
     },
     {
       title: 'This is the title 2',

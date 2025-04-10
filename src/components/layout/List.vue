@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
   justify-content: flex-start;
   align-items: center;
   --item-size: calc(var(--container-width)/ var(--numberOnLine));
-  height: calc(var(--item-size)*var(--numberLineOnScreen) + 2 * var(--list-padding-top));
+  max-height: calc(var(--item-size)*var(--numberLineOnScreen) + 2 * var(--list-padding-top));
   // width: 100%;
   // margin-left: 0;
   padding-left: var(--padding-background-item);

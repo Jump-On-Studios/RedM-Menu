@@ -7,14 +7,14 @@
       <div class="arrow right clicker" @click="menuStore.sliderRight(props.index)"><img src="/assets/images/menu/selection_arrow_right.png"></div>
     </div>
     <div class="colorSlider">
-      <div :class="['keyHelpers', 'index-' + props.index]" v-if="menuStore.cItem.sliders.length > 1">
-        <div :class="['left', { 'qwerty': menuStore.isQwerty && props.index == 1 }]" ref="keyLeft">
+      <div :class="['keyHelpers', 'index-' + fakeIndex]" v-if="fakeIndex > 0">
+        <div :class="['left', { 'qwerty': menuStore.isQwerty && index == 1 }]" ref="keyLeft">
           {{ leftKey() }}
         </div>
       </div>
       <input type="range" min=0 :max="max" :class="['palette', 'max-' + max]" :style="background()" :value="props.slider.current" @input="change" />
-      <div :class="['keyHelpers', 'index-' + props.index]" v-if="menuStore.cItem.sliders.length > 1">
-        <div class="right" ref="keyRight">
+      <div :class="['keyHelpers', 'index-' + fakeIndex]" v-if="fakeIndex > 0">
+        <div class=" right" ref="keyRight">
           {{ rightKey() }}
         </div>
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, inject, ref, computed, onBeforeMount, watch } from 'vue';
+import { onBeforeUnmount, inject, ref, computed, onBeforeMount, watch } from 'vue';
 import { useLangStore } from '../../../stores/lang';
 const lang = useLangStore().lang
 import { useMenuStore } from '../../../stores/menus';
@@ -31,6 +31,9 @@ const menuStore = useMenuStore()
 const API = inject('API')
 
 const props = defineProps(['index', 'slider'])
+let fakeIndex = ref(props.index)
+if (menuStore.cMenu.type == 'tile')
+  fakeIndex.value += 1
 const max = ref(1)
 let mounted = false
 
@@ -73,19 +76,19 @@ function change(e) {
   menuStore.setSliderCurrent({ index: props.index, value: parseInt(value) })
 }
 function leftKey() {
-  if (props.index == 0) return '←'
-  if (props.index == 1) {
+  if (fakeIndex.value == 0) return '←'
+  if (fakeIndex.value == 1) {
     if (menuStore.isQwerty)
       return "q"
     else
       return "a"
   }
-  if (props.index == 2) return "4"
+  if (fakeIndex.value == 2) return "4"
 }
 function rightKey() {
-  if (props.index == 0) return '→'
-  if (props.index == 1) return "E"
-  if (props.index == 2) return "6"
+  if (fakeIndex.value == 0) return '→'
+  if (fakeIndex.value == 1) return "E"
+  if (fakeIndex.value == 2) return "6"
 }
 onBeforeUnmount(() => {
   mounted = false

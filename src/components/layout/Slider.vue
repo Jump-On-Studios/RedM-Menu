@@ -39,29 +39,49 @@ function handleKeydown(e) {
   switch (e.code) {
     //LEFT
     case 'ArrowLeft':
+      if (menuStore.cMenu.type == "tile") return
       menuStore.sliderLeft()
       break;
     case 'KeyQ':
-      menuStore.sliderLeft(1)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderLeft()
+      else
+        menuStore.sliderLeft(1)
       break;
     case 'Numpad4':
-      menuStore.sliderLeft(2)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderLeft(1)
+      else
+        menuStore.sliderLeft(2)
       break;
     case 'Digit4':
-      menuStore.sliderLeft(2)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderLeft(1)
+      else
+        menuStore.sliderLeft(2)
       break;
     //RIGHT
     case 'ArrowRight':
+      if (menuStore.cMenu.type == "tile") return
       menuStore.sliderRight()
       break;
     case 'KeyE':
-      menuStore.sliderRight(1)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderRight()
+      else
+        menuStore.sliderRight(1)
       break;
     case 'Numpad6':
-      menuStore.sliderRight(2)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderRight(1)
+      else
+        menuStore.sliderRight(2)
       break;
     case 'Digit6':
-      menuStore.sliderRight(2)
+      if (menuStore.cMenu.type == "tile")
+        menuStore.sliderRight(1)
+      else
+        menuStore.sliderRight(2)
       break;
   }
   return;
