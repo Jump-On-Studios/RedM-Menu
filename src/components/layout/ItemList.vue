@@ -108,4 +108,174 @@ function getImage(url) {
     font-weight: 500;
   }
 }
+
+.item {
+  display: grid;
+  position: relative;
+  width: 100%;
+  min-height: 4.9vh;
+  // grid-template-columns: repeat(auto);
+  align-items: center;
+  padding: 0.25vh 2.5vh;
+  scroll-margin-top: 0.25vh;
+  scroll-margin-bottom: 0.25vh;
+
+  &.active::after {
+    border-color: #d80419;
+    border-image-repeat: round;
+    border-image-slice: 10 10 10 10 fill;
+    border-image-source: url("/assets/images/menu/hover.png");
+    border-style: solid;
+    border-width: 0.75vh;
+    box-sizing: border-box;
+    content: "";
+    opacity: 1;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: -0.3vh;
+    bottom: -0.3vh;
+    left: 0;
+    z-index: 10;
+  }
+
+  &>* {
+    display: block;
+    z-index: 10;
+  }
+
+  .background {
+    position: absolute;
+    top: 0.3vh;
+    bottom: 0.3vh;
+    left: 0.6vh;
+    right: 0.6vh;
+    filter: invert(75%);
+    z-index: 5;
+    background-image: url('/assets/images/menu/selection_box_bg_1d.png');
+    background-size: 100% 100%;
+  }
+
+  h3 {
+    font-size: 1.4em;
+    display: flex;
+    column-gap: 0.5vh;
+    align-items: center;
+
+    .prefix {
+      width: 1.85vh;
+
+      .star {
+        filter: brightness(0) saturate(100%) invert(90%) sepia(29%) saturate(3711%) hue-rotate(349deg) brightness(108%) contrast(101%);
+      }
+    }
+
+    .title {
+      flex: 1 1 auto;
+      padding-top: 0.93vh;
+      padding-bottom: 0.93vh;
+
+      .under {
+        font-size: 0.7em;
+        margin-top: -0.46vh;
+        display: block;
+      }
+    }
+
+    .sufix {
+      font-size: 0.65em;
+
+      .arrows {
+        column-gap: 0.93vh;
+      }
+    }
+
+    .priceRight {
+      font-size: 1.5em;
+      position: relative;
+      display: block;
+      top: 0.3vh;
+
+      .gold img {
+        width: 1.85vh;
+      }
+    }
+  }
+
+  &.with-icon {
+    grid-template-columns: 5.5vh auto;
+    grid-gap: 1.85vh;
+    height: 9.8vh;
+
+    .background {
+      background-image: url('/assets/images/menu/background_item.png');
+    }
+  }
+
+  .image img {
+    width: 100%;
+  }
+
+  .current {
+    position: absolute;
+    top: 46%;
+    transform: translateY(-50%);
+    right: 2.6vh;
+    width: 3vh;
+    height: 3vh;
+    z-index: 20;
+
+    &>div {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .textRight {
+    display: flex;
+
+    img {
+      height: 2.8vh;
+    }
+
+    .colorCustom {
+      width: 2.8vh;
+    }
+  }
+
+  &.disabled {
+    color: gray;
+
+    .textRight {
+      opacity: 0.5;
+    }
+  }
+
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  .main {
+    width: 100%;
+  }
+}
+
+.textRight {
+  &.tiny {
+    font-size: 0.715em;
+    font-family: 'Hapna';
+    font-weight: 500;
+  }
+}
 </style>
