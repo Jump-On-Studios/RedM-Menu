@@ -94,18 +94,17 @@ function handleWheel(e) {
     return
   }
   if (e.deltaY < 0) {
-    if (menuStore.cMenu.type == "grid")
+    if (menuStore.cMenu.type == "tile")
       menuStore.menuLeft()
     else
       menuStore.menuUp()
     // e.preventDefault()
     return false
   } else {
-    if (menuStore.cMenu.type == "grid")
+    if (menuStore.cMenu.type == "tile")
       menuStore.menuRight()
     else
       menuStore.menuDown()
-    end
     // e.preventDefault()
     return false
   }

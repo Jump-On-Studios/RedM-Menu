@@ -51,10 +51,10 @@ const props = defineProps({
 })
 
 function click() {
-  if (menuStore.cMenu.currentItem == props.item.id) {
+  if (menuStore.cMenu.currentIndex == props.item.id) {
     menuStore.menuEnter()
   } else {
-    menuStore.setCurrentItem(props.item.id)
+    menuStore.setCurrentIndex(menuStore.currentMenuId, props.item.id)
   }
   API.PlayAudio('button')
 }
