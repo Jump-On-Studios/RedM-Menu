@@ -59,15 +59,16 @@ function handleKeydown(e) {
   switch (e.key) {
     case 'Enter':
       menuStore.menuEnter()
-      return
+      break
     case 'Backspace':
       menuStore.menuBack()
-      return
+      break
     case 'Escape':
       menuStore.menuBack()
-      return
+      break
   }
 }
+
 function focusIn() {
   focus = true
 }

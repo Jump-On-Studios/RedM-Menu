@@ -503,7 +503,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       let slider = undefined
       if (index == undefined) {
-        index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
+        index = item.sliders.findIndex(slider => slider.type == "switch")
         slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
       } else {
         slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
@@ -514,11 +514,7 @@ export const useMenuStore = defineStore('menus', {
         if (slider.current <= 0) return
         slider.current--;
       } else if (slider.type == "grid") {
-        let values = slider.values
-        if (values[0].current == values[0].min) return
-        values[0].current -= (values[0].gap || 1)
-        if (values[0].current < values[0].min)
-          values[0].current = values[0].min
+        return this.gridLeft(index)
       } else {
         if (slider.current == 1 && !slider.looped) return
         slider.current--
@@ -532,7 +528,7 @@ export const useMenuStore = defineStore('menus', {
       let item = this.cItem
       let slider = undefined
       if (index == undefined) {
-        index = item.sliders.findIndex((slider) => { return slider.type == "switch" })
+        index = item.sliders.findIndex(slider => slider.type == "switch")
         slider = item.sliders[index] ? item.sliders[index] : item.sliders[0]
       } else {
         slider = item.sliders[index] ? item.sliders[index] : item.sliders[item.sliders.length - 1]
@@ -543,11 +539,7 @@ export const useMenuStore = defineStore('menus', {
         if (slider.current == slider.max) return
         slider.current++;
       } else if (slider.type == "grid") {
-        let values = slider.values
-        if (values[0].current == values[0].max) return
-        values[0].current += (values[0].gap || 1)
-        if (values[0].current > values[0].max)
-          values[0].current = values[0].max
+        return this.gridRight(index)
       } else {
         if (slider.current == slider.values.length && !slider.looped) return
         slider.current++;
@@ -609,47 +601,53 @@ export const useMenuStore = defineStore('menus', {
         this.updatePreview()
       }
     },
-    gridLeft() {
+    gridLeft(index) {
       let item = this.cItem
-      if (!item.grid) return
-      let values = item.grid.values
-      values[0].current -= (values[0].gap || 1)
-      if (values[0].current < values[0].min)
-        values[0].current = values[0].min
+      index = index || item.sliders.findIndex(slider => slider.type == "grid" && slider.values.length == 2)
+      if (index == -1)
+        index = item.sliders.findIndex(slider => slider.type == "grid")
+      if (index == -1)
+        return
+      let slider = item.sliders[index]
+      if (!slider) return
+      let values = slider.values
+      values[0].current = Math.max(values[0].min, values[0].current - (values[0].gap || 1))
       API.PlayAudio('button')
       this.updatePreview()
     },
-    gridRight() {
+    gridRight(index) {
       let item = this.cItem
-      if (!item.grid) return
-      let values = item.grid.values
-      values[0].current += (values[0].gap || 1)
-      if (values[0].current > values[0].max)
-        values[0].current = values[0].max
+      index = index || item.sliders.findIndex(slider => slider.type == "grid" && slider.values.length == 2)
+      if (index == -1)
+        index = item.sliders.findIndex(slider => slider.type == "grid")
+      if (index == -1)
+        return
+      let slider = item.sliders[index]
+      if (!slider) return
+      let values = slider.values
+      values[0].current = Math.min(values[0].max, values[0].current + (values[0].gap || 1))
       API.PlayAudio('button')
       this.updatePreview()
     },
-    gridUp() {
+    gridUp(index) {
       let item = this.cItem
-      if (!this.cItem.grid) return
-      if (!(this.cItem.grid.values.length == 2)) return
-      if (!item.grid) return
-      if (!(item.grid.values.length == 2)) return
-      let values = item.grid.values
-      values[1].current -= (values[1].gap || 1)
-      if (values[1].current < values[1].min)
-        values[1].current = values[1].min
+      index = index || item.sliders.findIndex(slider => slider.type == "grid" && slider.values.length == 2)
+      if (index == -1) return
+      let slider = item.sliders[index]
+      if (!slider) return
+      let values = slider.values
+      values[1].current = Math.max(values[1].min, values[1].current - (values[1].gap || 1))
       API.PlayAudio('button')
       this.updatePreview()
     },
-    gridDown() {
+    gridDown(index) {
       let item = this.cItem
-      if (!item.grid) return
-      if (!(item.grid.values.length == 2)) return
-      let values = item.grid.values
-      values[1].current += (values[1].gap || 1)
-      if (values[1].current > values[1].max)
-        values[1].current = values[1].max
+      index = index || item.sliders.findIndex(slider => slider.type == "grid" && slider.values.length == 2)
+      if (index == -1) return
+      let slider = item.sliders[index]
+      if (!slider) return
+      let values = slider.values
+      values[1].current = Math.min(values[1].max, values[1].current + (values[1].gap || 1))
       API.PlayAudio('button')
       this.updatePreview()
     },

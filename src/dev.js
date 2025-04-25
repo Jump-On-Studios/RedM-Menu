@@ -3,7 +3,7 @@ export default {}
 let menu = {
   id: 'home',
   title: 'Main title',
-  type: 'tile',
+  // type: 'tile',
   numberOnLine: 4,
   numberLineOnScreen: 2,
   subtitle: 'The menu title',
@@ -19,9 +19,13 @@ let menu = {
       quantityCircleClass: 'fgold',
       iconClass: 'fgold',
       sliders: [
+        // {
+        //   type: 'grid',
+        //   values: [{ current: 1, min: -10, max: 10 }]
+        // },
         {
-          type: 'palette',
-          tint: 'metaped_tint_generic_clean'
+          type: 'grid',
+          values: [{ current: 1, min: -10, max: 10 }, { current: 1, min: -10, max: 10 }]
         }
       ]
     },

@@ -33,9 +33,11 @@ import Grid from './sliders/Grid.vue'
 import Sprite from './sliders/Sprite.vue'
 
 const menuStore = useMenuStore()
+const keyPressed = {}
 
 function handleKeydown(e) {
   if (!menuStore.cItem.sliders) return
+  keyPressed[e.code] = true
   switch (e.code) {
     //LEFT
     case 'ArrowLeft':
@@ -84,8 +86,21 @@ function handleKeydown(e) {
         menuStore.sliderRight(2)
       break;
   }
-  return;
+
+  if (keyPressed["KeyW"])
+    menuStore.gridUp()
+  if (keyPressed['KeyA'])
+    menuStore.gridLeft()
+  if (keyPressed["KeyS"])
+    menuStore.gridDown()
+  if (keyPressed["KeyD"])
+    menuStore.gridRight()
 }
+
+function handleKeyup(e) {
+  delete keyPressed[e.code]
+}
+
 function fullHeight() {
   if (menuStore.cItem.description.length > 0) return false
   if (menuStore.cItem.statistics.length > 0) return false
@@ -93,8 +108,10 @@ function fullHeight() {
 }
 onBeforeMount(() => {
   window.addEventListener('keydown', handleKeydown, null);
+  window.addEventListener('keyup', handleKeyup, null);
 })
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('keyup', handleKeyup);
 })
 </script>
