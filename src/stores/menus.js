@@ -413,6 +413,11 @@ export const useMenuStore = defineStore('menus', {
       if (item.disabled) return
       API.PlayAudio('button')
       if (item.child) {
+        if (!this.menus.hasOwnProperty(item.child)) {
+          return API.post('missingMenu', {
+            menu: item.child
+          })
+        }
         this.parentTree.push(this.currentMenuId)
         this.currentMenuId = item.child
         this.updatePreview()

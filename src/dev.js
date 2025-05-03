@@ -13,6 +13,7 @@ let menu = {
       title: 'This is the title',
       icon: "female",
       price: 4,
+      child: "test",
       description: 'My item description',
       footer: 'footer',
       quantity: 5,
